@@ -1,0 +1,2940 @@
+{% extends "base.html" %}
+
+{% block title %}Create Prompt — PromptVerse{% endblock %}
+
+{% block content %}
+
+
+<style>
+
+/* =========================================================
+   PROMPTVERSE CREATOR STUDIO
+   Premium Human-Crafted UI
+========================================================= */
+
+:root {
+    --cp-bg: #f6f7f9;
+    --cp-card: #ffffff;
+    --cp-border: #e6e8ed;
+    --cp-text: #17191d;
+    --cp-muted: #858a94;
+    --cp-soft: #f8f9fb;
+    --cp-dark: #17191d;
+    --cp-purple: #635bdb;
+    --cp-purple-soft: #f0eeff;
+    --cp-green: #178653;
+    --cp-red: #d83b4b;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.creator-page,
+.creator-page * {
+    box-sizing: border-box;
+}
+
+.creator-page {
+    width: 100%;
+    min-height: calc(100vh - 70px);
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(99,91,219,.055),
+            transparent 25%
+        ),
+        var(--cp-bg);
+    padding: 42px 40px 80px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.creator-header {
+    width: min(100%, 1180px);
+    margin: 0 auto 27px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.creator-header-left {
+    min-width: 0;
+}
+
+.creator-kicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 11px;
+    color: #777c86;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.6px;
+}
+
+.creator-kicker::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cp-purple);
+    box-shadow: 0 0 0 4px #e9e7ff;
+}
+
+.creator-header h1 {
+    margin: 0;
+    color: var(--cp-text);
+    font-size: clamp(31px, 4vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -1.8px;
+    font-weight: 850;
+}
+
+.creator-header p {
+    margin: 10px 0 0;
+    color: var(--cp-muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* SAVE STATUS */
+
+.save-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #8c919b;
+    font-size: 9px;
+    white-space: nowrap;
+}
+
+.save-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #c7cbd2;
+}
+
+
+/* =========================================================
+   MAIN FORM
+========================================================= */
+
+.creator-form {
+    width: min(100%, 1180px);
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.creator-card {
+    position: relative;
+    background: var(--cp-card);
+    border: 1px solid var(--cp-border);
+    border-radius: 17px;
+    padding: 27px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 14px rgba(20,25,35,.025);
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.creator-card:hover {
+    border-color: #dfe1e7;
+    box-shadow: 0 8px 28px rgba(20,25,35,.035);
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    margin-bottom: 22px;
+}
+
+.section-number {
+    width: 33px;
+    height: 33px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f2f5;
+    color: #60656f;
+    font-size: 9px;
+    font-weight: 850;
+}
+
+.section-heading h2 {
+    margin: 0;
+    color: #202329;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: -.25px;
+}
+
+.section-heading p {
+    margin: 4px 0 0;
+    color: #9297a0;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 17px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    color: #343840;
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.required {
+    color: #d74755;
+}
+
+.form-hint {
+    color: #a0a4ad;
+    font-size: 8px;
+    font-weight: 500;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    border: 1px solid #dfe2e7;
+    outline: none;
+    border-radius: 9px;
+    background: #fbfbfc;
+    color: #24272d;
+    font-family: inherit;
+    font-size: 11px;
+    transition:
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+.form-input,
+.form-select {
+    height: 43px;
+    padding: 0 12px;
+}
+
+.form-textarea {
+    min-height: 100px;
+    padding: 12px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: #b1b5bd;
+}
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover {
+    border-color: #cfd3da;
+    background: #fff;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    background: #fff;
+    border-color: #756de1;
+    box-shadow: 0 0 0 3px rgba(99,91,219,.08);
+}
+
+
+/* SELECT */
+
+.form-select {
+    cursor: pointer;
+    appearance: none;
+    padding-right: 35px;
+    background-image:
+        linear-gradient(45deg,transparent 50%,#8b9099 50%),
+        linear-gradient(135deg,#8b9099 50%,transparent 50%);
+    background-position:
+        calc(100% - 16px) 18px,
+        calc(100% - 11px) 18px;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+}
+
+
+/* PROMPT TEXT */
+
+.prompt-textarea {
+    min-height: 215px;
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   CONTENT TYPE
+========================================================= */
+
+.content-type-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.content-type {
+    position: relative;
+    min-height: 105px;
+    padding: 15px 11px;
+    border: 1px solid #e1e3e8;
+    border-radius: 13px;
+    background: #fbfbfc;
+    cursor: pointer;
+    transition:
+        border-color .2s ease,
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.content-type:hover {
+    transform: translateY(-2px);
+    border-color: #cfcbeF;
+    background: #fff;
+}
+
+.content-type input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.content-type-inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.type-icon {
+    width: 37px;
+    height: 37px;
+    border-radius: 10px;
+    background: #f0f1f4;
+    color: #555b65;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    transition: .2s ease;
+}
+
+.type-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.type-name {
+    color: #353941;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.type-description {
+    margin-top: 4px;
+    color: #a0a4ad;
+    font-size: 8px;
+    line-height: 1.35;
+}
+
+.content-type:has(input:checked) {
+    border-color: #7168dd;
+    background: #f7f6ff;
+    box-shadow: 0 6px 18px rgba(99,91,219,.08);
+}
+
+.content-type:has(input:checked) .type-icon {
+    background: #e9e7ff;
+    color: #574fc8;
+}
+
+.content-type:has(input:checked) .type-name {
+    color: #5148bd;
+}
+
+.type-check {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: #635bdb;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 900;
+}
+
+.content-type:has(input:checked) .type-check {
+    display: flex;
+}
+
+
+/* =========================================================
+   SINGLE SELECT CHIPS
+========================================================= */
+
+.choice-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.choice-title-row small {
+    color: #9ca0a8;
+    font-size: 8px;
+}
+
+.single-choice-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.single-choice {
+    position: relative;
+    cursor: pointer;
+}
+
+.single-choice input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.single-choice span {
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid #e0e2e7;
+    background: #fafbfc;
+    color: #70757f;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        color .18s ease,
+        transform .18s ease;
+}
+
+.single-choice:hover span {
+    border-color: #c9c5ed;
+    color: #554cc5;
+    background: #f9f8ff;
+}
+
+.single-choice input:checked + span {
+    background: #17191d;
+    border-color: #17191d;
+    color: #fff;
+    box-shadow: 0 5px 13px rgba(23,25,29,.12);
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   PROMPT CLASSIFICATION — TWO DROPDOWNS
+========================================================= */
+
+.classification-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 17px;
+}
+
+.classification-grid .form-group {
+    margin-bottom: 0;
+}
+
+.classification-grid .form-select:disabled {
+    cursor: not-allowed;
+    color: #a7abb3;
+    background: #f3f4f6;
+    border-color: #e4e6ea;
+}
+
+.classification-note {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 16px;
+    padding: 10px 12px;
+    border: 1px solid #ececf4;
+    border-radius: 9px;
+    background: #fafaff;
+    color: #9296a0;
+    font-size: 8px;
+    line-height: 1.5;
+}
+
+.classification-note strong {
+    color: #635bdb;
+    font-weight: 800;
+}
+
+.classification-note-icon {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eeecff;
+    color: #6259d2;
+    font-size: 9px;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   CATEGORY + TAGS
+========================================================= */
+
+
+
+.category-layout {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 17px;
+}
+
+
+/* TAG FIELD */
+
+.tags-wrapper {
+    position: relative;
+}
+
+.tags-counter {
+    position: absolute;
+    right: 11px;
+    top: 14px;
+    color: #a5a9b1;
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.image-methods {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.upload-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    color: #a1a5ad;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.upload-divider::before,
+.upload-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: #eceef1;
+}
+
+
+/* DROP ZONE */
+
+.upload-box {
+    min-height: 170px;
+    border: 1.5px dashed #d1d4db;
+    border-radius: 14px;
+    background: #fafbfc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition:
+        border-color .2s ease,
+        background .2s ease,
+        transform .2s ease;
+}
+
+.upload-box:hover,
+.upload-box.dragging {
+    border-color: #7168dd;
+    background: #f8f7ff;
+    transform: translateY(-1px);
+}
+
+.upload-box input {
+    display: none;
+}
+
+.upload-icon {
+    width: 43px;
+    height: 43px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    background: #efedff;
+    color: #5d54d1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.upload-box strong {
+    color: #34373e;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.upload-box small {
+    margin-top: 5px;
+    color: #999ea7;
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.image-preview {
+    display: none;
+    position: relative;
+    margin-top: 13px;
+    border: 1px solid #e0e2e7;
+    border-radius: 13px;
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.image-preview.show {
+    display: block;
+}
+
+.image-preview img {
+    display: block;
+    width: 100%;
+    max-height: 360px;
+    object-fit: contain;
+}
+
+.remove-image {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    width: 31px;
+    height: 31px;
+    border: 0;
+    border-radius: 9px;
+    background: rgba(23,25,29,.86);
+    color: white;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   BOTTOM ACTION BAR
+========================================================= */
+
+.editor-actions {
+    position: sticky;
+    bottom: 14px;
+    z-index: 20;
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    padding: 12px;
+    margin-top: 4px;
+    border: 1px solid #e2e4e9;
+    border-radius: 14px;
+    background: rgba(255,255,255,.92);
+    box-shadow: 0 12px 35px rgba(20,25,35,.10);
+    backdrop-filter: blur(14px);
+}
+
+.secondary-btn,
+.primary-btn {
+    min-height: 41px;
+    padding: 0 17px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.secondary-btn {
+    color: #656a74;
+    background: #fff;
+    border: 1px solid #dfe2e7;
+}
+
+.secondary-btn:hover {
+    background: #f5f6f8;
+    color: #282b31;
+}
+
+.primary-btn {
+    border: 1px solid #17191d;
+    background: #17191d;
+    color: #fff;
+    box-shadow: 0 7px 17px rgba(23,25,29,.14);
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 11px 23px rgba(23,25,29,.18);
+}
+
+.primary-btn:disabled {
+    opacity: .65;
+    cursor: wait;
+    transform: none;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.creator-toast {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 9999;
+    max-width: 320px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    background: #17191d;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 650;
+    box-shadow: 0 15px 35px rgba(0,0,0,.2);
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: .25s ease;
+}
+
+.creator-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes cardIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.creator-header {
+    animation: cardIn .4s ease both;
+}
+
+.creator-card {
+    animation: cardIn .45s ease both;
+}
+
+.creator-card:nth-child(2) {
+    animation-delay: .04s;
+}
+
+.creator-card:nth-child(3) {
+    animation-delay: .08s;
+}
+
+.creator-card:nth-child(4) {
+    animation-delay: .12s;
+}
+
+.creator-card:nth-child(5) {
+    animation-delay: .16s;
+}
+
+.creator-card:nth-child(6) {
+    animation-delay: .20s;
+}
+
+.creator-card:nth-child(7) {
+    animation-delay: .24s;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width:1000px) {
+
+    .creator-page {
+        padding: 35px 28px 70px;
+    }
+
+    .content-type-grid {
+        grid-template-columns: repeat(3,1fr);
+    }
+
+    .category-layout {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:680px) {
+
+    .creator-page {
+        padding: 25px 14px 45px;
+    }
+
+    .creator-header {
+        display: block;
+        margin-bottom: 21px;
+    }
+
+    .creator-header h1 {
+        font-size: 31px;
+        letter-spacing: -1.2px;
+    }
+
+    .creator-header p {
+        font-size: 11px;
+    }
+
+    .save-status {
+        margin-top: 13px;
+    }
+
+    .creator-card {
+        padding: 18px 16px;
+        border-radius: 14px;
+        margin-bottom: 11px;
+    }
+
+    .section-heading {
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .section-number {
+        width: 30px;
+        height: 30px;
+    }
+
+    .section-heading h2 {
+        font-size: 14px;
+    }
+
+    .section-heading p {
+        font-size: 8px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .classification-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .classification-grid .form-group + .form-group {
+        margin-top: 14px;
+    }
+
+    .content-type-grid {
+        grid-template-columns: repeat(2,1fr);
+        gap: 8px;
+    }
+
+    .content-type {
+        min-height: 96px;
+    }
+
+    .type-description {
+        font-size: 7px;
+    }
+
+    .single-choice-grid {
+        gap: 6px;
+    }
+
+    .single-choice span {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 8px;
+    }
+
+    .upload-box {
+        min-height: 145px;
+    }
+
+    .editor-actions {
+        bottom: 8px;
+        padding: 9px;
+    }
+
+    .secondary-btn,
+    .primary-btn {
+        flex: 1;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width:390px) {
+
+    .content-type-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .creator-header h1 {
+        font-size: 28px;
+    }
+
+}
+
+</style>
+
+<div class="creator-page">
+
+```
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="creator-header">
+
+    <div class="creator-header-left">
+
+        <div class="creator-kicker">
+            CREATOR STUDIO
+        </div>
+
+        <h1>
+            Create New Prompt
+        </h1>
+
+        <p>
+            Build a useful prompt that people can discover,
+            save and reuse.
+        </p>
+
+    </div>
+
+
+    <div class="save-status">
+
+        <span class="save-dot"></span>
+
+        Ready to publish
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     FORM
+===================================================== -->
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+    class="creator-form"
+    id="promptForm"
+>
+
+
+    <!-- =================================================
+         01 BASIC INFORMATION
+    ================================================= -->
+
+    <section class="creator-card">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                01
+            </span>
+
+            <div>
+
+                <h2>
+                    Basic Information
+                </h2>
+
+                <p>
+                    Start with the essential information.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label class="form-label">
+
+                    <span>
+                        Prompt Title
+                        <span class="required">*</span>
+                    </span>
+
+                    <span
+                        class="form-hint"
+                        id="titleCount"
+                    >
+                        0/150
+                    </span>
+
+                </label>
+
+                <input
+                    type="text"
+                    name="title"
+                    id="promptTitle"
+                    class="form-input"
+                    placeholder="e.g. Editorial Product Photography"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    AI Model
+                    <span class="required">*</span>
+                </label>
+
+                <select
+                    name="model"
+                    class="form-select"
+                    required
+                >
+
+                    {% for model in models %}
+
+                    <option value="{{ model }}">
+                        {{ model }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Description
+
+                <span
+                    class="form-hint"
+                    id="descriptionCount"
+                >
+                    0/500
+                </span>
+            </label>
+
+            <textarea
+                name="description"
+                id="description"
+                class="form-textarea"
+                rows="3"
+                maxlength="500"
+                placeholder="Explain what this prompt does and when someone should use it..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="form-label">
+
+                Prompt
+                <span class="required">*</span>
+
+                <span class="form-hint">
+                    Ctrl + Enter to publish
+                </span>
+
+            </label>
+
+            <textarea
+                name="prompt"
+                id="promptText"
+                class="form-textarea prompt-textarea"
+                placeholder="Write the complete prompt here..."
+                required
+            ></textarea>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         02 CONTENT TYPE
+    ================================================= -->
+
+    <section class="creator-card">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                02
+            </span>
+
+            <div>
+
+                <h2>
+                    Content Type
+                </h2>
+
+                <p>
+                    Choose what your prompt is designed to create.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="content-type-grid">
+
+            <!-- IMAGE -->
+            <label class="content-type">
+                <input type="radio" name="prompt_type" value="image" checked>
+                <div class="content-type-inner">
+                    <div class="type-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <rect x="3" y="4" width="18" height="16" rx="2"/>
+                            <circle cx="8.5" cy="9" r="1.5"/>
+                            <path d="m21 15-5-5L5 20"/>
+                        </svg>
+                    </div>
+                    <strong class="type-name">Image</strong>
+                    <span class="type-description">AI images & visual content</span>
+                </div>
+                <span class="type-check">✓</span>
+            </label>
+
+            <!-- VIDEO -->
+            <label class="content-type">
+                <input type="radio" name="prompt_type" value="video">
+                <div class="content-type-inner">
+                    <div class="type-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <rect x="3" y="5" width="13" height="14" rx="2"/>
+                            <path d="m16 10 5-3v10l-5-3z"/>
+                        </svg>
+                    </div>
+                    <strong class="type-name">Video</strong>
+                    <span class="type-description">Video & motion content</span>
+                </div>
+                <span class="type-check">✓</span>
+            </label>
+
+            <!-- SLIDES -->
+            <label class="content-type">
+                <input type="radio" name="prompt_type" value="slides">
+                <div class="content-type-inner">
+                    <div class="type-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <rect x="3" y="4" width="18" height="13" rx="2"/>
+                            <path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 8h10"/><path d="M7 11h6"/>
+                        </svg>
+                    </div>
+                    <strong class="type-name">Slides</strong>
+                    <span class="type-description">Presentations & pitch decks</span>
+                </div>
+                <span class="type-check">✓</span>
+            </label>
+
+            <!-- SHEET -->
+            <label class="content-type">
+                <input type="radio" name="prompt_type" value="sheets">
+                <div class="content-type-inner">
+                    <div class="type-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <rect x="4" y="3" width="16" height="18" rx="2"/>
+                            <path d="M4 8h16M4 13h16M9 8v13M15 8v13"/>
+                        </svg>
+                    </div>
+                    <strong class="type-name">Sheet</strong>
+                    <span class="type-description">Spreadsheets & data tables</span>
+                </div>
+                <span class="type-check">✓</span>
+            </label>
+
+            <!-- WEBPAGE -->
+            <label class="content-type">
+                <input type="radio" name="prompt_type" value="webpage">
+                <div class="content-type-inner">
+                    <div class="type-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <rect x="3" y="4" width="18" height="16" rx="2"/>
+                            <path d="M3 9h18"/><path d="M7 6.5h.01"/><path d="M10 6.5h.01"/><path d="M13 6.5h.01"/>
+                            <path d="M7 13h4"/><path d="M7 16h7"/>
+                        </svg>
+                    </div>
+                    <strong class="type-name">Webpage</strong>
+                    <span class="type-description">Websites & web pages</span>
+                </div>
+                <span class="type-check">✓</span>
+            </label>
+
+            <!-- DOCUMENT -->
+            <label class="content-type">
+                <input type="radio" name="prompt_type" value="document">
+                <div class="content-type-inner">
+                    <div class="type-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                            <path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 16h6"/>
+                        </svg>
+                    </div>
+                    <strong class="type-name">Document</strong>
+                    <span class="type-description">Reports & written documents</span>
+                </div>
+                <span class="type-check">✓</span>
+            </label>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         03 PROMPT CLASSIFICATION — TWO DROPDOWNS
+    ================================================= -->
+
+    <section class="creator-card">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                03
+            </span>
+
+            <div>
+                <h2>Prompt Classification</h2>
+
+                <p>
+                    Select one type first, then choose one matching option.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="classification-grid">
+
+            <!-- FIRST DROPDOWN -->
+            <div class="form-group">
+
+                <label class="form-label">
+                    <span>
+                        Type
+                        <span class="required">*</span>
+                    </span>
+
+                    <span class="form-hint">
+                        Choose one
+                    </span>
+                </label>
+
+                <select
+                    id="classificationType"
+                    class="form-select"
+                    required
+                >
+                    <option value="" selected disabled>
+                        Select type
+                    </option>
+
+                    <option value="use_case">
+                        Use Case
+                    </option>
+
+                    <option value="style">
+                        Style
+                    </option>
+
+                    <option value="subject">
+                        Subject
+                    </option>
+                </select>
+
+            </div>
+
+
+            <!-- SECOND DROPDOWN -->
+            <div class="form-group">
+
+                <label class="form-label">
+                    <span>
+                        Selection
+                        <span class="required">*</span>
+                    </span>
+
+                    <span
+                        class="form-hint"
+                        id="selectionHint"
+                    >
+                        Select type first
+                    </span>
+                </label>
+
+                <select
+                    name="prompt_category"
+                    id="classificationValue"
+                    class="form-select"
+                    required
+                    disabled
+                >
+                    <option value="" selected disabled>
+                        Select an option
+                    </option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- Backend-compatible hidden fields -->
+        <input
+            type="hidden"
+            name="use_case"
+            id="useCaseHidden"
+        >
+
+        <input
+            type="hidden"
+            name="style"
+            id="styleHidden"
+        >
+
+        <input
+            type="hidden"
+            name="subject"
+            id="subjectHidden"
+        >
+
+
+        <div class="classification-note">
+            <span class="classification-note-icon">i</span>
+
+            <span>
+                First choose
+                <strong>Use Case</strong>,
+                <strong>Style</strong> or
+                <strong>Subject</strong>,
+                then choose only one option.
+            </span>
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         04 CATEGORY & TAGS
+    ================================================= -->
+
+    <section class="creator-card">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                04
+            </span>
+
+            <div>
+
+                <h2>
+                    Category & Tags
+                </h2>
+
+                <p>
+                    Make the prompt easier to find.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="category-layout">
+
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Category
+                </label>
+
+                <select
+                    name="category"
+                    class="form-select"
+                >
+
+                    {% for category in categories %}
+
+                    <option value="{{ category.name }}">
+
+                        {{ category.emoji }}
+                        {{ category.name }}
+
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label class="form-label">
+
+                    Tags
+
+                    <span
+                        class="form-hint"
+                        id="tagCount"
+                    >
+                        0 tags
+                    </span>
+
+                </label>
+
+                <div class="tags-wrapper">
+
+                    <input
+                        type="text"
+                        name="tags"
+                        id="tagsInput"
+                        class="form-input"
+                        placeholder="cinematic, portrait, luxury, 4k"
+                    >
+
+                    <span
+                        class="tags-counter"
+                        id="tagCounter"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         05 IMAGE
+    ================================================= -->
+
+    <section class="creator-card">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                05
+            </span>
+
+            <div>
+
+                <h2>
+                    Preview Image
+                </h2>
+
+                <p>
+                    Add a visual representation of your prompt.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="form-label">
+                Image URL
+
+                <span class="form-hint">
+                    Optional
+                </span>
+            </label>
+
+            <input
+                type="url"
+                name="image"
+                id="imageUrl"
+                class="form-input"
+                placeholder="https://example.com/your-image.jpg"
+            >
+
+        </div>
+
+
+        <div class="upload-divider">
+            OR UPLOAD FROM DEVICE
+        </div>
+
+
+        <label
+            class="upload-box"
+            id="uploadBox"
+        >
+
+            <input
+                type="file"
+                name="image_file"
+                id="imageFile"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+            >
+
+
+            <span class="upload-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                >
+                    <path
+                        d="M12 16V4"
+                    />
+                    <path
+                        d="m7 9 5-5 5 5"
+                    />
+                    <path
+                        d="M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"
+                    />
+                </svg>
+
+            </span>
+
+
+            <strong id="uploadTitle">
+                Drop an image here or browse
+            </strong>
+
+
+            <small id="uploadText">
+                PNG, JPG, WEBP or GIF · Maximum 10MB
+            </small>
+
+        </label>
+
+
+        <!-- PREVIEW -->
+
+        <div
+            class="image-preview"
+            id="imagePreview"
+        >
+
+            <img
+                id="previewImage"
+                src=""
+                alt="Prompt preview"
+            >
+
+
+            <button
+                type="button"
+                class="remove-image"
+                id="removeImage"
+                aria-label="Remove image"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         ACTIONS
+    ================================================= -->
+
+    <div class="editor-actions">
+
+        <a
+            href="{{ url_for('user_dashboard') }}"
+            class="secondary-btn"
+        >
+            Cancel
+        </a>
+
+
+        <button
+            type="submit"
+            class="primary-btn"
+            id="publishButton"
+        >
+
+            <span id="publishText">
+                Publish Prompt
+            </span>
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+    </div>
+
+
+</form>
+```
+
+</div>
+
+<!-- TOAST -->
+
+<div
+    class="creator-toast"
+    id="creatorToast"
+></div>
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const form =
+        document.getElementById("promptForm");
+
+    const title =
+        document.getElementById("promptTitle");
+
+    const description =
+        document.getElementById("description");
+
+    const prompt =
+        document.getElementById("promptText");
+
+    const titleCount =
+        document.getElementById("titleCount");
+
+    const descriptionCount =
+        document.getElementById("descriptionCount");
+
+    const tagsInput =
+        document.getElementById("tagsInput");
+
+    const tagCount =
+        document.getElementById("tagCount");
+
+    const tagCounter =
+        document.getElementById("tagCounter");
+
+    const imageFile =
+        document.getElementById("imageFile");
+
+    const imageUrl =
+        document.getElementById("imageUrl");
+
+    const uploadBox =
+        document.getElementById("uploadBox");
+
+    const uploadTitle =
+        document.getElementById("uploadTitle");
+
+    const uploadText =
+        document.getElementById("uploadText");
+
+    const imagePreview =
+        document.getElementById("imagePreview");
+
+    const previewImage =
+        document.getElementById("previewImage");
+
+    const removeImage =
+        document.getElementById("removeImage");
+
+    const publishButton =
+        document.getElementById("publishButton");
+
+    const publishText =
+        document.getElementById("publishText");
+
+    const toast =
+        document.getElementById("creatorToast");
+
+
+    /* =====================================================
+       TOAST
+    ===================================================== */
+
+    function showToast(message) {
+
+        toast.textContent = message;
+
+        toast.classList.add("show");
+
+        setTimeout(function () {
+
+            toast.classList.remove("show");
+
+        }, 2600);
+
+    }
+
+
+    /* =====================================================
+       CHARACTER COUNTERS
+    ===================================================== */
+
+    function updateCounters() {
+
+        if (title && titleCount) {
+
+            titleCount.textContent =
+                title.value.length + "/150";
+
+        }
+
+
+        if (description && descriptionCount) {
+
+            descriptionCount.textContent =
+                description.value.length + "/500";
+
+        }
+
+    }
+
+
+    title.addEventListener(
+        "input",
+        updateCounters
+    );
+
+    description.addEventListener(
+        "input",
+        updateCounters
+    );
+
+
+    /* =====================================================
+       TAG COUNTER
+    ===================================================== */
+
+    function updateTags() {
+
+        const value =
+            tagsInput.value.trim();
+
+        if (!value) {
+
+            tagCounter.textContent = "0";
+
+            tagCount.textContent = "0 tags";
+
+            return;
+
+        }
+
+
+        const tags =
+            value
+                .split(",")
+                .map(function(tag) {
+                    return tag.trim();
+                })
+                .filter(function(tag) {
+                    return tag.length > 0;
+                });
+
+
+        tagCounter.textContent =
+            tags.length;
+
+        tagCount.textContent =
+            tags.length +
+            (tags.length === 1 ? " tag" : " tags");
+
+    }
+
+
+    tagsInput.addEventListener(
+        "input",
+        updateTags
+    );
+
+
+    tagsInput.addEventListener(
+        "blur",
+        function () {
+
+            const value =
+                tagsInput.value.trim();
+
+            if (!value) {
+                return;
+            }
+
+            const tags =
+                value
+                    .split(",")
+                    .map(function(tag) {
+                        return tag.trim();
+                    })
+                    .filter(Boolean);
+
+
+            tagsInput.value =
+                tags.join(", ");
+
+            updateTags();
+
+        }
+    );
+
+
+    /* =====================================================
+       IMAGE PREVIEW
+    ===================================================== */
+
+    function showPreview(source) {
+
+        previewImage.src = source;
+
+        imagePreview.classList.add("show");
+
+    }
+
+
+    function hidePreview() {
+
+        imagePreview.classList.remove("show");
+
+        previewImage.src = "";
+
+    }
+
+
+    /* =====================================================
+       FILE SELECT
+    ===================================================== */
+
+    imageFile.addEventListener(
+        "change",
+        function () {
+
+            const file =
+                this.files[0];
+
+            if (!file) {
+                return;
+            }
+
+
+            const maxSize =
+                10 * 1024 * 1024;
+
+
+            if (file.size > maxSize) {
+
+                showToast(
+                    "Image must be smaller than 10MB."
+                );
+
+                this.value = "";
+
+                return;
+
+            }
+
+
+            if (!file.type.startsWith("image/")) {
+
+                showToast(
+                    "Please select a valid image."
+                );
+
+                this.value = "";
+
+                return;
+
+            }
+
+
+            uploadTitle.textContent =
+                file.name;
+
+            uploadText.textContent =
+                (
+                    file.size /
+                    1024 /
+                    1024
+                ).toFixed(2)
+                + " MB · Image selected";
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    showPreview(
+                        event.target.result
+                    );
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+
+    /* =====================================================
+       IMAGE URL
+    ===================================================== */
+
+    imageUrl.addEventListener(
+        "blur",
+        function () {
+
+            const url =
+                this.value.trim();
+
+            if (!url) {
+                return;
+            }
+
+            showPreview(url);
+
+        }
+    );
+
+
+    /* =====================================================
+       REMOVE IMAGE
+    ===================================================== */
+
+    removeImage.addEventListener(
+        "click",
+        function () {
+
+            imageFile.value = "";
+
+            imageUrl.value = "";
+
+            uploadTitle.textContent =
+                "Drop an image here or browse";
+
+            uploadText.textContent =
+                "PNG, JPG, WEBP or GIF · Maximum 10MB";
+
+            hidePreview();
+
+        }
+    );
+
+
+    /* =====================================================
+       DRAG & DROP
+    ===================================================== */
+
+    [
+        "dragenter",
+        "dragover"
+    ].forEach(
+        function (eventName) {
+
+            uploadBox.addEventListener(
+                eventName,
+                function (event) {
+
+                    event.preventDefault();
+
+                    uploadBox.classList.add(
+                        "dragging"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    [
+        "dragleave",
+        "drop"
+    ].forEach(
+        function (eventName) {
+
+            uploadBox.addEventListener(
+                eventName,
+                function (event) {
+
+                    event.preventDefault();
+
+                    uploadBox.classList.remove(
+                        "dragging"
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    uploadBox.addEventListener(
+        "drop",
+        function (event) {
+
+            const files =
+                event.dataTransfer.files;
+
+            if (!files.length) {
+                return;
+            }
+
+
+            try {
+
+                imageFile.files =
+                    files;
+
+                imageFile.dispatchEvent(
+                    new Event("change")
+                );
+
+            } catch (error) {
+
+                showToast(
+                    "Please select the image manually."
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       PROMPT CLASSIFICATION — FULL CONTENT TYPE AWARE
+       ===================================================== */
+
+    const contentTypeInputs =
+        document.querySelectorAll('input[name="prompt_type"]');
+
+    const classificationType =
+        document.getElementById("classificationType");
+
+    const classificationValue =
+        document.getElementById("classificationValue");
+
+    const selectionHint =
+        document.getElementById("selectionHint");
+
+    const useCaseHidden =
+        document.getElementById("useCaseHidden");
+
+    const styleHidden =
+        document.getElementById("styleHidden");
+
+    const subjectHidden =
+        document.getElementById("subjectHidden");
+
+
+    /*
+       IMAGE
+    */
+    const imageClassification = {
+        use_case: [
+            "Profile Avatar",
+            "Social Media Post",
+            "Infographic / Educational Visual",
+            "YouTube Thumbnail",
+            "Comic / Storyboard",
+            "Product Marketing",
+            "E-commerce Main Image",
+            "Game Asset",
+            "Poster / Flyer",
+            "App / Web Design"
+        ],
+        style: [
+            "Photography",
+            "Cinematic / Film Still",
+            "Anime / Manga",
+            "Illustration",
+            "Sketch / Line Art",
+            "Comic / Graphic Novel",
+            "3D Render",
+            "Chibi / Q-Style",
+            "Isometric",
+            "Pixel Art",
+            "Oil Painting",
+            "Watercolor",
+            "Ink / Chinese Style",
+            "Retro / Vintage",
+            "Cyberpunk / Sci-Fi",
+            "Minimalism"
+        ],
+        subject: [
+            "Portrait / Selfie",
+            "Influencer / Model",
+            "Character",
+            "Group / Couple",
+            "Product",
+            "Food / Drink",
+            "Fashion Item",
+            "Animal / Creature",
+            "Vehicle",
+            "Architecture / Interior",
+            "Landscape / Nature",
+            "Cityscape / Street",
+            "Diagram / Chart",
+            "Text / Typography",
+            "Abstract / Background"
+        ]
+    };
+
+
+    /*
+       VIDEO
+    */
+    const videoClassification = {
+        use_case: [
+            "Social Media Reel",
+            "YouTube Video",
+            "Advertisement",
+            "Product Demo",
+            "Explainer Video",
+            "Educational Video",
+            "Storytelling",
+            "Short Film",
+            "Music Video",
+            "Brand Video"
+        ],
+        style: [
+            "Cinematic",
+            "Documentary",
+            "Realistic",
+            "Animation",
+            "3D Animation",
+            "Anime",
+            "Vlog",
+            "Commercial",
+            "Dramatic",
+            "Fast-Paced",
+            "Slow Motion",
+            "Stop Motion"
+        ],
+        subject: [
+            "Person",
+            "Character",
+            "Product",
+            "Fashion",
+            "Food",
+            "Travel",
+            "Nature",
+            "Vehicle",
+            "Animal",
+            "Technology",
+            "Sports",
+            "Business"
+        ]
+    };
+
+
+    /*
+       SLIDES
+    */
+    const slidesClassification = {
+        use_case: [
+            "Business Presentation",
+            "Sales Pitch",
+            "Marketing Presentation",
+            "Educational Presentation",
+            "Training",
+            "Project Proposal",
+            "Investor Pitch",
+            "Portfolio",
+            "Company Report",
+            "Research Presentation"
+        ],
+        style: [
+            "Professional",
+            "Corporate",
+            "Minimalist",
+            "Modern",
+            "Creative",
+            "Elegant",
+            "Academic",
+            "Bold",
+            "Clean",
+            "Visual"
+        ],
+        subject: [
+            "Business",
+            "Marketing",
+            "Sales",
+            "Finance",
+            "Education",
+            "Technology",
+            "Research",
+            "Strategy",
+            "Project",
+            "Startup"
+        ]
+    };
+
+
+    /*
+       SHEET
+    */
+    const sheetClassification = {
+        use_case: [
+            "Data Analysis",
+            "Budget Planning",
+            "Financial Tracking",
+            "Expense Tracking",
+            "Inventory Management",
+            "Sales Tracking",
+            "Project Management",
+            "Employee Management",
+            "Customer Management",
+            "Reporting"
+        ],
+        style: [
+            "Professional",
+            "Corporate",
+            "Minimal",
+            "Dashboard",
+            "Analytical",
+            "Financial",
+            "Data-Driven",
+            "Clean",
+            "Simple",
+            "Advanced"
+        ],
+        subject: [
+            "Finance",
+            "Sales",
+            "Marketing",
+            "Inventory",
+            "Employees",
+            "Customers",
+            "Projects",
+            "Budget",
+            "Expenses",
+            "Revenue",
+            "Analytics",
+            "Operations"
+        ]
+    };
+
+
+    /*
+       WEBPAGE
+    */
+    const webpageClassification = {
+        use_case: [
+            "Landing Page",
+            "Portfolio Website",
+            "Business Website",
+            "E-commerce Website",
+            "SaaS Website",
+            "Blog",
+            "Dashboard",
+            "Agency Website",
+            "Personal Website",
+            "Product Website"
+        ],
+        style: [
+            "Modern",
+            "Minimalist",
+            "Professional",
+            "Luxury",
+            "Creative",
+            "Dark",
+            "Glassmorphism",
+            "Neumorphism",
+            "Corporate",
+            "Editorial",
+            "Futuristic",
+            "Clean"
+        ],
+        subject: [
+            "Business",
+            "Portfolio",
+            "Product",
+            "SaaS",
+            "Agency",
+            "Blog",
+            "Restaurant",
+            "E-commerce",
+            "Education",
+            "Technology",
+            "Finance",
+            "Travel"
+        ]
+    };
+
+
+    /*
+       DOCUMENT
+    */
+    const documentClassification = {
+        use_case: [
+            "Business Report",
+            "Research Paper",
+            "Proposal",
+            "Resume",
+            "Cover Letter",
+            "Documentation",
+            "Meeting Notes",
+            "Study Material",
+            "Business Plan",
+            "Project Report"
+        ],
+        style: [
+            "Professional",
+            "Formal",
+            "Academic",
+            "Technical",
+            "Corporate",
+            "Simple",
+            "Modern",
+            "Creative",
+            "Minimal",
+            "Structured"
+        ],
+        subject: [
+            "Business",
+            "Technology",
+            "Education",
+            "Finance",
+            "Research",
+            "Marketing",
+            "Project",
+            "Legal",
+            "Human Resources",
+            "Management"
+        ]
+    };
+
+
+    const contentTypeRules = {
+        image: imageClassification,
+        video: videoClassification,
+        slides: slidesClassification,
+        sheet: sheetClassification,
+        webpage: webpageClassification,
+        document: documentClassification
+    };
+
+
+    function normalizeContentType(value) {
+
+        const type =
+            String(value || "")
+                .toLowerCase()
+                .trim()
+                .replace(/[_-]+/g, " ");
+
+        if (
+            ["image", "images", "photo", "photos"].includes(type)
+        ) {
+            return "image";
+        }
+
+        if (
+            ["video", "videos"].includes(type)
+        ) {
+            return "video";
+        }
+
+        if (
+            [
+                "slide",
+                "slides",
+                "presentation",
+                "presentations",
+                "powerpoint",
+                "power point"
+            ].includes(type)
+        ) {
+            return "slides";
+        }
+
+        if (
+            [
+                "sheet",
+                "sheets",
+                "spreadsheet",
+                "spreadsheets",
+                "excel",
+                "excel sheet"
+            ].includes(type)
+        ) {
+            return "sheet";
+        }
+
+        if (
+            [
+                "web",
+                "webpage",
+                "webpages",
+                "website",
+                "web page",
+                "web pages"
+            ].includes(type)
+        ) {
+            return "webpage";
+        }
+
+        if (
+            [
+                "document",
+                "documents",
+                "doc",
+                "text"
+            ].includes(type)
+        ) {
+            return "document";
+        }
+
+        return type;
+    }
+
+
+    function getSelectedContentType() {
+
+        const selected =
+            document.querySelector(
+                'input[name="prompt_type"]:checked'
+            );
+
+        return selected
+            ? normalizeContentType(selected.value)
+            : "";
+    }
+
+
+    function getSelectedContentTypeLabel() {
+
+        const selected =
+            document.querySelector(
+                'input[name="prompt_type"]:checked'
+            );
+
+        if (!selected) {
+            return "";
+        }
+
+        return selected.value
+            .replace(/[_-]+/g, " ")
+            .replace(/\b\w/g, function(letter) {
+                return letter.toUpperCase();
+            });
+    }
+
+
+    function clearClassificationFields() {
+        useCaseHidden.value = "";
+        styleHidden.value = "";
+        subjectHidden.value = "";
+    }
+
+
+    function updateClassificationDropdown() {
+
+        const contentType =
+            getSelectedContentType();
+
+        const contentLabel =
+            getSelectedContentTypeLabel();
+
+        const selectedType =
+            classificationType.value;
+
+
+        clearClassificationFields();
+
+
+        classificationValue.innerHTML =
+            '<option value="" selected disabled>' +
+            'Select an option' +
+            '</option>';
+
+        classificationValue.disabled = true;
+
+
+        if (!contentType) {
+
+            selectionHint.textContent =
+                "Select Content Type first";
+
+            return;
+        }
+
+
+        if (!selectedType) {
+
+            selectionHint.textContent =
+                contentLabel +
+                " selected • Choose type";
+
+            return;
+        }
+
+
+        const rules =
+            contentTypeRules[contentType];
+
+
+        const options =
+            rules && rules[selectedType]
+                ? rules[selectedType]
+                : [];
+
+
+        if (!options.length) {
+
+            selectionHint.textContent =
+                "No options available";
+
+            return;
+        }
+
+
+        options.forEach(function(item) {
+
+            const option =
+                document.createElement("option");
+
+            option.value = item;
+            option.textContent = item;
+
+            classificationValue.appendChild(option);
+
+        });
+
+
+        classificationValue.disabled = false;
+
+
+        selectionHint.textContent =
+            contentLabel +
+            " • " +
+            selectedType
+                .replace("_", " ")
+                .replace(/\b\w/g, function(letter) {
+                    return letter.toUpperCase();
+                }) +
+            " options";
+
+    }
+
+
+    /*
+       When Content Type changes:
+       Image -> Image list
+       Video -> Video list
+       Slides -> Slides list
+       Sheet -> Sheet list
+       Webpage -> Webpage list
+       Document -> Document list
+    */
+    contentTypeInputs.forEach(function(input) {
+
+        input.addEventListener(
+            "change",
+            function() {
+
+                updateClassificationDropdown();
+
+            }
+        );
+
+    });
+
+
+    /*
+       When Use Case / Style / Subject changes,
+       rebuild the second dropdown.
+    */
+    classificationType.addEventListener(
+        "change",
+        function() {
+
+            updateClassificationDropdown();
+
+        }
+    );
+
+
+    /*
+       Store selected value in the correct backend field.
+    */
+    classificationValue.addEventListener(
+        "change",
+        function() {
+
+            clearClassificationFields();
+
+            const value = this.value;
+
+
+            if (!value) {
+                return;
+            }
+
+
+            if (
+                classificationType.value ===
+                "use_case"
+            ) {
+                useCaseHidden.value = value;
+            }
+
+
+            if (
+                classificationType.value ===
+                "style"
+            ) {
+                styleHidden.value = value;
+            }
+
+
+            if (
+                classificationType.value ===
+                "subject"
+            ) {
+                subjectHidden.value = value;
+            }
+
+        }
+    );
+
+
+    /*
+       Initialize on page load.
+    */
+    updateClassificationDropdown();
+
+
+    /* =====================================================
+       FORM SUBMIT
+    ===================================================== */
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            const titleValue =
+                title.value.trim();
+
+            const promptValue =
+                prompt.value.trim();
+
+
+            if (!titleValue) {
+
+                event.preventDefault();
+
+                showToast(
+                    "Please enter a prompt title."
+                );
+
+                title.focus();
+
+                return;
+
+            }
+
+
+            if (!promptValue) {
+
+                event.preventDefault();
+
+                showToast(
+                    "Please write your prompt."
+                );
+
+                prompt.focus();
+
+                return;
+
+            }
+
+
+            if (
+                !classificationType.value ||
+                !classificationValue.value
+            ) {
+
+                event.preventDefault();
+
+                showToast(
+                    "Please select a type and one option."
+                );
+
+                if (!classificationType.value) {
+                    classificationType.focus();
+                } else {
+                    classificationValue.focus();
+                }
+
+                return;
+
+            }
+
+
+            publishButton.disabled =
+                true;
+
+            publishText.textContent =
+                "Publishing...";
+
+        }
+    );
+
+
+    /* =====================================================
+       CTRL + ENTER
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                (event.ctrlKey || event.metaKey) &&
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                if (
+                    form.checkValidity()
+                ) {
+
+                    form.requestSubmit();
+
+                } else {
+
+                    form.reportValidity();
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       AUTO SAVE STATUS — UI ONLY
+    ===================================================== */
+
+    let typingTimer;
+
+    const saveStatus =
+        document.querySelector(
+            ".save-status"
+        );
+
+    const saveDot =
+        document.querySelector(
+            ".save-dot"
+        );
+
+
+    form.addEventListener(
+        "input",
+        function () {
+
+            if (!saveStatus) {
+                return;
+            }
+
+
+            saveStatus.innerHTML =
+                '<span class="save-dot"></span> Editing';
+
+
+            clearTimeout(
+                typingTimer
+            );
+
+
+            typingTimer =
+                setTimeout(
+                    function () {
+
+                        saveStatus.innerHTML =
+                            '<span class="save-dot"></span> Ready to publish';
+
+                    },
+                    1200
+                );
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIAL STATE
+    ===================================================== */
+
+    updateCounters();
+
+    updateTags();
+
+
+});
+
+</script>
+
+{% endblock %}

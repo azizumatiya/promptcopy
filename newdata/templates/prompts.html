@@ -1,0 +1,1524 @@
+{% extends "base.html" %}
+
+{% block title %}Prompts — PromptVerse{% endblock %}
+
+{% block content %}
+
+<section class="prompts-page">
+
+<div class="wrap">
+
+<div class="prompts-header">
+
+<div>
+<small>PROMPT LIBRARY</small>
+<h1>Discover Prompts</h1>
+<p>Search, filter and explore AI prompts from the live database.</p>
+</div>
+
+<a href="{{ url_for('library') }}" class="library-link">
+<i data-lucide="bookmark"></i>
+My Library
+</a>
+
+</div>
+
+<!-- MOBILE FILTER TRIGGER -->
+<div class="mobile-filter-bar">
+    <button type="button" id="mobileFilterOpen" class="mobile-filter-trigger">
+        <i data-lucide="sliders-horizontal"></i>
+        <span>Filters</span>
+        <b id="mobileFilterCount">0</b>
+    </button>
+    <button type="button" id="mobileSortOpen" class="mobile-sort-trigger">
+        <i data-lucide="arrow-up-down"></i>
+        Sort
+    </button>
+</div>
+
+<div class="mobile-filter-overlay" id="mobileFilterOverlay">
+    <div class="mobile-filter-backdrop" id="mobileFilterBackdrop"></div>
+    <div class="mobile-filter-sheet" role="dialog" aria-modal="true" aria-label="Filter prompts">
+        <div class="mobile-sheet-head">
+            <div>
+                <span>DISCOVER</span>
+                <h3>Refine prompts</h3>
+            </div>
+            <button type="button" id="mobileFilterClose" aria-label="Close filters">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="mobile-active-filters" id="mobileActiveFilters"></div>
+        <div id="mobileFilterContent"></div>
+        <div class="mobile-sheet-footer">
+            <button type="button" id="mobileClearFilters">Clear all</button>
+            <button type="button" id="mobileApplyFilters">Show results</button>
+        </div>
+    </div>
+</div>
+
+<div class="prompts-layout">
+
+
+<!-- LEFT FILTER SIDEBAR -->
+
+<aside class="prompt-filters">
+
+<div class="filter-heading">
+<div>
+<strong>FILTER PROMPTS</strong>
+<span>Refine your results</span>
+</div>
+
+<button type="button" id="clearFilters">
+Clear
+</button>
+</div>
+
+
+<!-- MODEL -->
+
+<div class="filter-section">
+
+<button type="button" class="filter-title" data-target="modelOptions">
+<span>
+<i data-lucide="sparkles"></i>
+MODEL
+</span>
+<i data-lucide="chevron-down" class="filter-arrow"></i>
+</button>
+
+<div class="filter-options" id="modelOptions">
+
+<button type="button" class="filter active" data-model="All">
+All
+</button>
+
+{% for m in models %}
+
+<button type="button" class="filter" data-model="{{ m }}">
+{{ m }}
+</button>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+
+<!-- TYPE -->
+
+<div class="filter-section">
+
+<button type="button" class="filter-title" data-target="typeOptions">
+
+<span>
+<i data-lucide="layers"></i>
+TYPE
+</span>
+
+<i data-lucide="chevron-down" class="filter-arrow"></i>
+
+</button>
+
+
+<div class="filter-options" id="typeOptions">
+
+<button type="button" class="filter active" data-type="All">
+All
+</button>
+
+<button type="button" class="filter" data-type="image">
+Images
+</button>
+
+<button type="button" class="filter" data-type="video">
+Videos
+</button>
+
+<button type="button" class="filter" data-type="slides">Slides</button>
+
+<button type="button" class="filter" data-type="sheets">Sheets</button>
+
+</div>
+
+</div>
+
+
+<!-- CATEGORY -->
+
+<div class="filter-section">
+
+<button type="button" class="filter-title" data-target="categoryOptions">
+
+<span>
+<i data-lucide="grid-3x3"></i>
+CATEGORY
+</span>
+
+<i data-lucide="chevron-down" class="filter-arrow"></i>
+
+</button>
+
+
+<div class="filter-options" id="categoryOptions">
+
+<button type="button" class="filter active" data-category="All">
+All
+</button>
+
+{% for c in categories %}
+
+<button type="button" class="filter" data-category="{{ c['name'] }}">
+<span class="category-emoji">{{ c['emoji'] }}</span>
+{{ c['name'] }}
+</button>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+<!-- USE CASES -->
+<div class="filter-section">
+<button type="button" class="filter-title" data-target="useCaseOptions">
+<span><i data-lucide="briefcase-business"></i>USE CASES</span>
+<i data-lucide="chevron-down" class="filter-arrow"></i>
+</button>
+<div class="filter-options" id="useCaseOptions">
+<button type="button" class="filter active" data-usecase="All">All</button>
+<button type="button" class="filter" data-usecase="Profile Avatar">Profile Avatar</button>
+<button type="button" class="filter" data-usecase="Social Media Post">Social Media Post</button>
+<button type="button" class="filter" data-usecase="Infographic / Edu Visual">Infographic / Edu Visual</button>
+<button type="button" class="filter" data-usecase="YouTube Thumbnail">YouTube Thumbnail</button>
+<button type="button" class="filter" data-usecase="Comic / Storyboard">Comic / Storyboard</button>
+<button type="button" class="filter" data-usecase="Product Marketing">Product Marketing</button>
+<button type="button" class="filter" data-usecase="E-commerce Main Image">E-commerce Main Image</button>
+<button type="button" class="filter" data-usecase="Game Asset">Game Asset</button>
+<button type="button" class="filter" data-usecase="Poster / Flyer">Poster / Flyer</button>
+<button type="button" class="filter" data-usecase="App / Web Design">App / Web Design</button>
+</div>
+</div>
+
+<!-- STYLES -->
+<div class="filter-section">
+<button type="button" class="filter-title" data-target="styleOptions">
+<span><i data-lucide="palette"></i>STYLES</span>
+<i data-lucide="chevron-down" class="filter-arrow"></i>
+</button>
+<div class="filter-options" id="styleOptions">
+<button type="button" class="filter active" data-style="All">All</button>
+<button type="button" class="filter" data-style="Photography">Photography</button>
+<button type="button" class="filter" data-style="Cinematic / Film Still">Cinematic / Film Still</button>
+<button type="button" class="filter" data-style="Anime / Manga">Anime / Manga</button>
+<button type="button" class="filter" data-style="Illustration">Illustration</button>
+<button type="button" class="filter" data-style="Sketch / Line Art">Sketch / Line Art</button>
+<button type="button" class="filter" data-style="Comic / Graphic Novel">Comic / Graphic Novel</button>
+<button type="button" class="filter" data-style="3D Render">3D Render</button>
+<button type="button" class="filter" data-style="Chibi / Q-Style">Chibi / Q-Style</button>
+<button type="button" class="filter" data-style="Isometric">Isometric</button>
+<button type="button" class="filter" data-style="Pixel Art">Pixel Art</button>
+<button type="button" class="filter" data-style="Oil Painting">Oil Painting</button>
+<button type="button" class="filter" data-style="Watercolor">Watercolor</button>
+<button type="button" class="filter" data-style="Ink / Chinese Style">Ink / Chinese Style</button>
+<button type="button" class="filter" data-style="Retro / Vintage">Retro / Vintage</button>
+<button type="button" class="filter" data-style="Cyberpunk / Sci-Fi">Cyberpunk / Sci-Fi</button>
+<button type="button" class="filter" data-style="Minimalism">Minimalism</button>
+</div>
+</div>
+
+<!-- SUBJECTS -->
+<div class="filter-section">
+<button type="button" class="filter-title" data-target="subjectOptions">
+<span><i data-lucide="scan-face"></i>SUBJECTS</span>
+<i data-lucide="chevron-down" class="filter-arrow"></i>
+</button>
+<div class="filter-options" id="subjectOptions">
+<button type="button" class="filter active" data-subject="All">All</button>
+<button type="button" class="filter" data-subject="Portrait / Selfie">Portrait / Selfie</button>
+<button type="button" class="filter" data-subject="Influencer / Model">Influencer / Model</button>
+<button type="button" class="filter" data-subject="Character">Character</button>
+<button type="button" class="filter" data-subject="Group / Couple">Group / Couple</button>
+<button type="button" class="filter" data-subject="Product">Product</button>
+<button type="button" class="filter" data-subject="Food / Drink">Food / Drink</button>
+<button type="button" class="filter" data-subject="Fashion Item">Fashion Item</button>
+<button type="button" class="filter" data-subject="Animal / Creature">Animal / Creature</button>
+<button type="button" class="filter" data-subject="Vehicle">Vehicle</button>
+<button type="button" class="filter" data-subject="Architecture / Interior">Architecture / Interior</button>
+<button type="button" class="filter" data-subject="Landscape / Nature">Landscape / Nature</button>
+<button type="button" class="filter" data-subject="Cityscape / Street">Cityscape / Street</button>
+<button type="button" class="filter" data-subject="Diagram / Chart">Diagram / Chart</button>
+<button type="button" class="filter" data-subject="Text / Typography">Text / Typography</button>
+<button type="button" class="filter" data-subject="Abstract / Background">Abstract / Background</button>
+</div>
+</div>
+
+</aside>
+
+
+<!-- RIGHT PROMPT AREA -->
+
+<main class="prompts-content">
+
+
+<!-- SEARCH -->
+
+<form id="searchForm" class="prompts-search">
+
+<i data-lucide="search"></i>
+
+<input
+id="searchInput"
+type="search"
+placeholder="Search prompts, categories, models or tags..."
+>
+
+<button type="submit">
+Search
+</button>
+
+</form>
+
+
+<!-- TOP BAR -->
+
+<div class="prompts-toolbar">
+
+<span>
+<strong id="resultCount">0</strong>
+prompts found
+</span>
+
+<select id="sortSelect">
+
+<option value="newest">
+Newest First
+</option>
+
+<option value="trending">
+Smart Trending
+</option>
+
+<option value="likes">
+Most Liked
+</option>
+
+</select>
+
+</div>
+
+
+<!-- PROMPTS -->
+
+<div id="gallery" class="gallery"></div>
+
+<!-- PAGINATION: maximum 15 prompts per page -->
+<div id="promptPagination" class="prompt-pagination" aria-label="Prompt pages">
+    <button type="button" id="paginationPrev" class="pagination-btn">Previous</button>
+    <div id="paginationPages" class="pagination-pages"></div>
+    <button type="button" id="paginationNext" class="pagination-btn">Next</button>
+</div>
+
+
+</main>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+const mobileOverlay = document.getElementById("mobileFilterOverlay");
+const mobileContent = document.getElementById("mobileFilterContent");
+const mobileCount = document.getElementById("mobileFilterCount");
+const mobileActive = document.getElementById("mobileActiveFilters");
+
+function syncMobileFilters(){
+    if(!mobileContent) return;
+    mobileContent.innerHTML = "";
+    document.querySelectorAll(".prompt-filters .filter-section").forEach(section=>{
+        const clone = section.cloneNode(true);
+        clone.querySelectorAll(".filter-title").forEach(t=>t.removeAttribute("data-target"));
+        mobileContent.appendChild(clone);
+    });
+
+    mobileContent.querySelectorAll(".filter-title").forEach(title=>{
+        const options=title.nextElementSibling;
+        title.addEventListener("click",()=>{
+            const open=options.classList.contains("mobile-open");
+            mobileContent.querySelectorAll(".filter-options").forEach(x=>x.classList.remove("mobile-open"));
+            mobileContent.querySelectorAll(".filter-title").forEach(x=>x.classList.remove("mobile-open"));
+            if(!open){ options.classList.add("mobile-open"); title.classList.add("mobile-open"); }
+        });
+    });
+
+    mobileContent.querySelectorAll(".filter").forEach(btn=>{
+        btn.addEventListener("click",()=>{
+            const type=["model","type","category","usecase","style","subject"].find(x=>btn.dataset[x]!==undefined);
+            if(!type) return;
+            document.querySelectorAll('.filter[data-'+type+']').forEach(x=>x.classList.remove("active"));
+            document.querySelectorAll('.filter[data-'+type+']').forEach(x=>{
+                if(x.getAttribute("data-"+type)===btn.getAttribute("data-"+type)) x.classList.add("active");
+            });
+            btn.parentElement.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+            btn.classList.add("active");
+            if(typeof window.applyFilters==="function") window.applyFilters();
+            syncMobileFilters();
+        });
+    });
+
+    const active=document.querySelectorAll(".prompt-filters .filter.active");
+    const selected=[...active].filter(x=>x.dataset.model!=="All"&&x.dataset.type!=="All"&&x.dataset.category!=="All"&&x.dataset.usecase!=="All"&&x.dataset.style!=="All"&&x.dataset.subject!=="All");
+    if(mobileCount) mobileCount.textContent=selected.length;
+    if(mobileActive){
+        mobileActive.innerHTML="";
+        selected.forEach(x=>{
+            const chip=document.createElement("span");
+            chip.textContent=x.textContent.trim();
+            mobileActive.appendChild(chip);
+        });
+        mobileActive.style.display=selected.length?"flex":"none";
+    }
+}
+
+function openMobileFilters(){
+    syncMobileFilters();
+    mobileOverlay?.classList.add("show");
+    document.body.classList.add("filter-lock");
+}
+function closeMobileFilters(){
+    mobileOverlay?.classList.remove("show");
+    document.body.classList.remove("filter-lock");
+}
+
+document.getElementById("mobileFilterOpen")?.addEventListener("click",openMobileFilters);
+document.getElementById("mobileFilterClose")?.addEventListener("click",closeMobileFilters);
+document.getElementById("mobileFilterBackdrop")?.addEventListener("click",closeMobileFilters);
+document.getElementById("mobileApplyFilters")?.addEventListener("click",closeMobileFilters);
+document.getElementById("mobileClearFilters")?.addEventListener("click",()=>{
+    document.getElementById("clearFilters")?.click();
+    syncMobileFilters();
+});
+
+document.getElementById("mobileSortOpen")?.addEventListener("click",()=>{
+    document.getElementById("sortSelect")?.focus();
+});
+
+const filterTitles =
+document.querySelectorAll(".filter-title");
+
+
+/* ==========================================
+   FILTER ACCORDION
+========================================== */
+
+filterTitles.forEach(function(title) {
+
+title.addEventListener("click", function() {
+
+const target =
+document.getElementById(
+this.dataset.target
+);
+
+const isOpen =
+target.classList.contains("open");
+
+
+document
+.querySelectorAll(".filter-options")
+.forEach(function(option) {
+
+option.classList.remove("open");
+
+});
+
+
+document
+.querySelectorAll(".filter-title")
+.forEach(function(item) {
+
+item.classList.remove("open");
+
+});
+
+
+if (!isOpen) {
+
+target.classList.add("open");
+
+this.classList.add("open");
+
+}
+
+});
+
+});
+
+
+/* ==========================================
+   FILTER ACTIVE STATE
+========================================== */
+
+document
+.querySelectorAll(".filter")
+.forEach(function(button) {
+
+button.addEventListener("click", function() {
+
+let filterType;
+
+if (this.dataset.model !== undefined) filterType = "model";
+else if (this.dataset.type !== undefined) filterType = "type";
+else if (this.dataset.category !== undefined) filterType = "category";
+else if (this.dataset.usecase !== undefined) filterType = "usecase";
+else if (this.dataset.style !== undefined) filterType = "style";
+else if (this.dataset.subject !== undefined) filterType = "subject";
+else return;
+
+
+document
+.querySelectorAll(
+'.filter[data-' + filterType + ']'
+)
+.forEach(function(item) {
+
+item.classList.remove("active");
+
+});
+
+
+this.classList.add("active");
+
+
+/*
+   If home.js exposes applyFilters(),
+   refresh the prompt gallery.
+*/
+
+if (typeof window.applyFilters === "function") {
+
+window.applyFilters();
+
+}
+syncMobileFilters();
+
+});
+
+});
+
+
+/* ==========================================
+   CLEAR FILTERS
+========================================== */
+
+const clearButton =
+document.getElementById("clearFilters");
+
+
+if (clearButton) {
+
+clearButton.addEventListener("click", function() {
+
+
+document
+.querySelectorAll(".filter")
+.forEach(function(button) {
+
+button.classList.remove("active");
+
+});
+
+
+document
+.querySelector('[data-model="All"]')
+?.classList.add("active");
+
+
+document
+.querySelector('[data-type="All"]')
+?.classList.add("active");
+
+
+document
+.querySelector('[data-category="All"]')
+?.classList.add("active");
+
+document.querySelector('[data-usecase="All"]')?.classList.add("active");
+document.querySelector('[data-style="All"]')?.classList.add("active");
+document.querySelector('[data-subject="All"]')?.classList.add("active");
+
+
+if (typeof window.applyFilters === "function") {
+
+window.applyFilters();
+
+}
+
+});
+
+}
+
+});
+
+syncMobileFilters();
+
+</script>
+<script>
+(function () {
+    const ITEMS_PER_PAGE = 15;
+    let currentPage = 1;
+
+    function getCards() {
+        const gallery = document.getElementById("gallery");
+        return gallery ? Array.from(gallery.querySelectorAll(".prompt-card")) : [];
+    }
+
+    function updatePagination() {
+        const cards = getCards();
+        const box = document.getElementById("promptPagination");
+        const pages = document.getElementById("paginationPages");
+        const prev = document.getElementById("paginationPrev");
+        const next = document.getElementById("paginationNext");
+
+        if (!box || !pages || !prev || !next) return;
+
+        const totalPages = Math.ceil(cards.length / ITEMS_PER_PAGE);
+
+        if (totalPages <= 1) {
+            box.style.display = "none";
+            cards.forEach(card => card.style.display = "");
+            return;
+        }
+
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        box.style.display = "flex";
+
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+
+        cards.forEach((card, index) => {
+            card.style.display = (index >= start && index < end) ? "" : "none";
+        });
+
+        pages.innerHTML = "";
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "pagination-page" + (i === currentPage ? " active" : "");
+            btn.textContent = i;
+
+            btn.onclick = function () {
+                currentPage = i;
+                updatePagination();
+                scrollToGallery();
+            };
+
+            pages.appendChild(btn);
+        }
+
+        prev.disabled = currentPage === 1;
+        next.disabled = currentPage === totalPages;
+
+        prev.onclick = function () {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                scrollToGallery();
+            }
+        };
+
+        next.onclick = function () {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                scrollToGallery();
+            }
+        };
+    }
+
+    function scrollToGallery() {
+        const gallery = document.getElementById("gallery");
+        if (!gallery) return;
+
+        window.scrollTo({
+            top: gallery.getBoundingClientRect().top + window.pageYOffset - 90,
+            behavior: "smooth"
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const gallery = document.getElementById("gallery");
+        if (!gallery) return;
+
+        let lastCount = -1;
+
+        function check() {
+            const count = getCards().length;
+
+            if (count !== lastCount) {
+                lastCount = count;
+                currentPage = 1;
+                updatePagination();
+            }
+        }
+
+        check();
+
+        new MutationObserver(check).observe(gallery, {
+            childList: true,
+            subtree: true
+        });
+
+        setInterval(check, 500);
+    });
+})();
+</script>
+
+<style>
+
+/* ==========================================
+   PROMPTS PAGE
+========================================== */
+
+.prompts-page {
+
+padding: 60px 0 100px;
+
+min-height: 80vh;
+
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.prompts-header {
+
+display: flex;
+
+align-items: flex-end;
+
+justify-content: space-between;
+
+gap: 30px;
+
+margin-bottom: 40px;
+
+}
+
+
+.prompts-header small {
+
+display: block;
+
+font-size: 11px;
+
+font-weight: 800;
+
+letter-spacing: 1.6px;
+
+opacity: .5;
+
+margin-bottom: 8px;
+
+}
+
+
+.prompts-header h1 {
+
+margin: 0 0 8px;
+
+font-size: clamp(34px,5vw,56px);
+
+line-height: 1;
+
+letter-spacing: -.04em;
+
+}
+
+
+.prompts-header p {
+
+margin: 0;
+
+font-size: 14px;
+
+opacity: .6;
+
+}
+
+
+.library-link {
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+padding: 11px 16px;
+
+border: 1px solid rgba(255,255,255,.1);
+
+border-radius: 10px;
+
+text-decoration: none;
+
+color: inherit;
+
+font-size: 13px;
+
+white-space: nowrap;
+
+transition: .2s;
+
+}
+
+
+.library-link:hover {
+
+background: rgba(255,255,255,.06);
+
+}
+
+
+/* ==========================================
+   TWO COLUMNS
+========================================== */
+
+.prompts-layout {
+
+display: grid;
+
+grid-template-columns: 250px minmax(0,1fr);
+
+gap: 30px;
+
+align-items: start;
+
+}
+
+
+/* ==========================================
+   FILTER SIDEBAR
+========================================== */
+
+.prompt-filters {
+
+position: sticky;
+
+top: 100px;
+
+border: 1px solid rgba(255,255,255,.09);
+
+background: rgba(255,255,255,.035);
+
+border-radius: 18px;
+
+overflow: hidden;
+
+backdrop-filter: blur(18px);
+
+}
+
+
+/* ==========================================
+   FILTER HEADER
+========================================== */
+
+.filter-heading {
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+padding: 19px;
+
+border-bottom: 1px solid rgba(255,255,255,.08);
+
+}
+
+
+.filter-heading strong {
+
+display: block;
+
+font-size: 11px;
+
+letter-spacing: 1.4px;
+
+}
+
+
+.filter-heading span {
+
+display: block;
+
+font-size: 11px;
+
+opacity: .45;
+
+margin-top: 5px;
+
+}
+
+
+.filter-heading button {
+
+border: 0;
+
+background: transparent;
+
+color: inherit;
+
+font-size: 11px;
+
+cursor: pointer;
+
+opacity: .5;
+
+}
+
+
+.filter-heading button:hover {
+
+opacity: 1;
+
+}
+
+
+/* ==========================================
+   FILTER SECTION
+========================================== */
+
+.filter-section {
+
+border-bottom: 1px solid rgba(255,255,255,.07);
+
+}
+
+
+.filter-section:last-child {
+
+border-bottom: 0;
+
+}
+
+
+/* ==========================================
+   FILTER TITLE
+========================================== */
+
+.filter-title {
+
+width: 100%;
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+padding: 17px 18px;
+
+border: 0;
+
+background: transparent;
+
+color: inherit;
+
+cursor: pointer;
+
+font-size: 12px;
+
+font-weight: 800;
+
+letter-spacing: 1px;
+
+}
+
+
+.filter-title > span {
+
+display: flex;
+
+align-items: center;
+
+gap: 9px;
+
+}
+
+
+.filter-title svg {
+
+width: 15px;
+
+height: 15px;
+
+opacity: .65;
+
+}
+
+
+.filter-arrow {
+
+transition: transform .25s ease;
+
+}
+
+
+.filter-title.open .filter-arrow {
+
+transform: rotate(180deg);
+
+}
+
+
+/* ==========================================
+   FILTER OPTIONS
+========================================== */
+
+.filter-options {
+
+max-height: 0;
+
+overflow: hidden;
+
+opacity: 0;
+
+padding: 0 10px;
+
+transition:
+max-height .3s ease,
+opacity .2s ease,
+padding .3s ease;
+
+}
+
+
+.filter-options.open {
+
+max-height: 900px;
+
+opacity: 1;
+
+padding: 4px 10px 13px;
+
+}
+
+
+/* ==========================================
+   FILTER BUTTON
+========================================== */
+
+.filter {
+
+width: 100%;
+
+display: flex;
+
+align-items: center;
+
+padding: 9px 10px;
+
+border: 0;
+
+border-radius: 8px;
+
+background: transparent;
+
+color: inherit;
+
+font-size: 13px;
+
+text-align: left;
+
+cursor: pointer;
+
+transition: .2s;
+
+}
+
+
+.filter:hover {
+
+background: rgba(255,255,255,.07);
+
+transform: translateX(2px);
+
+}
+
+
+.filter.active {
+
+background: rgba(255,255,255,.09);
+
+font-weight: 600;
+
+}
+
+
+.filter::before {
+
+content: "";
+
+width: 6px;
+
+height: 6px;
+
+min-width: 6px;
+
+border-radius: 50%;
+
+border: 1px solid rgba(255,255,255,.3);
+
+margin-right: 10px;
+
+}
+
+
+.filter.active::before {
+
+background: currentColor;
+
+border-color: currentColor;
+
+}
+
+
+/* ==========================================
+   CATEGORY EMOJI
+========================================== */
+
+.category-emoji {
+
+margin-right: 5px;
+
+font-size: 14px;
+
+}
+
+
+/* ==========================================
+   RIGHT CONTENT
+========================================== */
+
+.prompts-content {
+
+min-width: 0;
+
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+.prompts-search {
+
+display: flex;
+
+align-items: center;
+
+gap: 10px;
+
+height: 52px;
+
+padding: 0 8px 0 16px;
+
+border: 1px solid rgba(255,255,255,.1);
+
+border-radius: 13px;
+
+background: rgba(255,255,255,.035);
+
+margin-bottom: 20px;
+
+}
+
+
+.prompts-search svg {
+
+width: 18px;
+
+height: 18px;
+
+opacity: .5;
+
+}
+
+
+.prompts-search input {
+
+flex: 1;
+
+min-width: 0;
+
+height: 100%;
+
+border: 0;
+
+outline: 0;
+
+background: transparent;
+
+color: inherit;
+
+font-size: 14px;
+
+}
+
+
+.prompts-search button {
+
+height: 38px;
+
+padding: 0 18px;
+
+border: 0;
+
+border-radius: 9px;
+
+background: currentColor;
+
+color: #111;
+
+font-weight: 700;
+
+cursor: pointer;
+
+}
+
+
+/* ==========================================
+   TOOLBAR
+========================================== */
+
+.prompts-toolbar {
+
+display: flex;
+
+align-items: center;
+
+justify-content: space-between;
+
+margin-bottom: 20px;
+
+}
+
+
+.prompts-toolbar span {
+
+font-size: 13px;
+
+opacity: .6;
+
+}
+
+
+.prompts-toolbar strong {
+
+opacity: 1;
+
+}
+
+
+.prompts-toolbar select {
+
+padding: 9px 12px;
+
+border-radius: 9px;
+
+border: 1px solid rgba(255,255,255,.1);
+
+background: rgba(255,255,255,.04);
+
+color: inherit;
+
+outline: 0;
+
+}
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media(max-width:900px) {
+
+.prompts-layout {
+
+grid-template-columns: 210px minmax(0,1fr);
+
+gap: 20px;
+
+}
+
+}
+
+
+@media(max-width:700px) {
+
+.prompts-page {
+
+padding-top: 35px;
+
+}
+
+.prompts-header {
+
+align-items: flex-start;
+
+flex-direction: column;
+
+margin-bottom: 25px;
+
+}
+
+.prompts-layout {
+
+grid-template-columns: 1fr;
+
+}
+
+.prompt-filters {
+
+position: static;
+
+}
+
+.prompts-search {
+
+margin-top: 5px;
+
+}
+
+}
+
+
+@media(max-width:480px) {
+
+.prompts-toolbar {
+
+align-items: flex-start;
+
+flex-direction: column;
+
+gap: 12px;
+
+}
+
+.prompts-search button {
+
+padding: 0 13px;
+
+}
+
+}
+
+</style>
+
+
+<style>
+
+/* ==========================================
+   MOBILE FILTER EXPERIENCE — NEW
+   Desktop layout remains unchanged
+========================================== */
+.mobile-filter-bar,
+.mobile-filter-overlay{display:none}
+
+@media(max-width:700px){
+    .mobile-filter-bar{
+        display:flex;
+        gap:10px;
+        margin:0 0 16px;
+        position:sticky;
+        top:72px;
+        z-index:30;
+        padding:8px 0;
+        background:linear-gradient(to bottom, var(--bg, #0b0b0c) 72%, transparent);
+    }
+
+    .mobile-filter-trigger,
+    .mobile-sort-trigger{
+        min-height:44px;
+        border:1px solid rgba(255,255,255,.11);
+        border-radius:13px;
+        background:rgba(255,255,255,.055);
+        color:inherit;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        padding:0 14px;
+        font-size:12px;
+        font-weight:800;
+        cursor:pointer;
+        backdrop-filter:blur(18px);
+    }
+    .mobile-filter-trigger{flex:1}
+    .mobile-sort-trigger{width:105px}
+    .mobile-filter-trigger svg,.mobile-sort-trigger svg{width:16px;height:16px;opacity:.75}
+    .mobile-filter-trigger b{
+        min-width:20px;height:20px;padding:0 5px;
+        display:grid;place-items:center;
+        border-radius:999px;
+        background:currentColor;
+        color:#111;
+        font-size:10px;
+    }
+
+    .mobile-filter-overlay{
+        position:fixed;
+        inset:0;
+        z-index:9999;
+        display:block;
+        visibility:hidden;
+        pointer-events:none;
+    }
+    .mobile-filter-overlay.show{
+        visibility:visible;
+        pointer-events:auto;
+    }
+    .mobile-filter-backdrop{
+        position:absolute;
+        inset:0;
+        background:rgba(0,0,0,.68);
+        opacity:0;
+        transition:.25s;
+        backdrop-filter:blur(5px);
+    }
+    .mobile-filter-overlay.show .mobile-filter-backdrop{opacity:1}
+
+    .mobile-filter-sheet{
+        position:absolute;
+        left:0;right:0;bottom:0;
+        max-height:88vh;
+        display:flex;
+        flex-direction:column;
+        background:#111113;
+        border:1px solid rgba(255,255,255,.1);
+        border-bottom:0;
+        border-radius:24px 24px 0 0;
+        transform:translateY(100%);
+        transition:transform .3s cubic-bezier(.2,.8,.2,1);
+        box-shadow:0 -20px 70px rgba(0,0,0,.45);
+        overflow:hidden;
+    }
+    .mobile-filter-overlay.show .mobile-filter-sheet{transform:translateY(0)}
+
+    .mobile-sheet-head{
+        flex:none;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:20px 20px 14px;
+        border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .mobile-sheet-head span{
+        display:block;font-size:9px;font-weight:900;letter-spacing:1.5px;opacity:.42;margin-bottom:4px;
+    }
+    .mobile-sheet-head h3{margin:0;font-size:22px;letter-spacing:-.03em}
+    .mobile-sheet-head button{
+        width:38px;height:38px;border-radius:11px;border:1px solid rgba(255,255,255,.1);
+        background:rgba(255,255,255,.05);color:inherit;display:grid;place-items:center;
+    }
+    .mobile-sheet-head svg{width:17px}
+
+    .mobile-active-filters{
+        display:flex;gap:7px;overflow-x:auto;padding:12px 18px 4px;
+        scrollbar-width:none;
+    }
+    .mobile-active-filters::-webkit-scrollbar{display:none}
+    .mobile-active-filters span{
+        flex:none;padding:7px 10px;border-radius:999px;
+        background:rgba(255,255,255,.09);font-size:10px;font-weight:700;white-space:nowrap;
+    }
+
+    #mobileFilterContent{
+        overflow-y:auto;
+        padding:8px 14px 90px;
+        -webkit-overflow-scrolling:touch;
+    }
+    #mobileFilterContent .filter-section{
+        border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    #mobileFilterContent .filter-title{
+        padding:16px 6px;
+        font-size:11px;
+    }
+    #mobileFilterContent .filter-options{
+        max-height:0;padding:0 0;opacity:0;overflow:hidden;
+        transition:max-height .25s ease,opacity .2s ease,padding .25s ease;
+    }
+    #mobileFilterContent .filter-options.mobile-open{
+        max-height:360px;overflow-y:auto;opacity:1;padding:0 0 10px;
+    }
+    #mobileFilterContent .filter{
+        padding:11px 10px;border-radius:10px;font-size:13px;
+    }
+    #mobileFilterContent .filter.active{
+        background:rgba(255,255,255,.1);
+        box-shadow:inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+
+    .mobile-sheet-footer{
+        position:absolute;left:0;right:0;bottom:0;
+        display:flex;gap:10px;padding:12px 16px;
+        background:rgba(17,17,19,.94);
+        border-top:1px solid rgba(255,255,255,.08);
+        backdrop-filter:blur(18px);
+    }
+    .mobile-sheet-footer button{
+        height:46px;border-radius:12px;font-weight:800;font-size:12px;cursor:pointer;
+    }
+    #mobileClearFilters{
+        width:105px;border:1px solid rgba(255,255,255,.1);background:transparent;color:inherit;
+    }
+    #mobileApplyFilters{
+        flex:1;border:0;background:currentColor;color:#111;
+    }
+
+    /* Hide the desktop sidebar on phones; filters live in the bottom sheet. */
+    .prompt-filters{display:none}
+    .prompts-layout{display:block}
+    .prompts-page{padding:28px 0 70px}
+    .prompts-header h1{font-size:38px}
+    .prompts-header p{font-size:13px;line-height:1.5}
+}
+
+@media(min-width:701px){
+    .mobile-filter-bar,.mobile-filter-overlay{display:none!important}
+}
+
+/* ONLY NEW PAGINATION STYLES — EXISTING DESIGN/COLORS ARE NOT CHANGED */
+.prompt-pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin:30px 0 10px;flex-wrap:wrap}
+.pagination-pages{display:flex;align-items:center;gap:6px}
+.pagination-btn,.pagination-page{min-width:38px;height:38px;padding:0 12px;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:rgba(255,255,255,.04);color:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:.2s}
+.pagination-btn:hover,.pagination-page:hover{background:rgba(255,255,255,.08)}
+.pagination-page.active{background:currentColor;color:#111}
+.pagination-btn:disabled{opacity:.35;cursor:not-allowed}
+@media(max-width:480px){.prompt-pagination{gap:5px}.pagination-pages{gap:4px}.pagination-btn,.pagination-page{min-width:34px;height:34px;padding:0 8px;font-size:11px}}
+</style>
+
+{% endblock %}

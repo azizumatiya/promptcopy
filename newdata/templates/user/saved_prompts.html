@@ -1,0 +1,742 @@
+
+{% extends "base.html" %}
+
+{% block title %}Saved Prompts — PromptVerse{% endblock %}
+
+{% block content %}
+
+
+
+<style>
+    /* =========================================================
+       SAVED PROMPTS PAGE
+       ========================================================= */
+
+    .saved-prompts-page {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 50px 32px 80px;
+        box-sizing: border-box;
+    }
+
+    /* =========================================================
+       PAGE HEADER
+       ========================================================= */
+
+    .saved-page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 25px;
+        margin-bottom: 34px;
+    }
+
+    .saved-header-left {
+        min-width: 0;
+    }
+
+    .saved-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 11px;
+
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.8px;
+        color: #6366f1;
+    }
+
+    .saved-eyebrow::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.10);
+    }
+
+    .saved-page-header h1 {
+        margin: 0;
+
+        font-size: clamp(30px, 4vw, 42px);
+        line-height: 1.1;
+        font-weight: 800;
+        letter-spacing: -1.4px;
+
+        color: #f8faff;
+    }
+
+    .saved-page-header p {
+        margin: 11px 0 0;
+
+        font-size: 15px;
+        line-height: 1.6;
+        color: #6b7280;
+    }
+
+    /* =========================================================
+       SAVED COUNT
+       ========================================================= */
+
+    .saved-count {
+        flex-shrink: 0;
+
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 9px 14px;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 999px;
+
+        background: #ffffff;
+
+        font-size: 13px;
+        font-weight: 700;
+        color: #4b5563;
+
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    }
+
+    .saved-count-number {
+        min-width: 24px;
+        height: 24px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 7px;
+
+        background: #eef2ff;
+        color: #4f46e5;
+
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    /* =========================================================
+       PROMPT GRID
+       ========================================================= */
+
+    .saved-prompt-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+
+        gap: 24px;
+
+        width: 100%;
+    }
+
+    /* =========================================================
+       PROMPT CARD
+       ========================================================= */
+
+    .saved-prompt-card {
+        min-width: 0;
+
+        overflow: hidden;
+
+        background: #ffffff;
+
+        border: 1px solid #e7e9ee;
+        border-radius: 18px;
+
+        box-shadow:
+            0 5px 18px rgba(15, 23, 42, 0.04);
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease,
+            border-color 0.25s ease;
+    }
+
+    .saved-prompt-card:hover {
+        transform: translateY(-5px);
+
+        border-color: #d9dcff;
+
+        box-shadow:
+            0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+
+    /* =========================================================
+       IMAGE
+       ========================================================= */
+
+    .saved-prompt-image-link {
+        display: block;
+        position: relative;
+
+        width: 100%;
+        aspect-ratio: 16 / 10;
+
+        overflow: hidden;
+
+        background: #f3f4f6;
+    }
+
+    .saved-prompt-image {
+        width: 100%;
+        height: 100%;
+
+        display: block;
+
+        object-fit: cover;
+
+        transition:
+            transform 0.45s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .saved-prompt-card:hover .saved-prompt-image {
+        transform: scale(1.055);
+    }
+
+    /* Image overlay */
+
+    .saved-image-overlay {
+        position: absolute;
+        inset: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(17, 24, 39, 0.00);
+
+        opacity: 0;
+
+        transition:
+            opacity 0.25s ease,
+            background 0.25s ease;
+    }
+
+    .saved-prompt-card:hover .saved-image-overlay {
+        opacity: 1;
+        background: rgba(17, 24, 39, 0.18);
+    }
+
+    .view-prompt-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+
+        padding: 9px 14px;
+
+        border-radius: 9px;
+
+        background: rgba(255, 255, 255, 0.96);
+        color: #111827;
+
+        font-size: 12px;
+        font-weight: 800;
+
+        box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15);
+
+        transform: translateY(6px);
+        transition: transform 0.25s ease;
+    }
+
+    .saved-prompt-card:hover .view-prompt-btn {
+        transform: translateY(0);
+    }
+
+    /* =========================================================
+       CARD BODY
+       ========================================================= */
+
+    .saved-prompt-body {
+        padding: 18px 18px 19px;
+    }
+
+    /* =========================================================
+       META
+       ========================================================= */
+
+    .saved-prompt-meta {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+
+        margin-bottom: 11px;
+
+        min-width: 0;
+    }
+
+    .saved-meta-item {
+        max-width: 50%;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        padding: 5px 8px;
+
+        border-radius: 6px;
+
+        background: #f5f6f8;
+
+        color: #6b7280;
+
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .45px;
+    }
+
+    .saved-meta-item:first-child {
+        background: #eef2ff;
+        color: #4f46e5;
+    }
+
+    /* =========================================================
+       TITLE
+       ========================================================= */
+
+    .saved-prompt-title {
+        margin: 0 0 8px;
+
+        font-size: 17px;
+        line-height: 1.35;
+        font-weight: 800;
+        letter-spacing: -0.25px;
+
+        color: #111827;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* =========================================================
+       DESCRIPTION
+       ========================================================= */
+
+    .saved-prompt-description {
+        margin: 0 0 15px;
+
+        font-size: 13px;
+        line-height: 1.65;
+
+        color: #6b7280;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        min-height: 42px;
+    }
+
+    /* =========================================================
+       TAGS
+       ========================================================= */
+
+    .saved-prompt-tags {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+
+        padding-top: 14px;
+
+        border-top: 1px solid #f0f1f3;
+    }
+
+    .saved-prompt-tag {
+        max-width: 100%;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        padding: 5px 9px;
+
+        border-radius: 7px;
+
+        background: #f8fafc;
+        border: 1px solid #edf0f3;
+
+        color: #667085;
+
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    /* =========================================================
+       EMPTY STATE
+       ========================================================= */
+
+    .saved-empty-state {
+        grid-column: 1 / -1;
+
+        width: 100%;
+
+        min-height: 400px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        padding: 50px 25px;
+
+        box-sizing: border-box;
+
+        border: 1px dashed #d8dce5;
+        border-radius: 20px;
+
+        background:
+            linear-gradient(
+                180deg,
+                #ffffff 0%,
+                #fafbff 100%
+            );
+
+        text-align: center;
+    }
+
+    .saved-empty-icon {
+        width: 70px;
+        height: 70px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 20px;
+
+        border-radius: 18px;
+
+        background: #eef2ff;
+
+        font-size: 30px;
+
+        box-shadow:
+            0 10px 25px rgba(99, 102, 241, 0.10);
+    }
+
+    .saved-empty-state h3 {
+        margin: 0 0 8px;
+
+        font-size: 21px;
+        font-weight: 800;
+        color: #111827;
+    }
+
+    .saved-empty-state p {
+        max-width: 430px;
+
+        margin: 0 0 22px;
+
+        font-size: 14px;
+        line-height: 1.6;
+        color: #6b7280;
+    }
+
+    .saved-explore-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        min-height: 45px;
+
+        padding: 0 18px;
+
+        border-radius: 10px;
+
+        background: #6366f1;
+        color: #ffffff;
+
+        font-size: 13px;
+        font-weight: 800;
+
+        text-decoration: none;
+
+        box-shadow:
+            0 7px 18px rgba(99, 102, 241, 0.22);
+
+        transition:
+            transform .2s ease,
+            background .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .saved-explore-btn:hover {
+        background: #4f46e5;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 10px 24px rgba(99, 102, 241, 0.28);
+    }
+
+    /* =========================================================
+       TABLET
+       ========================================================= */
+
+    @media (max-width: 1150px) {
+
+        .saved-prompt-grid {
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 850px) {
+
+        .saved-prompts-page {
+            padding: 40px 22px 65px;
+        }
+
+        .saved-prompt-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 18px;
+        }
+
+        .saved-page-header {
+            align-items: flex-start;
+        }
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 600px) {
+
+        .saved-prompts-page {
+            padding: 30px 15px 55px;
+        }
+
+        .saved-page-header {
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .saved-page-header h1 {
+            font-size: 31px;
+        }
+
+        .saved-page-header p {
+            font-size: 14px;
+        }
+
+        .saved-count {
+            align-self: flex-start;
+        }
+
+        .saved-prompt-grid {
+            grid-template-columns: 1fr;
+            gap: 17px;
+        }
+
+        .saved-prompt-body {
+            padding: 16px;
+        }
+
+        .saved-prompt-title {
+            font-size: 16px;
+        }
+
+        .saved-empty-state {
+            min-height: 350px;
+            padding: 40px 18px;
+        }
+    }
+
+    @media (max-width: 380px) {
+
+        .saved-prompts-page {
+            padding-left: 11px;
+            padding-right: 11px;
+        }
+
+        .saved-page-header h1 {
+            font-size: 28px;
+        }
+
+        .saved-prompt-body {
+            padding: 15px;
+        }
+    }
+</style>
+
+
+<div class="saved-prompts-page">
+
+    <!-- PAGE HEADER -->
+    <div class="saved-page-header">
+
+        <div class="saved-header-left">
+
+            <div class="saved-eyebrow">
+                MY LIBRARY
+            </div>
+
+            <h1>
+                Saved Prompts
+            </h1>
+
+            <p>
+                Prompts you saved for later.
+            </p>
+
+        </div>
+
+
+        {% if prompts %}
+        <div class="saved-count">
+
+            <span class="saved-count-number">
+                {{ prompts|length }}
+            </span>
+
+            Saved Prompts
+
+        </div>
+        {% endif %}
+
+    </div>
+
+
+    <!-- PROMPT GRID -->
+    <div class="saved-prompt-grid">
+
+        {% for prompt in prompts %}
+
+        <article class="saved-prompt-card">
+
+            <!-- IMAGE -->
+            <a
+                href="{{ url_for('prompt_detail', pid=prompt._id) }}"
+                class="saved-prompt-image-link"
+            >
+
+                <img
+                    src="{{ prompt.image }}"
+                    alt="{{ prompt.title }}"
+                    class="saved-prompt-image"
+                    loading="lazy"
+                >
+
+                <div class="saved-image-overlay">
+
+                    <span class="view-prompt-btn">
+                        <i data-lucide="eye"></i>
+                        View Prompt
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- CARD CONTENT -->
+            <div class="saved-prompt-body">
+
+                <!-- META -->
+                <div class="saved-prompt-meta">
+
+                    {% if prompt.model %}
+                    <span class="saved-meta-item">
+                        {{ prompt.model }}
+                    </span>
+                    {% endif %}
+
+                    {% if prompt.prompt_type %}
+                    <span class="saved-meta-item">
+                        {{ prompt.prompt_type }}
+                    </span>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- TITLE -->
+                <h3 class="saved-prompt-title">
+                    {{ prompt.title }}
+                </h3>
+
+
+                <!-- DESCRIPTION -->
+                <p class="saved-prompt-description">
+                    {{ prompt.description or 'No description available for this prompt.' }}
+                </p>
+
+
+                <!-- TAGS -->
+                <div class="saved-prompt-tags">
+
+                    {% if prompt.use_case %}
+                    <span class="saved-prompt-tag">
+                        {{ prompt.use_case }}
+                    </span>
+                    {% endif %}
+
+                    {% if prompt.style %}
+                    <span class="saved-prompt-tag">
+                        {{ prompt.style }}
+                    </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% else %}
+
+        <!-- EMPTY STATE -->
+        <div class="saved-empty-state">
+
+            <div class="saved-empty-icon">
+                🔖
+            </div>
+
+            <h3>
+                No saved prompts
+            </h3>
+
+            <p>
+                Save prompts from Explore and they will appear
+                here so you can quickly access them later.
+            </p>
+
+            <a
+                href="{{ url_for('prompts') }}"
+                class="saved-explore-btn"
+            >
+                <i data-lucide="compass"></i>
+                Explore Prompts
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+<script>
+    /* Re-render Lucide icons if base.html uses Lucide */
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+</script>
+
+{% endblock %}
+ā

@@ -1,0 +1,869 @@
+{% extends "base.html" %}
+
+{% block title %}Categories — PromptVerse{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* ============================================================
+   ADMIN CATEGORIES — FULL WIDTH / WHITE / CLEAN
+   ============================================================ */
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   MAIN ADMIN LAYOUT
+   ============================================================ */
+
+.admin-layout {
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: 0 !important;
+
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: stretch !important;
+
+    background: #ffffff;
+
+    box-sizing: border-box !important;
+}
+
+
+/* ============================================================
+   LEFT SIDEBAR
+   ============================================================ */
+
+.admin-layout > :first-child {
+    flex: 0 0 260px !important;
+
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+
+    align-self: stretch !important;
+}
+
+.admin-layout > aside,
+.admin-layout > .admin-sidebar,
+.admin-layout > [class*="sidebar"] {
+    left: 0 !important;
+    margin-left: 0 !important;
+}
+
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+.admin-layout > .admin-main {
+    flex: 1 1 auto !important;
+
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+
+    padding: 30px 34px 60px !important;
+
+    background: #ffffff;
+
+    box-sizing: border-box !important;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.admin-main .admin-header {
+    width: 100% !important;
+    max-width: none !important;
+
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin: 0 0 28px;
+
+    box-sizing: border-box;
+}
+
+.admin-main .admin-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+    color: #7c3aed;
+}
+
+.admin-main .admin-header h1 {
+    margin: 0;
+
+    font-size: clamp(30px, 3vw, 42px);
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: -0.03em;
+
+    color: #111827;
+}
+
+.admin-main .admin-header p {
+    margin: 10px 0 0;
+
+    font-size: 15px;
+    line-height: 1.6;
+
+    color: #6b7280;
+}
+
+
+/* ============================================================
+   ADMIN CARD
+   ============================================================ */
+
+.admin-main .admin-card {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    margin: 0 0 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.03),
+        0 8px 30px rgba(15, 23, 42, 0.04);
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   CARD HEADER
+   ============================================================ */
+
+.admin-main .card-header {
+    width: 100%;
+
+    padding: 22px 24px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #eef0f3;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+}
+
+.admin-main .card-header small {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 0.14em;
+
+    color: #8b5cf6;
+}
+
+.admin-main .card-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    line-height: 1.3;
+
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+
+    color: #111827;
+}
+
+
+/* ============================================================
+   CARD BODY
+   ============================================================ */
+
+.admin-main .card-body {
+    padding: 24px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   CATEGORY FORM
+   ============================================================ */
+
+.category-form {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        110px
+        auto;
+
+    gap: 12px;
+
+    align-items: center;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   FORM INPUTS
+   ============================================================ */
+
+.category-form input {
+    width: 100%;
+    min-width: 0;
+
+    height: 48px;
+
+    padding: 0 15px;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.category-form input::placeholder {
+    color: #9ca3af;
+}
+
+.category-form input:hover {
+    border-color: #cfd4dc;
+}
+
+.category-form input:focus {
+    border-color: #8b5cf6;
+
+    box-shadow:
+        0 0 0 3px rgba(139, 92, 246, 0.10);
+
+    background: #ffffff;
+}
+
+
+/* ============================================================
+   PRIMARY BUTTON
+   ============================================================ */
+
+.category-form .admin-primary-btn {
+    height: 48px;
+
+    padding: 0 20px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background: #111827;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.category-form .admin-primary-btn:hover {
+    background: #000000;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px rgba(17, 24, 39, 0.14);
+}
+
+.category-form .admin-primary-btn:active {
+    transform: translateY(0);
+}
+
+
+/* ============================================================
+   CATEGORY GRID
+   ============================================================ */
+
+.category-grid {
+    width: 100%;
+
+    padding: 24px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   CATEGORY CARD
+   ============================================================ */
+
+.category-card {
+    min-width: 0;
+
+    min-height: 76px;
+
+    padding: 14px 15px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 13px;
+
+    box-sizing: border-box;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #d8ccff;
+
+    box-shadow:
+        0 8px 24px rgba(15, 23, 42, 0.07);
+}
+
+
+/* ============================================================
+   CATEGORY LEFT SIDE
+   ============================================================ */
+
+.category-card > div {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.category-emoji {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #f5f3ff;
+
+    font-size: 20px;
+
+    border: 1px solid #ede9fe;
+}
+
+.category-card strong {
+    min-width: 0;
+
+    display: block;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    color: #1f2937;
+}
+
+
+/* ============================================================
+   DELETE BUTTON
+   ============================================================ */
+
+.category-card form {
+    margin: 0;
+
+    flex: 0 0 auto;
+}
+
+.delete-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #9ca3af;
+
+    font-size: 21px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.delete-icon:hover {
+    background: #fef2f2;
+
+    border-color: #fecaca;
+
+    color: #dc2626;
+
+    transform: scale(1.05);
+}
+
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.category-grid .empty {
+    grid-column: 1 / -1;
+
+    padding: 45px 20px;
+
+    text-align: center;
+
+    border: 1px dashed #d1d5db;
+
+    border-radius: 13px;
+
+    background: #fafafa;
+
+    color: #9ca3af;
+
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1200px) {
+
+    .category-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* ============================================================
+   900px
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .admin-layout {
+        width: 100vw !important;
+
+        margin-left: 0 !important;
+
+        display: block !important;
+    }
+
+    .admin-layout > :first-child {
+        width: 100% !important;
+
+        min-width: 0 !important;
+
+        max-width: none !important;
+
+        flex: none !important;
+    }
+
+    .admin-layout > .admin-main {
+        width: 100% !important;
+
+        max-width: none !important;
+
+        min-width: 0 !important;
+
+        padding: 24px 20px 45px !important;
+    }
+
+    .category-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 650px) {
+
+    .admin-layout > .admin-main {
+        padding: 18px 14px 35px !important;
+    }
+
+    .admin-main .admin-header {
+        margin-bottom: 20px;
+    }
+
+    .admin-main .admin-header h1 {
+        font-size: 30px;
+    }
+
+    .admin-main .admin-header p {
+        font-size: 14px;
+    }
+
+    .admin-main .card-header {
+        padding: 18px;
+    }
+
+    .admin-main .card-header h2 {
+        font-size: 18px;
+    }
+
+    .admin-main .card-body {
+        padding: 18px;
+    }
+
+    .category-form {
+        grid-template-columns: 1fr;
+    }
+
+    .category-form input {
+        height: 46px;
+    }
+
+    .category-form .admin-primary-btn {
+        width: 100%;
+        height: 46px;
+    }
+
+    .category-grid {
+        padding: 18px;
+
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+    .category-card {
+        min-height: 70px;
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 400px) {
+
+    .admin-layout > .admin-main {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .admin-main .card-header {
+        padding: 16px;
+    }
+
+    .admin-main .card-body {
+        padding: 16px;
+    }
+
+    .category-grid {
+        padding: 16px;
+    }
+
+}
+
+</style>
+
+
+<div class="admin-layout">
+
+    {% include "admin/sidebar.html" %}
+
+
+    <main class="admin-main">
+
+
+        <!-- ====================================================
+             HEADER
+             ==================================================== -->
+
+        <header class="admin-header">
+
+            <div>
+
+                <span class="admin-eyebrow">
+                    ORGANIZATION
+                </span>
+
+                <h1>
+                    Categories
+                </h1>
+
+                <p>
+                    Create and manage prompt categories.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ====================================================
+             ADD CATEGORY
+             ==================================================== -->
+
+        <section class="admin-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <small>
+                        NEW CATEGORY
+                    </small>
+
+                    <h2>
+                        Add Category
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <form method="POST" action="{{ url_for('admin_categories') }}">
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Category name"
+                        autocomplete="off"
+                        required
+                    >
+
+
+                    <input
+                        type="text"
+                        name="emoji"
+                        value="✨"
+                        maxlength="4"
+                        aria-label="Category emoji"
+                    >
+
+
+                    <button
+                        class="admin-primary-btn"
+                        type="submit"
+                    >
+                        Add Category
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- ====================================================
+             MANAGE CATEGORIES
+             ==================================================== -->
+
+        <section class="admin-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <small>
+                        ALL CATEGORIES
+                    </small>
+
+                    <h2>
+                        Manage Categories
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="category-grid">
+
+                {% for c in categories %}
+
+                    {% if c is mapping %}
+
+                        <div class="category-card">
+
+                            <div>
+
+                                <span class="category-emoji">
+                                    {{ c['emoji'] }}
+                                </span>
+
+                                <strong>
+                                    {{ c['name'] }}
+                                </strong>
+
+                            </div>
+
+
+                            <form method="POST"
+      action="{{ url_for('admin_delete_category', cid=c['_id']) }}">
+
+                                <button
+                                    class="delete-icon"
+                                    type="submit"
+                                    aria-label="Delete {{ c['name'] }}"
+                                    title="Delete category"
+                                >
+                                    ×
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <div class="empty">
+                        No categories found.
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+{% endblock %}

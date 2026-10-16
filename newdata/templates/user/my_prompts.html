@@ -1,0 +1,709 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}My Prompts — PromptVerse{% endblock %}
+
+{% block content %}
+
+
+
+<style>
+
+/* =========================================================
+   MY PROMPTS — SIMPLE ADMIN STYLE
+   ========================================================= */
+
+.user-page {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+
+/* ================= HEADER ================= */
+
+.user-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.dashboard-eyebrow {
+    margin-bottom: 6px;
+    color: #8b5cf6;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.user-page-header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.user-page-header p {
+    margin: 6px 0 0;
+    color: #8b8f9c;
+    font-size: 14px;
+}
+
+
+/* ================= ADD BUTTON ================= */
+
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    padding: 10px 17px;
+
+    border-radius: 8px;
+
+    background: #8b5cf6;
+    color: #ffffff !important;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    border: 1px solid #8b5cf6;
+
+    transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+    background: #7c4ee8;
+}
+
+
+/* ================= TABLE CONTAINER ================= */
+
+.prompt-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.025);
+}
+
+
+/* ================= TABLE ================= */
+
+.prompt-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 900px;
+}
+
+
+/* ================= TABLE HEADER ================= */
+
+.prompt-table thead {
+    background: rgba(255,255,255,0.04);
+}
+
+.prompt-table th {
+    padding: 14px 16px;
+
+    text-align: left;
+
+    color: #999eab;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: .7px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    white-space: nowrap;
+}
+
+
+/* ================= TABLE ROW ================= */
+
+.prompt-table tbody tr {
+    transition: background .15s ease;
+}
+
+.prompt-table tbody tr:hover {
+    background: rgba(255,255,255,0.025);
+}
+
+.prompt-table td {
+    padding: 14px 16px;
+
+    color: #d9dbe2;
+
+    font-size: 13px;
+
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+
+    vertical-align: middle;
+}
+
+.prompt-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* ================= PROMPT INFO ================= */
+
+.prompt-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 240px;
+}
+
+.prompt-image {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 7px;
+
+    background: #181a21;
+
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.prompt-title {
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    line-height: 1.3;
+
+    max-width: 230px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+.prompt-description {
+    margin-top: 4px;
+
+    color: #777d8b;
+
+    font-size: 11px;
+
+    max-width: 230px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* ================= BADGES ================= */
+
+.type-badge,
+.model-badge,
+.tag-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.type-badge {
+    background: rgba(139,92,246,0.10);
+
+    color: #b99cff;
+
+    border: 1px solid rgba(139,92,246,0.16);
+}
+
+.model-badge {
+    background: rgba(255,255,255,0.05);
+
+    color: #b7bbc5;
+
+    border: 1px solid rgba(255,255,255,0.07);
+}
+
+.tag-badge {
+    background: rgba(255,255,255,0.04);
+
+    color: #aeb3be;
+
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+
+/* ================= ACTIONS ================= */
+
+.actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    white-space: nowrap;
+}
+
+.small-btn,
+.small-danger {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    height: 32px;
+
+    padding: 0 11px;
+
+    border-radius: 6px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    transition: .15s ease;
+}
+
+
+/* EDIT */
+
+.small-btn {
+    color: #c5b5ff !important;
+
+    background: rgba(139,92,246,.08);
+
+    border: 1px solid rgba(139,92,246,.17);
+}
+
+.small-btn:hover {
+    background: rgba(139,92,246,.16);
+}
+
+
+/* DELETE */
+
+.small-danger {
+    color: #ff9b9b;
+
+    background: rgba(239,68,68,.07);
+
+    border: 1px solid rgba(239,68,68,.15);
+}
+
+.small-danger:hover {
+    background: rgba(239,68,68,.14);
+}
+
+
+/* ================= EMPTY ================= */
+
+.empty-dashboard {
+    padding: 70px 30px;
+
+    text-align: center;
+
+    color: #8b8f9c;
+}
+
+.empty-icon {
+    margin-bottom: 12px;
+
+    font-size: 28px;
+
+    color: #8b5cf6;
+}
+
+.empty-dashboard h3 {
+    margin: 0 0 7px;
+
+    color: #ffffff;
+
+    font-size: 18px;
+}
+
+.empty-dashboard p {
+    margin: 0 0 20px;
+
+    font-size: 13px;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 700px) {
+
+    .user-page {
+        padding: 22px 15px;
+    }
+
+    .user-page-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+    .user-page-header h1 {
+        font-size: 26px;
+    }
+
+    .primary-btn {
+        width: 100%;
+    }
+
+}
+
+</style>
+
+
+<div class="user-page">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="user-page-header">
+
+        <div>
+
+            <div class="dashboard-eyebrow">
+                MY CONTENT
+            </div>
+
+            <h1>
+                My Prompts
+            </h1>
+
+            <p>
+                Manage all prompts you have published.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('user_add_prompt') }}"
+            class="primary-btn"
+        >
+            + Add Prompt
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         PROMPTS
+    ====================================================== -->
+
+    {% if prompts %}
+
+    <div class="prompt-table-wrapper">
+
+        <table class="prompt-table">
+
+
+            <!-- ================= HEADER ================= -->
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Prompt
+                    </th>
+
+                    <th>
+                        Content Type
+                    </th>
+
+                    <th>
+                        Model
+                    </th>
+
+                    <th>
+                        Use Case
+                    </th>
+
+                    <th>
+                        Style
+                    </th>
+
+                    <th>
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <!-- ================= BODY ================= -->
+
+            <tbody>
+
+                {% for prompt in prompts %}
+
+                <tr>
+
+
+                    <!-- PROMPT -->
+
+                    <td>
+
+                        <div class="prompt-info">
+
+                            <a
+                                href="{{ url_for('prompt_detail', pid=prompt._id) }}"
+                            >
+
+                                <img
+                                    src="{{ prompt.image }}"
+                                    alt="{{ prompt.title }}"
+                                    class="prompt-image"
+                                    loading="lazy"
+                                >
+
+                            </a>
+
+
+                            <div>
+
+                                <div class="prompt-title">
+                                    {{ prompt.title }}
+                                </div>
+
+                                <div class="prompt-description">
+                                    {{ prompt.description or 'No description' }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- CONTENT TYPE -->
+
+                    <td>
+
+                        <span class="type-badge">
+
+                            {% set ptype = prompt.prompt_type|lower %}
+
+                            {% if ptype in ['image', 'images'] %}
+                                🖼️ Image
+
+                            {% elif ptype == 'video' %}
+                                🎬 Video
+
+                            {% elif ptype in ['slides', 'slide'] %}
+                                📊 Slides
+
+                            {% elif ptype in ['sheet', 'sheets'] %}
+                                📑 Sheet
+
+                            {% elif ptype == 'webpage' %}
+                                🌐 Webpage
+
+                            {% elif ptype == 'document' %}
+                                📄 Document
+
+                            {% else %}
+                                {{ prompt.prompt_type|capitalize }}
+                            {% endif %}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- MODEL -->
+
+                    <td>
+
+                        <span class="model-badge">
+                            {{ prompt.model }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- USE CASE -->
+
+                    <td>
+
+                        {% if prompt.use_case %}
+
+                        <span class="tag-badge">
+                            {{ prompt.use_case }}
+                        </span>
+
+                        {% else %}
+
+                        <span style="color:#666;">
+                            —
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- STYLE -->
+
+                    <td>
+
+                        {% if prompt.style %}
+
+                        <span class="tag-badge">
+                            {{ prompt.style }}
+                        </span>
+
+                        {% else %}
+
+                        <span style="color:#666;">
+                            —
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- ACTIONS -->
+
+                    <td>
+
+                        <div class="actions">
+
+
+                            <a
+                                href="{{ url_for('user_edit_prompt', pid=prompt._id) }}"
+                                class="small-btn"
+                            >
+                                Edit
+                            </a>
+
+
+                            <form
+                                method="POST"
+                                action="{{ url_for('user_delete_prompt', pid=prompt._id) }}"
+                                onsubmit="return confirm('Delete this prompt?')"
+                                style="margin:0;"
+                            >
+
+                                <button
+                                    type="submit"
+                                    class="small-danger"
+                                >
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- =====================================================
+         EMPTY STATE
+    ====================================================== -->
+
+    <div class="prompt-table-wrapper">
+
+        <div class="empty-dashboard">
+
+            <div class="empty-icon">
+                ✦
+            </div>
+
+            <h3>
+                No prompts found
+            </h3>
+
+            <p>
+                Start creating your first prompt.
+            </p>
+
+            <a
+                href="{{ url_for('user_add_prompt') }}"
+                class="primary-btn"
+            >
+                Create Prompt
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+{% endblock %}
+```
+
+આ design **admin dashboard જેવી simple table UI** છે—દરેક prompt એક row માં આવશે અને વધારે space પણ નહીં લે.
+
+તમારા `prompt_type` માટે મેં **Image / Video / Slides / Sheet / Webpage / Document** બધું support કર્યું છે, એટલે નવા content types ઉમેર્યા પછી પણ display clean રહેશે.

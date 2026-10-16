@@ -1,0 +1,446 @@
+{% extends "base.html" %}
+
+{% block title %}My Library — PromptVerse{% endblock %}
+
+{% block content %}
+<style>
+    /* ===================== LIBRARY PAGE ===================== */
+
+.library-hero {
+    padding: 60px 0 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.library-hero-content small {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: #a78bfa;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.library-hero-content h1 {
+    font-size: 36px;
+    margin: 0 0 8px;
+    font-weight: 700;
+}
+
+.library-hero-content p {
+    color: #94a3b8;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* Tabs */
+.library-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 30px 0 28px;
+    background: rgba(255,255,255,0.03);
+    padding: 6px;
+    border-radius: 14px;
+    width: fit-content;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+.library-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.library-tab i {
+    width: 16px;
+    height: 16px;
+}
+
+.library-tab .tab-count {
+    background: rgba(255,255,255,0.08);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+.library-tab:hover {
+    color: #e2e8f0;
+    background: rgba(255,255,255,0.05);
+}
+
+.library-tab.active {
+    background: #a78bfa;
+    color: white;
+}
+
+.library-tab.active .tab-count {
+    background: rgba(255,255,255,0.25);
+}
+
+/* Panels */
+.library-panel {
+    display: none;
+}
+
+.library-panel.active {
+    display: block;
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Grid & Cards */
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.library-card {
+    background: #111827;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.library-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(167, 139, 250, 0.45);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.35);
+}
+
+.library-card-image {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+}
+
+.library-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.library-card:hover .library-card-image img {
+    transform: scale(1.06);
+}
+
+.library-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.library-card:hover .library-card-overlay {
+    opacity: 1;
+}
+
+.view-btn {
+    background: white;
+    color: #0f172a;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.library-card-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.library-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+.library-card-meta .badge {
+    background: rgba(167, 139, 250, 0.15);
+    color: #c4b5fd;
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+
+.library-card-meta .model {
+    color: #64748b;
+}
+
+.library-card-body h3 {
+    font-size: 15px;
+    margin: 0 0 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.library-card-stats {
+    display: flex;
+    gap: 14px;
+    margin-top: auto;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.library-card-stats span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.library-card-stats i {
+    width: 14px;
+    height: 14px;
+}
+
+/* Empty State */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(255,255,255,0.02);
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 16px;
+}
+
+.empty-state i {
+    width: 42px;
+    height: 42px;
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.empty-state p {
+    color: #64748b;
+    margin: 0 0 20px;
+}
+
+.empty-state .btn {
+    display: inline-flex;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #a78bfa;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .library-tabs {
+        width: 100%;
+        overflow-x: auto;
+    }
+    
+    .library-tab {
+        flex: 1;
+        justify-content: center;
+        padding: 10px 12px;
+    }
+    
+    .library-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<section class="library-hero">
+    <div class="wrap">
+        <div class="library-hero-content">
+            <small>PERSONAL SPACE</small>
+            <h1>My Library</h1>
+            <p>Your saved, liked and recently viewed prompts — all in one place.</p>
+        </div>
+    </div>
+</section>
+
+<section class="library-page">
+    <div class="wrap">
+
+        <!-- ===================== TABS ===================== -->
+        <div class="library-tabs">
+            <button class="library-tab active" data-tab="saved">
+                <i data-lucide="bookmark"></i>
+                <span>Saved</span>
+                <span class="tab-count">{{ saved|length }}</span>
+            </button>
+
+            <button class="library-tab" data-tab="liked">
+                <i data-lucide="heart"></i>
+                <span>Liked</span>
+                <span class="tab-count">{{ liked|length }}</span>
+            </button>
+
+            <button class="library-tab" data-tab="recent">
+                <i data-lucide="clock"></i>
+                <span>Recent</span>
+                <span class="tab-count">{{ recent|length }}</span>
+            </button>
+        </div>
+
+        <!-- ===================== SAVED ===================== -->
+        <div class="library-panel active" id="panel-saved">
+            <div class="library-grid">
+                {% for p in saved %}
+                <a class="library-card" href="{{ url_for('prompt_detail', pid=p['_id']) }}">
+                    <div class="library-card-image">
+                        <img src="{{ p['image'] }}" alt="{{ p['title'] }}" loading="lazy">
+                        <div class="library-card-overlay">
+                            <span class="view-btn">View Prompt</span>
+                        </div>
+                    </div>
+                    <div class="library-card-body">
+                        <div class="library-card-meta">
+                            <span class="badge">{{ p.get('category', '') }}</span>
+                            <span class="model">{{ p.get('model', '') }}</span>
+                        </div>
+                        <h3>{{ p['title'] }}</h3>
+                        <div class="library-card-stats">
+                            <span><i data-lucide="heart"></i> {{ p.get('likes', 0) }}</span>
+                            <span><i data-lucide="eye"></i> {{ p.get('views', 0) }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% else %}
+                <div class="empty-state">
+                    <i data-lucide="bookmark"></i>
+                    <h3>No saved prompts yet</h3>
+                    <p>Save prompts you like and they’ll appear here.</p>
+                    <a href="{{ url_for('index') }}#explore" class="btn primary">Explore Prompts</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- ===================== LIKED ===================== -->
+        <div class="library-panel" id="panel-liked">
+            <div class="library-grid">
+                {% for p in liked %}
+                <a class="library-card" href="{{ url_for('prompt_detail', pid=p['_id']) }}">
+                    <div class="library-card-image">
+                        <img src="{{ p['image'] }}" alt="{{ p['title'] }}" loading="lazy">
+                        <div class="library-card-overlay">
+                            <span class="view-btn">View Prompt</span>
+                        </div>
+                    </div>
+                    <div class="library-card-body">
+                        <div class="library-card-meta">
+                            <span class="badge">{{ p.get('category', '') }}</span>
+                            <span class="model">{{ p.get('model', '') }}</span>
+                        </div>
+                        <h3>{{ p['title'] }}</h3>
+                        <div class="library-card-stats">
+                            <span><i data-lucide="heart"></i> {{ p.get('likes', 0) }}</span>
+                            <span><i data-lucide="eye"></i> {{ p.get('views', 0) }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% else %}
+                <div class="empty-state">
+                    <i data-lucide="heart"></i>
+                    <h3>No liked prompts yet</h3>
+                    <p>Like prompts and they’ll show up here.</p>
+                    <a href="{{ url_for('index') }}#explore" class="btn primary">Explore Prompts</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- ===================== RECENT ===================== -->
+        <div class="library-panel" id="panel-recent">
+            <div class="library-grid">
+                {% for p in recent %}
+                <a class="library-card" href="{{ url_for('prompt_detail', pid=p['_id']) }}">
+                    <div class="library-card-image">
+                        <img src="{{ p['image'] }}" alt="{{ p['title'] }}" loading="lazy">
+                        <div class="library-card-overlay">
+                            <span class="view-btn">View Prompt</span>
+                        </div>
+                    </div>
+                    <div class="library-card-body">
+                        <div class="library-card-meta">
+                            <span class="badge">{{ p.get('category', '') }}</span>
+                            <span class="model">{{ p.get('model', '') }}</span>
+                        </div>
+                        <h3>{{ p['title'] }}</h3>
+                        <div class="library-card-stats">
+                            <span><i data-lucide="heart"></i> {{ p.get('likes', 0) }}</span>
+                            <span><i data-lucide="eye"></i> {{ p.get('views', 0) }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% else %}
+                <div class="empty-state">
+                    <i data-lucide="clock"></i>
+                    <h3>No viewing history yet</h3>
+                    <p>Prompts you view will appear here.</p>
+                    <a href="{{ url_for('index') }}#explore" class="btn primary">Explore Prompts</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Tab switching
+    document.querySelectorAll('.library-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active from all tabs
+            document.querySelectorAll('.library-tab').forEach(t => t.classList.remove('active'));
+            // Hide all panels
+            document.querySelectorAll('.library-panel').forEach(p => p.classList.remove('active'));
+
+            // Activate clicked tab
+            tab.classList.add('active');
+
+            // Show corresponding panel
+            const target = tab.getAttribute('data-tab');
+            document.getElementById('panel-' + target).classList.add('active');
+        });
+    });
+
+    // Lucide icons
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+</script>
+{% endblock %}

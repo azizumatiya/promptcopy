@@ -1,0 +1,3705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PromptVerse — Find Your Next Great Prompt</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================================================
+           ROOT
+        ========================================================= */
+
+        :root {
+
+            --black: #0b0d0c;
+            --black-2: #111412;
+            --black-3: #171b18;
+
+            --white: #f8faf7;
+            --white-soft: #d9ded9;
+            --muted: #8c958e;
+
+            --line: rgba(255,255,255,.10);
+
+            --lime: #d8ff65;
+            --lime-dark: #a7cf3e;
+
+            --orange: #ff9b5c;
+            --blue: #6eb7ff;
+            --pink: #ff7eb6;
+            --purple: #a995ff;
+
+            --card: #141815;
+
+            --radius-xl: 30px;
+            --radius-lg: 22px;
+            --radius-md: 16px;
+
+            --container: 1280px;
+
+        }
+
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+
+            background: var(--black);
+
+            color: var(--white);
+
+            font-family: "DM Sans", sans-serif;
+
+            line-height: 1.5;
+
+            overflow-x: hidden;
+
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+
+        .container {
+
+            width: min(
+                var(--container),
+                calc(100% - 50px)
+            );
+
+            margin-inline: auto;
+
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .navbar {
+
+            height: 78px;
+
+            border-bottom:
+                1px solid var(--line);
+
+            background:
+                rgba(11,13,12,.78);
+
+            backdrop-filter:
+                blur(20px);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+        }
+
+
+        .nav-inner {
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .logo-symbol {
+
+            width: 35px;
+            height: 35px;
+
+            border-radius: 10px;
+
+            background: var(--lime);
+
+            color: var(--black);
+
+            display: grid;
+
+            place-items: center;
+
+            font-family:
+                "Space Grotesk";
+
+            font-weight: 700;
+
+        }
+
+
+        .logo-name {
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            letter-spacing: -.05em;
+
+        }
+
+
+        .nav-center {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+
+        }
+
+
+        .nav-center a {
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            transition: .2s;
+
+        }
+
+
+        .nav-center a:hover {
+
+            color: var(--white);
+
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .nav-login {
+
+            border: 0;
+
+            background: transparent;
+
+            color: var(--muted);
+
+            padding: 10px 14px;
+
+        }
+
+
+        .nav-button {
+
+            border: 0;
+
+            background: var(--lime);
+
+            color: var(--black);
+
+            border-radius: 10px;
+
+            padding: 10px 16px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: .2s;
+
+        }
+
+
+        .nav-button:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px
+                rgba(216,255,101,.15);
+
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+
+            min-height: 690px;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            border-bottom:
+                1px solid var(--line);
+
+        }
+
+
+        .hero-grid {
+
+            position: absolute;
+
+            inset: 0;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 70px 70px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent
+                );
+
+            pointer-events: none;
+
+        }
+
+
+        .hero-glow {
+
+            position: absolute;
+
+            width: 600px;
+            height: 600px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(216,255,101,.11),
+                    transparent 70%
+                );
+
+            left: 50%;
+            top: 40%;
+
+            transform:
+                translate(-50%,-50%);
+
+            pointer-events: none;
+
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            text-align: center;
+
+            max-width: 950px;
+
+            margin-inline: auto;
+
+        }
+
+
+        .hero-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                7px 11px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 999px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            color: #aeb7af;
+
+            font-size: 11px;
+
+            letter-spacing: .08em;
+
+            font-weight: 700;
+
+        }
+
+
+        .hero-badge span {
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: var(--lime);
+
+            box-shadow:
+                0 0 10px
+                var(--lime);
+
+        }
+
+
+        .hero h1 {
+
+            margin-top: 25px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size:
+                clamp(54px, 7vw, 94px);
+
+            line-height: .94;
+
+            letter-spacing: -.075em;
+
+        }
+
+
+        .hero h1 em {
+
+            font-style: normal;
+
+            color: var(--lime);
+
+        }
+
+
+        .hero-description {
+
+            max-width: 610px;
+
+            margin:
+                25px auto 0;
+
+            color: var(--muted);
+
+            font-size: 16px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* =========================================================
+           COMMAND SEARCH
+        ========================================================= */
+
+        .command {
+
+            width: min(
+                760px,
+                100%
+            );
+
+            margin:
+                35px auto 0;
+
+            position: relative;
+
+        }
+
+
+        .command-box {
+
+            min-height: 74px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 8px;
+
+            border:
+                1px solid
+                rgba(216,255,101,.22);
+
+            border-radius: 17px;
+
+            background:
+                rgba(22,27,23,.94);
+
+            box-shadow:
+
+                0 0 0 5px
+                rgba(216,255,101,.025),
+
+                0 30px 90px
+                rgba(0,0,0,.35);
+
+        }
+
+
+        .command-icon {
+
+            width: 48px;
+            height: 48px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 12px;
+
+            color: var(--lime);
+
+            background:
+                rgba(216,255,101,.08);
+
+            font-size: 21px;
+
+        }
+
+
+        .command-box input {
+
+            flex: 1;
+
+            min-width: 0;
+
+            background: transparent;
+
+            border: 0;
+
+            outline: 0;
+
+            color: white;
+
+            font-size: 15px;
+
+        }
+
+
+        .command-box input::placeholder {
+
+            color: #737c74;
+
+        }
+
+
+        .command-submit {
+
+            height: 52px;
+
+            padding:
+                0 20px;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            background: var(--lime);
+
+            color: var(--black);
+
+            font-weight: 700;
+
+            font-size: 13px;
+
+        }
+
+
+        .command-suggestions {
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin-top: 13px;
+
+        }
+
+
+        .suggestion {
+
+            border:
+                1px solid var(--line);
+
+            background:
+                rgba(255,255,255,.025);
+
+            color: #7f8981;
+
+            border-radius: 7px;
+
+            padding:
+                5px 9px;
+
+            font-size: 11px;
+
+        }
+
+
+        .suggestion:hover {
+
+            color: var(--white);
+
+            border-color:
+                rgba(216,255,101,.25);
+
+        }
+
+
+        /* =========================================================
+           TOOL FILTER
+        ========================================================= */
+
+        .tool-row {
+
+            margin-top: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .tool-label {
+
+            color: #697169;
+
+            font-size: 11px;
+
+            margin-right: 5px;
+
+        }
+
+
+        .tool {
+
+            border:
+                1px solid var(--line);
+
+            background:
+                rgba(255,255,255,.025);
+
+            color: #9aa39b;
+
+            border-radius: 999px;
+
+            padding:
+                7px 12px;
+
+            font-size: 11px;
+
+        }
+
+
+        .tool.active {
+
+            background:
+                rgba(216,255,101,.09);
+
+            color: var(--lime);
+
+            border-color:
+                rgba(216,255,101,.25);
+
+        }
+
+
+        /* =========================================================
+           STATS
+        ========================================================= */
+
+        .stats {
+
+            border-bottom:
+                1px solid var(--line);
+
+        }
+
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+        }
+
+
+        .stat {
+
+            padding:
+                30px 25px;
+
+            border-right:
+                1px solid var(--line);
+
+            text-align: center;
+
+        }
+
+
+        .stat:last-child {
+
+            border-right: 0;
+
+        }
+
+
+        .stat-number {
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+        }
+
+
+        .stat-label {
+
+            margin-top: 3px;
+
+            color: #707970;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =========================================================
+           GENERAL SECTION
+        ========================================================= */
+
+        .section {
+
+            padding:
+                110px 0;
+
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            margin-bottom: 38px;
+
+        }
+
+
+        .eyebrow {
+
+            color: #788279;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: .13em;
+
+        }
+
+
+        .section-title {
+
+            margin-top: 8px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size:
+                clamp(35px, 4vw, 52px);
+
+            letter-spacing: -.06em;
+
+            line-height: 1;
+
+        }
+
+
+        .section-description {
+
+            margin-top: 12px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            max-width: 490px;
+
+        }
+
+
+        .view-link {
+
+            color: var(--lime);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            border-bottom:
+                1px solid
+                rgba(216,255,101,.4);
+
+            padding-bottom: 3px;
+
+        }
+
+
+        /* =========================================================
+           TRENDING GRID
+        ========================================================= */
+
+        .prompt-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .prompt-card {
+
+            background:
+                var(--card);
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius-lg);
+
+            padding: 22px;
+
+            min-height: 360px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition:
+                transform .25s,
+                border-color .25s,
+                box-shadow .25s;
+
+        }
+
+
+        .prompt-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            right: -100px;
+            top: -100px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(216,255,101,.06);
+
+        }
+
+
+        .prompt-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            border-color:
+                rgba(216,255,101,.2);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,.3);
+
+        }
+
+
+        .prompt-meta {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+
+        .prompt-category {
+
+            display: inline-flex;
+
+            padding:
+                6px 9px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(216,255,101,.08);
+
+            color: var(--lime);
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            letter-spacing: .06em;
+
+        }
+
+
+        .save-button {
+
+            width: 31px;
+            height: 31px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 8px;
+
+            background:
+                transparent;
+
+            color: #707970;
+
+        }
+
+
+        .save-button.saved {
+
+            color: var(--lime);
+
+            border-color:
+                rgba(216,255,101,.3);
+
+        }
+
+
+        .prompt-card h3 {
+
+            margin-top: 24px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 22px;
+
+            line-height: 1.12;
+
+            letter-spacing: -.04em;
+
+        }
+
+
+        .prompt-text {
+
+            margin-top: 13px;
+
+            color: #7e877f;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            display:
+                -webkit-box;
+
+            -webkit-line-clamp: 5;
+
+            -webkit-box-orient:
+                vertical;
+
+            overflow: hidden;
+
+        }
+
+
+        .quality {
+
+            margin-top: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+        }
+
+
+        .quality-bar {
+
+            width: 75px;
+
+            height: 4px;
+
+            border-radius: 999px;
+
+            background: #272d28;
+
+            overflow: hidden;
+
+        }
+
+
+        .quality-bar span {
+
+            display: block;
+
+            height: 100%;
+
+            width: 92%;
+
+            background: var(--lime);
+
+        }
+
+
+        .quality-text {
+
+            font-size: 10px;
+
+            color: #8d968e;
+
+        }
+
+
+        .prompt-bottom {
+
+            margin-top: auto;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid var(--line);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .author {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+        .avatar {
+
+            width: 29px;
+            height: 29px;
+
+            border-radius: 50%;
+
+            background:
+                #303832;
+
+            display: grid;
+
+            place-items: center;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            color: #dce4dd;
+
+        }
+
+
+        .author-name {
+
+            font-size: 10px;
+
+            color: #9ba49d;
+
+        }
+
+
+        .card-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+        .card-stat {
+
+            font-size: 10px;
+
+            color: #687169;
+
+        }
+
+
+        .copy-button {
+
+            border: 0;
+
+            border-radius: 8px;
+
+            background:
+                #252c27;
+
+            color: white;
+
+            padding:
+                8px 10px;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+        }
+
+
+        .copy-button:hover {
+
+            background:
+                var(--lime);
+
+            color: var(--black);
+
+        }
+
+
+        /* =========================================================
+           FEATURED COLLECTION
+        ========================================================= */
+
+        .collection {
+
+            background:
+                #121613;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius-xl);
+
+            display: grid;
+
+            grid-template-columns:
+                .8fr 1.2fr;
+
+            overflow: hidden;
+
+        }
+
+
+        .collection-copy {
+
+            padding: 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+        }
+
+
+        .collection-number {
+
+            color: var(--lime);
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 11px;
+
+        }
+
+
+        .collection h2 {
+
+            margin-top: 16px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 43px;
+
+            line-height: .98;
+
+            letter-spacing: -.06em;
+
+        }
+
+
+        .collection p {
+
+            color: #818a82;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            margin-top: 17px;
+
+            max-width: 390px;
+
+        }
+
+
+        .collection-button {
+
+            width: fit-content;
+
+            margin-top: 27px;
+
+            border: 0;
+
+            background: var(--lime);
+
+            color: var(--black);
+
+            padding:
+                12px 17px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+        }
+
+
+        .collection-preview {
+
+            padding: 35px;
+
+            background:
+                #0e110f;
+
+            border-left:
+                1px solid var(--line);
+
+        }
+
+
+        .mini-prompt {
+
+            padding: 20px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 15px;
+
+            background:
+                #151a16;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .mini-prompt:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .mini-prompt-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .mini-tool {
+
+            font-size: 9px;
+
+            color: var(--blue);
+
+            font-weight: 700;
+
+        }
+
+
+        .mini-score {
+
+            color: var(--lime);
+
+            font-size: 9px;
+
+        }
+
+
+        .mini-prompt h4 {
+
+            margin-top: 10px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 15px;
+
+        }
+
+
+        .mini-prompt p {
+
+            margin-top: 5px;
+
+            color: #737d75;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================================================
+           CATEGORIES
+        ========================================================= */
+
+        .categories {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 12px;
+
+        }
+
+
+        .category-card {
+
+            min-height: 190px;
+
+            padding: 20px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius-md);
+
+            background:
+                #121613;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: space-between;
+
+            transition: .25s;
+
+        }
+
+
+        .category-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                rgba(216,255,101,.2);
+
+        }
+
+
+        .category-icon {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            display: grid;
+
+            place-items: center;
+
+            background:
+                rgba(255,255,255,.05);
+
+            font-size: 18px;
+
+        }
+
+
+        .category-card:nth-child(1)
+        .category-icon {
+
+            color: var(--orange);
+
+        }
+
+
+        .category-card:nth-child(2)
+        .category-icon {
+
+            color: var(--blue);
+
+        }
+
+
+        .category-card:nth-child(3)
+        .category-icon {
+
+            color: var(--purple);
+
+        }
+
+
+        .category-card:nth-child(4)
+        .category-icon {
+
+            color: var(--pink);
+
+        }
+
+
+        .category-card h3 {
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 19px;
+
+        }
+
+
+        .category-card p {
+
+            margin-top: 4px;
+
+            color: #717a72;
+
+            font-size: 11px;
+
+        }
+
+
+        .category-count {
+
+            color: #5e675f;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =========================================================
+           CREATOR SPOTLIGHT
+        ========================================================= */
+
+        .creator-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+
+        }
+
+
+        .creator-card {
+
+            min-height: 320px;
+
+            padding: 30px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius-lg);
+
+            background:
+                #131714;
+
+        }
+
+
+        .creator-card.featured {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1c241e,
+                    #121613
+                );
+
+        }
+
+
+        .creator-avatar {
+
+            width: 55px;
+            height: 55px;
+
+            border-radius: 50%;
+
+            background:
+                #303a31;
+
+            display: grid;
+
+            place-items: center;
+
+            font-family:
+                "Space Grotesk";
+
+            font-weight: 700;
+
+            color: var(--lime);
+
+        }
+
+
+        .creator-card h3 {
+
+            margin-top: 20px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 25px;
+
+            letter-spacing: -.04em;
+
+        }
+
+
+        .creator-card p {
+
+            margin-top: 8px;
+
+            color: #7d877f;
+
+            font-size: 12px;
+
+            max-width: 400px;
+
+        }
+
+
+        .creator-info {
+
+            margin-top: 30px;
+
+            display: flex;
+
+            gap: 30px;
+
+        }
+
+
+        .creator-stat strong {
+
+            display: block;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 18px;
+
+        }
+
+
+        .creator-stat span {
+
+            color: #626b64;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =========================================================
+           PROMPT OF THE DAY
+        ========================================================= */
+
+        .daily {
+
+            padding:
+                55px;
+
+            border-radius:
+                var(--radius-xl);
+
+            border:
+                1px solid
+                rgba(216,255,101,.15);
+
+            background:
+                #171c18;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .daily::before {
+
+            content: "PROMPT";
+
+            position: absolute;
+
+            right: -15px;
+
+            top: -35px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 180px;
+
+            font-weight: 700;
+
+            color:
+                rgba(255,255,255,.018);
+
+        }
+
+
+        .daily-content {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .daily-label {
+
+            color: var(--lime);
+
+            font-size: 10px;
+
+            letter-spacing: .12em;
+
+            font-weight: 700;
+
+        }
+
+
+        .daily h2 {
+
+            margin-top: 13px;
+
+            font-family:
+                "Space Grotesk";
+
+            font-size: 38px;
+
+            letter-spacing: -.05em;
+
+        }
+
+
+        .daily-text {
+
+            max-width: 730px;
+
+            margin-top: 16px;
+
+            padding: 20px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius: 13px;
+
+            color: #8b958d;
+
+            background:
+                rgba(0,0,0,.18);
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+        }
+
+
+        .daily-bottom {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        /* =========================================================
+           CTA
+        ========================================================= */
+
+        .cta {
+
+            padding:
+                110px 0;
+
+        }
+
+
+        .cta-box {
+
+            text-align: center;
+
+            padding:
+                90px 30px;
+
+            border:
+                1px solid var(--line);
+
+            border-radius:
+                var(--radius-xl);
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(216,255,101,.08),
+                    transparent 55%
+                );
+
+        }
+
+
+        .cta-box h2 {
+
+            font-family:
+                "Space Grotesk";
+
+            font-size:
+                clamp(42px, 5vw, 68px);
+
+            line-height: .95;
+
+            letter-spacing: -.07em;
+
+        }
+
+
+        .cta-box h2 span {
+
+            color: var(--lime);
+
+        }
+
+
+        .cta-box p {
+
+            margin:
+                20px auto 0;
+
+            color: #7c867e;
+
+            font-size: 14px;
+
+            max-width: 500px;
+
+        }
+
+
+        .cta-button {
+
+            margin-top: 28px;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            background: var(--lime);
+
+            color: var(--black);
+
+            padding:
+                14px 22px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+
+            border-top:
+                1px solid var(--line);
+
+            padding:
+                65px 0 25px;
+
+        }
+
+
+        .footer-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.5fr repeat(3,1fr);
+
+            gap: 50px;
+
+            padding-bottom: 50px;
+
+            border-bottom:
+                1px solid var(--line);
+
+        }
+
+
+        .footer-description {
+
+            margin-top: 15px;
+
+            max-width: 290px;
+
+            color: #687169;
+
+            font-size: 12px;
+
+        }
+
+
+        .footer-title {
+
+            color: #5f6961;
+
+            font-size: 9px;
+
+            letter-spacing: .13em;
+
+            font-weight: 700;
+
+            margin-bottom: 16px;
+
+        }
+
+
+        .footer-links {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+
+        .footer-links a {
+
+            color: #929b94;
+
+            font-size: 11px;
+
+        }
+
+
+        .footer-links a:hover {
+
+            color: white;
+
+        }
+
+
+        .footer-bottom {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding-top: 20px;
+
+            color: #525b54;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =========================================================
+           TOAST
+        ========================================================= */
+
+        .toast {
+
+            position: fixed;
+
+            right: 25px;
+
+            bottom: 25px;
+
+            z-index: 5000;
+
+            padding:
+                12px 17px;
+
+            border-radius: 10px;
+
+            background:
+                var(--lime);
+
+            color: var(--black);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            opacity: 0;
+
+            transform:
+                translateY(15px);
+
+            pointer-events: none;
+
+            transition: .25s;
+
+        }
+
+
+        .toast.show {
+
+            opacity: 1;
+
+            transform:
+                translateY(0);
+
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media(max-width:1050px) {
+
+            .nav-center {
+                display: none;
+            }
+
+            .hero {
+                min-height: 650px;
+            }
+
+            .prompt-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .categories {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .collection {
+                grid-template-columns:1fr;
+            }
+
+            .collection-preview {
+                border-left:0;
+                border-top:
+                    1px solid var(--line);
+            }
+
+            .creator-layout {
+                grid-template-columns:1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+        }
+
+
+        @media(max-width:650px) {
+
+            .container {
+                width:
+                    calc(100% - 30px);
+            }
+
+            .navbar {
+                height: 68px;
+            }
+
+            .nav-login {
+                display: none;
+            }
+
+            .hero {
+                min-height: 650px;
+            }
+
+            .hero h1 {
+                font-size: 51px;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .command-box {
+                min-height: 66px;
+            }
+
+            .command-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .command-submit {
+                padding: 0 13px;
+            }
+
+            .tool-row {
+                justify-content:
+                    flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .stat {
+                border-bottom:
+                    1px solid var(--line);
+            }
+
+            .section {
+                padding: 75px 0;
+            }
+
+            .section-header {
+                display: block;
+            }
+
+            .view-link {
+                display: inline-block;
+                margin-top: 18px;
+            }
+
+            .prompt-grid {
+                grid-template-columns:1fr;
+            }
+
+            .categories {
+                grid-template-columns:1fr;
+            }
+
+            .collection-copy {
+                padding: 32px;
+            }
+
+            .collection h2 {
+                font-size: 36px;
+            }
+
+            .collection-preview {
+                padding: 20px;
+            }
+
+            .daily {
+                padding: 30px;
+            }
+
+            .daily h2 {
+                font-size: 30px;
+            }
+
+            .cta-box {
+                padding: 65px 20px;
+            }
+
+            .footer-grid {
+                grid-template-columns:1fr;
+                gap: 35px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar">
+
+    <div class="container nav-inner">
+
+        <a
+            href="#"
+            class="logo"
+        >
+
+            <div class="logo-symbol">
+                P
+            </div>
+
+            <span class="logo-name">
+                PromptVerse
+            </span>
+
+        </a>
+
+
+        <nav class="nav-center">
+
+            <a href="#trending">
+                Trending
+            </a>
+
+            <a href="#categories">
+                Categories
+            </a>
+
+            <a href="#collections">
+                Collections
+            </a>
+
+            <a href="#creators">
+                Creators
+            </a>
+
+        </nav>
+
+
+        <div class="nav-right">
+
+            <button class="nav-login">
+                Log in
+            </button>
+
+            <button class="nav-button">
+                Submit prompt
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+    <div class="hero-grid"></div>
+
+    <div class="hero-glow"></div>
+
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <div class="hero-badge">
+
+                <span></span>
+
+                48,000+ PROMPTS IN THE LIBRARY
+
+            </div>
+
+
+            <h1>
+
+                Find the prompt<br>
+
+                that makes AI
+                <em>click.</em>
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                Search thousands of community-tested prompts,
+                organized by task, tool and outcome.
+                Stop guessing. Start creating.
+
+            </p>
+
+
+            <!-- COMMAND SEARCH -->
+
+            <div class="command">
+
+                <div class="command-box">
+
+                    <div class="command-icon">
+                        ⌕
+                    </div>
+
+                    <input
+                        id="mainSearch"
+                        type="text"
+                        placeholder="What are you trying to create?"
+                    >
+
+                    <button
+                        class="command-submit"
+                        onclick="performSearch()"
+                    >
+                        Search
+                    </button>
+
+                </div>
+
+
+                <div class="command-suggestions">
+
+                    <button class="suggestion">
+                        Product photography
+                    </button>
+
+                    <button class="suggestion">
+                        Landing page
+                    </button>
+
+                    <button class="suggestion">
+                        YouTube script
+                    </button>
+
+                    <button class="suggestion">
+                        Research
+                    </button>
+
+                    <button class="suggestion">
+                        Logo concepts
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI TOOL FILTER -->
+
+            <div class="tool-row">
+
+                <span class="tool-label">
+                    Works with
+                </span>
+
+                <button class="tool active">
+                    All AI
+                </button>
+
+                <button class="tool">
+                    ChatGPT
+                </button>
+
+                <button class="tool">
+                    Claude
+                </button>
+
+                <button class="tool">
+                    Gemini
+                </button>
+
+                <button class="tool">
+                    Midjourney
+                </button>
+
+                <button class="tool">
+                    Flux
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     STATS
+========================================================= -->
+
+<section class="stats">
+
+    <div class="container stats-grid">
+
+        <div class="stat">
+
+            <div class="stat-number">
+                48K+
+            </div>
+
+            <div class="stat-label">
+                Curated prompts
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                12K+
+            </div>
+
+            <div class="stat-label">
+                Active creators
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                2.8M
+            </div>
+
+            <div class="stat-label">
+                Prompt copies
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-number">
+                94%
+            </div>
+
+            <div class="stat-label">
+                Average quality score
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     TRENDING
+========================================================= -->
+
+<section
+    class="section"
+    id="trending"
+>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    COMMUNITY SIGNAL
+                </div>
+
+                <h2 class="section-title">
+                    Trending prompts
+                </h2>
+
+                <p class="section-description">
+                    Prompts people are saving, copying and
+                    putting to work right now.
+                </p>
+
+            </div>
+
+
+            <a
+                href="#"
+                class="view-link"
+            >
+                Explore trending →
+            </a>
+
+        </div>
+
+
+        <div class="prompt-grid">
+
+
+            <!-- PROMPT 1 -->
+
+            <article class="prompt-card">
+
+                <div class="prompt-meta">
+
+                    <span class="prompt-category">
+                        IMAGE
+                    </span>
+
+                    <button class="save-button">
+                        ♡
+                    </button>
+
+                </div>
+
+
+                <h3>
+                    Premium product
+                    photography
+                </h3>
+
+
+                <p class="prompt-text">
+
+                    Create a high-end commercial product
+                    photograph with controlled studio lighting,
+                    realistic material textures, subtle shadows,
+                    premium editorial composition and a clean
+                    luxury visual language.
+
+                </p>
+
+
+                <div class="quality">
+
+                    <div class="quality-bar">
+                        <span></span>
+                    </div>
+
+                    <span class="quality-text">
+                        92 quality
+                    </span>
+
+                </div>
+
+
+                <div class="prompt-bottom">
+
+                    <div class="author">
+
+                        <div class="avatar">
+                            AR
+                        </div>
+
+                        <span class="author-name">
+                            Alex Rivera
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-actions">
+
+                        <span class="card-stat">
+                            4.2k copies
+                        </span>
+
+                        <button
+                            class="copy-button"
+                            onclick="copyPrompt(this)"
+                        >
+                            Copy
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- PROMPT 2 -->
+
+            <article class="prompt-card">
+
+                <div class="prompt-meta">
+
+                    <span class="prompt-category">
+                        WRITING
+                    </span>
+
+                    <button class="save-button">
+                        ♡
+                    </button>
+
+                </div>
+
+
+                <h3>
+                    Turn messy ideas
+                    into sharp copy
+                </h3>
+
+
+                <p class="prompt-text">
+
+                    Act as a senior copy editor. Transform
+                    the following rough notes into concise,
+                    confident copy. Preserve the original
+                    intent while removing repetition and
+                    unnecessary language.
+
+                </p>
+
+
+                <div class="quality">
+
+                    <div class="quality-bar">
+                        <span style="width:96%"></span>
+                    </div>
+
+                    <span class="quality-text">
+                        96 quality
+                    </span>
+
+                </div>
+
+
+                <div class="prompt-bottom">
+
+                    <div class="author">
+
+                        <div class="avatar">
+                            NK
+                        </div>
+
+                        <span class="author-name">
+                            Noah Kim
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-actions">
+
+                        <span class="card-stat">
+                            3.7k copies
+                        </span>
+
+                        <button
+                            class="copy-button"
+                            onclick="copyPrompt(this)"
+                        >
+                            Copy
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- PROMPT 3 -->
+
+            <article class="prompt-card">
+
+                <div class="prompt-meta">
+
+                    <span class="prompt-category">
+                        STRATEGY
+                    </span>
+
+                    <button class="save-button">
+                        ♡
+                    </button>
+
+                </div>
+
+
+                <h3>
+                    Find the real
+                    bottleneck
+                </h3>
+
+
+                <p class="prompt-text">
+
+                    Analyze my current project like an
+                    experienced operator. Identify the
+                    highest-impact bottleneck, explain why
+                    it matters and recommend the smallest
+                    action that could unlock progress.
+
+                </p>
+
+
+                <div class="quality">
+
+                    <div class="quality-bar">
+                        <span style="width:94%"></span>
+                    </div>
+
+                    <span class="quality-text">
+                        94 quality
+                    </span>
+
+                </div>
+
+
+                <div class="prompt-bottom">
+
+                    <div class="author">
+
+                        <div class="avatar">
+                            SR
+                        </div>
+
+                        <span class="author-name">
+                            Sofia Reed
+                        </span>
+
+                    </div>
+
+
+                    <div class="card-actions">
+
+                        <span class="card-stat">
+                            2.9k copies
+                        </span>
+
+                        <button
+                            class="copy-button"
+                            onclick="copyPrompt(this)"
+                        >
+                            Copy
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     COLLECTION
+========================================================= -->
+
+<section
+    class="section"
+    id="collections"
+>
+
+    <div class="container">
+
+        <div class="collection">
+
+            <div class="collection-copy">
+
+                <div class="collection-number">
+                    COLLECTION 014
+                </div>
+
+                <h2>
+                    Prompts that
+                    actually save time.
+                </h2>
+
+                <p>
+                    A focused collection of practical prompts
+                    for people who want to move faster,
+                    think clearer and spend less time
+                    fighting with AI.
+                </p>
+
+                <button class="collection-button">
+                    Open collection →
+                </button>
+
+            </div>
+
+
+            <div class="collection-preview">
+
+
+                <div class="mini-prompt">
+
+                    <div class="mini-prompt-top">
+
+                        <span class="mini-tool">
+                            CHATGPT
+                        </span>
+
+                        <span class="mini-score">
+                            97 / 100
+                        </span>
+
+                    </div>
+
+                    <h4>
+                        Turn a goal into a 30-day plan
+                    </h4>
+
+                    <p>
+                        Planning · Productivity · Strategy
+                    </p>
+
+                </div>
+
+
+                <div class="mini-prompt">
+
+                    <div class="mini-prompt-top">
+
+                        <span class="mini-tool">
+                            CLAUDE
+                        </span>
+
+                        <span class="mini-score">
+                            95 / 100
+                        </span>
+
+                    </div>
+
+                    <h4>
+                        Extract decisions from meeting notes
+                    </h4>
+
+                    <p>
+                        Work · Research · Operations
+                    </p>
+
+                </div>
+
+
+                <div class="mini-prompt">
+
+                    <div class="mini-prompt-top">
+
+                        <span class="mini-tool">
+                            GEMINI
+                        </span>
+
+                        <span class="mini-score">
+                            94 / 100
+                        </span>
+
+                    </div>
+
+                    <h4>
+                        Compare options without confirmation bias
+                    </h4>
+
+                    <p>
+                        Thinking · Decisions · Analysis
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section
+    class="section"
+    id="categories"
+>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    BROWSE BY OUTCOME
+                </div>
+
+                <h2 class="section-title">
+                    What do you want to do?
+                </h2>
+
+                <p class="section-description">
+                    Explore prompts based on the job you
+                    need AI to help you accomplish.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="categories">
+
+
+            <a
+                href="#"
+                class="category-card"
+            >
+
+                <div class="category-icon">
+                    ✦
+                </div>
+
+                <div>
+
+                    <h3>
+                        Create
+                    </h3>
+
+                    <p>
+                        Images, visuals, concepts
+                        and creative direction.
+                    </p>
+
+                </div>
+
+                <span class="category-count">
+                    12,480 prompts
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="category-card"
+            >
+
+                <div class="category-icon">
+                    Aa
+                </div>
+
+                <div>
+
+                    <h3>
+                        Write
+                    </h3>
+
+                    <p>
+                        Copy, stories, emails,
+                        scripts and content.
+                    </p>
+
+                </div>
+
+                <span class="category-count">
+                    9,820 prompts
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="category-card"
+            >
+
+                <div class="category-icon">
+                    ◇
+                </div>
+
+                <div>
+
+                    <h3>
+                        Build
+                    </h3>
+
+                    <p>
+                        Code, websites, products
+                        and technical workflows.
+                    </p>
+
+                </div>
+
+                <span class="category-count">
+                    8,210 prompts
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="category-card"
+            >
+
+                <div class="category-icon">
+                    ∿
+                </div>
+
+                <div>
+
+                    <h3>
+                        Think
+                    </h3>
+
+                    <p>
+                        Research, analysis,
+                        strategy and decisions.
+                    </p>
+
+                </div>
+
+                <span class="category-count">
+                    11,930 prompts
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CREATOR SPOTLIGHT
+========================================================= -->
+
+<section
+    class="section"
+    id="creators"
+>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    PEOPLE BEHIND THE PROMPTS
+                </div>
+
+                <h2 class="section-title">
+                    Creator spotlight
+                </h2>
+
+                <p class="section-description">
+                    Follow people whose prompts consistently
+                    produce useful results.
+                </p>
+
+            </div>
+
+            <a
+                href="#"
+                class="view-link"
+            >
+                Meet all creators →
+            </a>
+
+        </div>
+
+
+        <div class="creator-layout">
+
+
+            <article class="creator-card featured">
+
+                <div class="creator-avatar">
+                    AR
+                </div>
+
+                <h3>
+                    Alex Rivera
+                </h3>
+
+                <p>
+                    Visual designer creating practical image
+                    generation prompts for product teams,
+                    marketers and creative studios.
+                </p>
+
+
+                <div class="creator-info">
+
+                    <div class="creator-stat">
+
+                        <strong>
+                            184
+                        </strong>
+
+                        <span>
+                            PROMPTS
+                        </span>
+
+                    </div>
+
+
+                    <div class="creator-stat">
+
+                        <strong>
+                            28K
+                        </strong>
+
+                        <span>
+                            COPIES
+                        </span>
+
+                    </div>
+
+
+                    <div class="creator-stat">
+
+                        <strong>
+                            96
+                        </strong>
+
+                        <span>
+                            AVG SCORE
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+
+            <article class="creator-card">
+
+                <div class="creator-avatar">
+                    NK
+                </div>
+
+                <h3>
+                    Noah Kim
+                </h3>
+
+                <p>
+                    Copywriter and product strategist focused
+                    on prompts that turn rough thinking into
+                    clear communication.
+                </p>
+
+
+                <div class="creator-info">
+
+                    <div class="creator-stat">
+
+                        <strong>
+                            126
+                        </strong>
+
+                        <span>
+                            PROMPTS
+                        </span>
+
+                    </div>
+
+
+                    <div class="creator-stat">
+
+                        <strong>
+                            19K
+                        </strong>
+
+                        <span>
+                            COPIES
+                        </span>
+
+                    </div>
+
+
+                    <div class="creator-stat">
+
+                        <strong>
+                            94
+                        </strong>
+
+                        <span>
+                            AVG SCORE
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROMPT OF THE DAY
+========================================================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="daily">
+
+            <div class="daily-content">
+
+                <div class="daily-label">
+                    PROMPT OF THE DAY · SEP 10
+                </div>
+
+                <h2>
+                    The uncomfortable truth finder
+                </h2>
+
+                <div class="daily-text">
+
+                    "Analyze this idea as if you were an
+                    experienced critic who has no reason
+                    to agree with me. Identify the strongest
+                    assumption, the weakest assumption,
+                    what I'm probably overlooking and the
+                    single question I should answer before
+                    moving forward."
+
+                </div>
+
+
+                <div class="daily-bottom">
+
+                    <div class="avatar">
+                        DV
+                    </div>
+
+                    <span class="author-name">
+                        Daniel Voss
+                    </span>
+
+                    <button
+                        class="copy-button"
+                        onclick="copyPrompt(this)"
+                    >
+                        Copy prompt
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section class="cta">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <h2>
+                Your next idea<br>
+                starts with <span>one prompt.</span>
+            </h2>
+
+            <p>
+                Explore the library, save your favorites,
+                or publish the prompts that made your own
+                workflow better.
+            </p>
+
+            <button class="cta-button">
+                Explore PromptVerse →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-grid">
+
+
+            <div>
+
+                <a
+                    href="#"
+                    class="logo"
+                >
+
+                    <div class="logo-symbol">
+                        P
+                    </div>
+
+                    <span class="logo-name">
+                        PromptVerse
+                    </span>
+
+                </a>
+
+                <p class="footer-description">
+                    Discover, save and share prompts
+                    that make AI genuinely useful.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-title">
+                    EXPLORE
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="#">
+                        Trending
+                    </a>
+
+                    <a href="#">
+                        Categories
+                    </a>
+
+                    <a href="#">
+                        Collections
+                    </a>
+
+                    <a href="#">
+                        Prompt of the day
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-title">
+                    COMMUNITY
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="#">
+                        Creators
+                    </a>
+
+                    <a href="#">
+                        Submit prompt
+                    </a>
+
+                    <a href="#">
+                        Guidelines
+                    </a>
+
+                    <a href="#">
+                        Leaderboard
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-title">
+                    COMPANY
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="#">
+                        About
+                    </a>
+
+                    <a href="#">
+                        Contact
+                    </a>
+
+                    <a href="#">
+                        Privacy
+                    </a>
+
+                    <a href="#">
+                        Terms
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 PromptVerse
+            </span>
+
+            <span>
+                Built for people who build with AI.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- TOAST -->
+
+<div
+    id="toast"
+    class="toast"
+>
+    Prompt copied
+</div>
+
+
+
+<script>
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    function performSearch() {
+
+        const input =
+            document.getElementById("mainSearch");
+
+        const value =
+            input.value.trim();
+
+        if (!value) {
+
+            input.focus();
+
+            return;
+
+        }
+
+        showToast(
+            "Searching for: " + value
+        );
+
+    }
+
+
+    /* =========================================================
+       ENTER SEARCH
+    ========================================================= */
+
+    document
+        .getElementById("mainSearch")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    performSearch();
+
+                }
+
+            }
+        );
+
+
+    /* =========================================================
+       SEARCH SUGGESTIONS
+    ========================================================= */
+
+    document
+        .querySelectorAll(".suggestion")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .getElementById("mainSearch")
+                        .value =
+                        this.innerText;
+
+                    performSearch();
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       AI TOOL FILTER
+    ========================================================= */
+
+    document
+        .querySelectorAll(".tool")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    document
+                        .querySelectorAll(".tool")
+                        .forEach(item => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        });
+
+                    this.classList.add(
+                        "active"
+                    );
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       SAVE PROMPTS
+    ========================================================= */
+
+    document
+        .querySelectorAll(".save-button")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    this.classList.toggle(
+                        "saved"
+                    );
+
+                    this.innerText =
+                        this.classList.contains("saved")
+                            ? "♥"
+                            : "♡";
+
+                }
+            );
+
+        });
+
+
+    /* =========================================================
+       COPY PROMPT
+    ========================================================= */
+
+    function copyPrompt(button) {
+
+        const card =
+            button.closest(".prompt-card");
+
+        let text = "";
+
+        if (card) {
+
+            const paragraph =
+                card.querySelector(
+                    ".prompt-text"
+                );
+
+            if (paragraph) {
+
+                text =
+                    paragraph.innerText;
+
+            }
+
+        }
+
+
+        if (!text) {
+
+            text =
+                button
+                    .closest(".daily")
+                    ?.querySelector(
+                        ".daily-text"
+                    )
+                    ?.innerText || "";
+
+        }
+
+
+        if (
+            navigator.clipboard &&
+            text
+        ) {
+
+            navigator.clipboard
+                .writeText(text)
+                .then(() => {
+
+                    const old =
+                        button.innerText;
+
+                    button.innerText =
+                        "Copied ✓";
+
+                    showToast(
+                        "Prompt copied"
+                    );
+
+                    setTimeout(() => {
+
+                        button.innerText =
+                            old;
+
+                    }, 1500);
+
+                });
+
+        }
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    function showToast(message) {
+
+        const toast =
+            document.getElementById("toast");
+
+        toast.innerText =
+            message;
+
+        toast.classList.add(
+            "show"
+        );
+
+        setTimeout(() => {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        }, 1800);
+
+    }
+
+</script>
+
+
+</body>
+</html>

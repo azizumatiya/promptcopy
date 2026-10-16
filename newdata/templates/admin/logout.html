@@ -1,0 +1,318 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Logout — PromptVerse{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+
+/* =========================================================
+   ADMIN LOGOUT PAGE
+========================================================= */
+
+.logout-page {
+    min-height: calc(100vh - 80px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8f9fb 0%,
+            #ffffff 100%
+        );
+}
+
+
+/* CARD */
+
+.logout-card {
+    width: 100%;
+    max-width: 460px;
+
+    padding: 42px 38px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 20px 60px rgba(20, 25, 40, 0.08);
+}
+
+
+/* ICON */
+
+.logout-icon {
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 22px;
+
+    background: #f3f4f6;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 50%;
+
+    font-size: 30px;
+}
+
+
+/* EYEBROW */
+
+.logout-eyebrow {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+
+    color: #858a96;
+}
+
+
+/* TITLE */
+
+.logout-card h1 {
+    margin: 0;
+
+    font-size: 29px;
+    line-height: 1.2;
+
+    color: #171923;
+}
+
+
+/* DESCRIPTION */
+
+.logout-description {
+    margin: 13px auto 28px;
+
+    max-width: 350px;
+
+    font-size: 14px;
+    line-height: 1.65;
+
+    color: #737985;
+}
+
+
+/* BUTTON GROUP */
+
+.logout-actions {
+    display: flex;
+
+    gap: 11px;
+
+    justify-content: center;
+}
+
+
+/* LOGOUT BUTTON */
+
+.logout-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 145px;
+
+    padding: 12px 19px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background: #191c23;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+}
+
+.logout-button:hover {
+    background: #000000;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, .16);
+}
+
+
+/* CANCEL */
+
+.cancel-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 120px;
+
+    padding: 12px 19px;
+
+    border: 1px solid #e1e4e9;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    color: #343842;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.cancel-button:hover {
+    background: #f6f7f9;
+
+    border-color: #d5d8df;
+}
+
+
+/* SECURITY NOTE */
+
+.logout-security {
+    margin-top: 25px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #eef0f3;
+
+    font-size: 11px;
+
+    color: #969aa4;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 520px) {
+
+    .logout-card {
+        padding: 32px 22px;
+    }
+
+    .logout-card h1 {
+        font-size: 25px;
+    }
+
+    .logout-actions {
+        flex-direction: column;
+    }
+
+    .logout-button,
+    .cancel-button {
+        width: 100%;
+    }
+
+}
+
+</style>
+
+
+<div class="logout-page">
+
+    <div class="logout-card">
+
+
+        <!-- ICON -->
+
+        <div class="logout-icon">
+            ⇥
+        </div>
+
+
+        <!-- TITLE -->
+
+        <span class="logout-eyebrow">
+            ADMIN ACCOUNT
+        </span>
+
+
+        <h1>
+            Sign out of PromptVerse?
+        </h1>
+
+
+        <p class="logout-description">
+            You are about to sign out from the PromptVerse
+            administrator panel. Your admin session will be ended.
+        </p>
+
+
+        <!-- ACTIONS -->
+
+        <div class="logout-actions">
+
+
+            <!-- REAL LOGOUT ROUTE -->
+
+            <a
+                href="{{ url_for('admin_logout') }}"
+                class="logout-button"
+            >
+                Sign Out
+            </a>
+
+
+            <!-- BACK TO DASHBOARD -->
+
+            <a
+                href="{{ url_for('admin_dashboard') }}"
+                class="cancel-button"
+            >
+                Cancel
+            </a>
+
+
+        </div>
+
+
+        <div class="logout-security">
+            🔒 Your administrator session will be securely cleared.
+        </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

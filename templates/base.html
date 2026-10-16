@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}PromptVerse{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body>
+<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><div class="noise"></div>
+
+<header class="nav">
+<div class="wrap nav-inner">
+<a class="brand" href="{{ url_for('index') }}"><span class="brand-icon"><i data-lucide="sparkles"></i></span>PromptVerse</a>
+<nav class="desktop-nav">
+<a href="{{ url_for('index') }}#explore">Explore</a>
+<a href="{{ url_for('index') }}#trending">Trending</a>
+<a href="{{ url_for('index') }}#categories">Categories</a>
+<a href="{{ url_for('library') }}">My Library</a>
+</nav>
+<div class="nav-actions">
+{% if is_admin %}
+<a class="btn ghost" href="{{ url_for('admin_dashboard') }}">Admin</a>
+<form method="post" action="{{ url_for('admin_logout') }}"><button class="btn primary">Logout</button></form>
+{% elif current_user %}
+<span class="user-pill"><i data-lucide="user"></i>{{ current_user['email'] }}</span>
+<a class="btn ghost" href="{{ url_for('logout') }}">Logout</a>
+{% else %}
+<a class="btn ghost" href="{{ url_for('login') }}">Log in</a>
+<a class="btn primary" href="{{ url_for('signup') }}">Sign Up</a>
+{% endif %}
+</div>
+</div>
+</header>
+
+{% with messages=get_flashed_messages(with_categories=true) %}
+{% if messages %}<div class="flash-wrap">{% for cat,msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}</div>{% endif %}
+{% endwith %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="footer">
+<div class="wrap footer-grid">
+<div><a class="brand" href="{{ url_for('index') }}"><span class="brand-icon"><i data-lucide="sparkles"></i></span>PromptVerse</a><p>A database-powered AI prompt discovery platform.</p></div>
+<div><b>Explore</b><a href="{{ url_for('index') }}#explore">Prompts</a><a href="{{ url_for('index') }}#trending">Trending</a><a href="{{ url_for('index') }}#categories">Categories</a></div>
+<div><b>Account</b><a href="{{ url_for('library') }}">My Library</a><a href="{{ url_for('login') }}">Login</a><a href="{{ url_for('signup') }}">Sign Up</a></div>
+<div><b>Admin</b><a href="{{ url_for('admin_login') }}">Admin Panel</a></div>
+</div>
+<div class="wrap footer-bottom">© 2026 PromptVerse · Discover prompts. Create anything.</div>
+</footer>
+
+<div id="toast" class="toast"></div>
+<script src="{{ url_for('static',filename='js/app.js') }}"></script>
+<script>lucide.createIcons();</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

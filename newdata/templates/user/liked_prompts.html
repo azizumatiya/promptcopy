@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Liked Prompts — PromptVerse{% endblock %}
+
+{% block content %}
+
+
+
+<div class="user-page">
+
+    <div class="user-page-header">
+
+        <div>
+            <div class="dashboard-eyebrow">
+                MY ACTIVITY
+            </div>
+
+            <h1>Liked Prompts</h1>
+
+            <p>
+                Prompts you liked on PromptVerse.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="prompt-grid">
+
+        {% for prompt in prompts %}
+
+        <article class="user-prompt-card">
+
+            <a href="{{ url_for('prompt_detail', pid=prompt._id) }}">
+
+                <img
+                    src="{{ prompt.image }}"
+                    alt="{{ prompt.title }}"
+                >
+
+            </a>
+
+            <div class="prompt-card-body">
+
+                <div class="prompt-meta">
+                    <span>{{ prompt.model }}</span>
+                    <span>♥ {{ prompt.likes }}</span>
+                </div>
+
+                <h3>
+                    {{ prompt.title }}
+                </h3>
+
+                <p>
+                    {{ prompt.description or '' }}
+                </p>
+
+                <div class="prompt-tags">
+                    <span>{{ prompt.use_case }}</span>
+                    <span>{{ prompt.subject }}</span>
+                </div>
+
+            </div>
+
+        </article>
+
+        {% else %}
+
+        <div class="empty-dashboard">
+
+            <div class="empty-icon">
+                ♥
+            </div>
+
+            <h3>
+                No liked prompts
+            </h3>
+
+            <p>
+                Like prompts you want to keep in your collection.
+            </p>
+
+            <a
+                href="{{ url_for('prompts') }}"
+                class="primary-btn"
+            >
+                Explore Prompts
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

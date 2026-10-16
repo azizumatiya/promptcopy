@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PromptVerse — Discover Better Prompts</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --bg: #f6f7f4;
+            --surface: #ffffff;
+            --surface-soft: #eef0eb;
+            --ink: #151714;
+            --muted: #747971;
+            --line: #dedfd9;
+
+            --green: #183f32;
+            --green-2: #245b49;
+            --lime: #c9ef78;
+
+            --orange: #ef8a55;
+            --purple: #8c7cf2;
+            --blue: #6ea8e8;
+
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+
+            --max: 1240px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(var(--max), calc(100% - 48px));
+            margin-inline: auto;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            height: 82px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(21, 23, 20, .08);
+            background: rgba(246, 247, 244, .88);
+            backdrop-filter: blur(18px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            width: min(var(--max), calc(100% - 48px));
+            margin-inline: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+
+            background: var(--green);
+
+            display: grid;
+            place-items: center;
+
+            color: white;
+            font-family: "Space Grotesk";
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .brand-name {
+            font-family: "Space Grotesk";
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -.04em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: #545a53;
+            transition: .2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login {
+            border: 0;
+            background: transparent;
+            padding: 10px 14px;
+            color: #4e554f;
+        }
+
+        .nav-cta {
+            background: var(--green);
+            color: white;
+
+            border: 0;
+            border-radius: 11px;
+
+            padding: 11px 17px;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--green-2);
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+
+            padding: 95px 0 80px;
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 600px;
+            height: 600px;
+
+            right: -250px;
+            top: -250px;
+
+            background: radial-gradient(
+                circle,
+                rgba(201, 239, 120, .28),
+                transparent 68%
+            );
+
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 70px;
+
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 7px 10px;
+
+            border: 1px solid var(--line);
+            border-radius: 999px;
+
+            background: rgba(255,255,255,.65);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: .1em;
+            color: #61685f;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #7ea946;
+        }
+
+        .hero h1 {
+            margin-top: 22px;
+
+            font-family: "Space Grotesk";
+            font-size: clamp(50px, 6vw, 82px);
+
+            line-height: .96;
+            letter-spacing: -.065em;
+
+            max-width: 680px;
+        }
+
+        .hero h1 span {
+            color: var(--green-2);
+        }
+
+        .hero-description {
+            margin-top: 24px;
+
+            max-width: 550px;
+
+            font-size: 17px;
+            line-height: 1.65;
+
+            color: var(--muted);
+        }
+
+        /* SEARCH */
+
+        .hero-search {
+            margin-top: 34px;
+
+            width: min(610px, 100%);
+
+            display: flex;
+            align-items: center;
+
+            padding: 7px;
+
+            background: white;
+
+            border: 1px solid #d9ddd5;
+            border-radius: 16px;
+
+            box-shadow:
+                0 18px 50px rgba(23, 40, 30, .08);
+        }
+
+        .search-icon {
+            width: 45px;
+            display: grid;
+            place-items: center;
+
+            color: #7b8279;
+            font-size: 20px;
+        }
+
+        .hero-search input {
+            flex: 1;
+
+            border: 0;
+            outline: 0;
+
+            background: transparent;
+
+            font-size: 15px;
+            color: var(--ink);
+        }
+
+        .hero-search input::placeholder {
+            color: #969c94;
+        }
+
+        .search-button {
+            border: 0;
+            border-radius: 11px;
+
+            background: var(--green);
+            color: white;
+
+            padding: 13px 21px;
+
+            font-weight: 600;
+
+            transition: .2s;
+        }
+
+        .search-button:hover {
+            background: var(--green-2);
+        }
+
+        .popular {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+
+            margin-top: 15px;
+
+            font-size: 12px;
+            color: #7b8179;
+        }
+
+        .popular a {
+            padding: 5px 9px;
+
+            background: #ebeee8;
+
+            border-radius: 7px;
+
+            transition: .2s;
+        }
+
+        .popular a:hover {
+            background: #dfe4da;
+            color: var(--ink);
+        }
+
+        /* HERO VISUAL */
+
+        .hero-visual {
+            position: relative;
+            min-height: 490px;
+        }
+
+        .visual-main {
+            position: absolute;
+
+            width: 420px;
+
+            right: 20px;
+            top: 20px;
+
+            background: var(--surface);
+
+            border: 1px solid #dedfd9;
+
+            border-radius: 25px;
+
+            padding: 23px;
+
+            box-shadow:
+                0 35px 80px rgba(25, 43, 34, .13);
+
+            transform: rotate(2deg);
+        }
+
+        .visual-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .mini-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            color: #8a9188;
+        }
+
+        .mini-icon {
+            width: 30px;
+            height: 30px;
+
+            border-radius: 9px;
+
+            display: grid;
+            place-items: center;
+
+            background: #edf2e9;
+            color: var(--green);
+        }
+
+        .prompt-title {
+            font-family: "Space Grotesk";
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.1;
+
+            margin-bottom: 15px;
+        }
+
+        .prompt-box {
+            padding: 17px;
+
+            border-radius: 14px;
+
+            background: #f1f3ef;
+
+            font-size: 13px;
+            line-height: 1.6;
+
+            color: #565d55;
+        }
+
+        .prompt-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 18px;
+        }
+
+        .creator {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .avatar {
+            width: 29px;
+            height: 29px;
+
+            border-radius: 50%;
+
+            background: #d9e5ce;
+
+            display: grid;
+            place-items: center;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .creator-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .copy {
+            border: 1px solid var(--line);
+            background: white;
+
+            border-radius: 8px;
+
+            padding: 7px 11px;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .floating-card {
+            position: absolute;
+
+            background: white;
+
+            border: 1px solid var(--line);
+
+            border-radius: 17px;
+
+            padding: 16px;
+
+            box-shadow: 0 20px 50px rgba(20, 35, 28, .12);
+        }
+
+        .float-one {
+            left: 0;
+            top: 105px;
+            transform: rotate(-4deg);
+        }
+
+        .float-two {
+            right: -5px;
+            bottom: 35px;
+            transform: rotate(-3deg);
+        }
+
+        .float-stat {
+            font-family: "Space Grotesk";
+            font-size: 25px;
+            font-weight: 700;
+        }
+
+        .float-text {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* =========================
+           LOGO STRIP
+        ========================= */
+
+        .trust {
+            padding: 24px 0 70px;
+        }
+
+        .trust-inner {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+
+            padding: 24px 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        .trust-label {
+            font-size: 11px;
+            color: #898f87;
+            letter-spacing: .08em;
+            font-weight: 700;
+        }
+
+        .trust-items {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+
+            color: #7a8178;
+            font-family: "Space Grotesk";
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+
+            margin-bottom: 38px;
+        }
+
+        .section-kicker {
+            font-size: 11px;
+            letter-spacing: .12em;
+            font-weight: 700;
+            color: #858c83;
+        }
+
+        .section-title {
+            margin-top: 9px;
+
+            font-family: "Space Grotesk";
+
+            font-size: clamp(32px, 4vw, 50px);
+
+            line-height: 1;
+
+            letter-spacing: -.05em;
+        }
+
+        .section-description {
+            margin-top: 13px;
+
+            color: var(--muted);
+
+            max-width: 480px;
+
+            font-size: 14px;
+        }
+
+        .view-all {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            border-bottom: 1px solid var(--ink);
+
+            padding-bottom: 3px;
+        }
+
+        /* =========================
+           PROMPT GRID
+        ========================= */
+
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
+        }
+
+        .prompt-card {
+            background: white;
+
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+
+            padding: 22px;
+
+            min-height: 300px;
+
+            display: flex;
+            flex-direction: column;
+
+            transition:
+                transform .25s,
+                box-shadow .25s,
+                border-color .25s;
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-6px);
+            border-color: #c9cec5;
+
+            box-shadow:
+                0 25px 60px rgba(26, 40, 31, .1);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category {
+            display: inline-flex;
+
+            padding: 6px 9px;
+
+            border-radius: 7px;
+
+            background: #edf2e8;
+
+            color: var(--green);
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .save {
+            border: 0;
+            background: transparent;
+
+            color: #8a9188;
+
+            font-size: 18px;
+        }
+
+        .prompt-card h3 {
+            margin-top: 22px;
+
+            font-family: "Space Grotesk";
+
+            font-size: 21px;
+            line-height: 1.15;
+
+            letter-spacing: -.035em;
+        }
+
+        .prompt-preview {
+            margin-top: 14px;
+
+            color: #747b72;
+
+            font-size: 13px;
+            line-height: 1.65;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-bottom {
+            margin-top: auto;
+
+            padding-top: 22px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 11px;
+            color: #656c64;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 12px;
+
+            font-size: 11px;
+            color: #8a9188;
+        }
+
+        /* =========================
+           CATEGORIES
+        ========================= */
+
+        .category-section {
+            background: var(--green);
+            color: white;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-section::after {
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            right: -180px;
+            bottom: -250px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,.1);
+            box-shadow:
+                0 0 0 80px rgba(255,255,255,.025),
+                0 0 0 160px rgba(255,255,255,.02);
+        }
+
+        .category-section .section-kicker {
+            color: #9eb1a7;
+        }
+
+        .category-section .section-description {
+            color: #aab9b1;
+        }
+
+        .category-section .section-title {
+            max-width: 550px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .category-card {
+            position: relative;
+
+            min-height: 190px;
+
+            padding: 22px;
+
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 18px;
+
+            background: rgba(255,255,255,.045);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            overflow: hidden;
+
+            transition: .25s;
+        }
+
+        .category-card:hover {
+            background: rgba(255,255,255,.09);
+            transform: translateY(-4px);
+        }
+
+        .category-number {
+            font-size: 11px;
+            color: #91a79b;
+        }
+
+        .category-card h3 {
+            font-family: "Space Grotesk";
+            font-size: 22px;
+        }
+
+        .category-card p {
+            color: #9eaea6;
+            font-size: 12px;
+            max-width: 190px;
+        }
+
+        .category-arrow {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.08);
+
+            display: grid;
+            place-items: center;
+        }
+
+        /* =========================
+           WORKFLOW
+        ========================= */
+
+        .workflow {
+            display: grid;
+            grid-template-columns: .8fr 1.2fr;
+            gap: 90px;
+            align-items: center;
+        }
+
+        .workflow-copy h2 {
+            font-family: "Space Grotesk";
+            font-size: clamp(38px, 4vw, 57px);
+            line-height: .98;
+            letter-spacing: -.055em;
+            margin-top: 12px;
+        }
+
+        .workflow-copy p {
+            color: var(--muted);
+            margin-top: 20px;
+            max-width: 430px;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 20px;
+
+            padding: 25px 0;
+
+            border-bottom: 1px solid var(--line);
+        }
+
+        .step:first-child {
+            border-top: 1px solid var(--line);
+        }
+
+        .step-number {
+            font-family: "Space Grotesk";
+            font-size: 13px;
+            color: #929991;
+        }
+
+        .step h3 {
+            font-family: "Space Grotesk";
+            font-size: 20px;
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        /* =========================
+           CREATOR CTA
+        ========================= */
+
+        .creator-section {
+            padding: 30px 0 100px;
+        }
+
+        .creator-banner {
+            background: #e7eadf;
+
+            border-radius: 28px;
+
+            padding: 55px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 40px;
+
+            overflow: hidden;
+            position: relative;
+        }
+
+        .creator-banner::after {
+            content: "";
+
+            position: absolute;
+
+            width: 270px;
+            height: 270px;
+
+            right: 100px;
+            top: -150px;
+
+            border-radius: 50%;
+
+            background: var(--lime);
+
+            opacity: .45;
+        }
+
+        .creator-banner h2 {
+            font-family: "Space Grotesk";
+            font-size: clamp(32px, 4vw, 48px);
+            line-height: 1;
+
+            letter-spacing: -.05em;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-banner p {
+            margin-top: 13px;
+
+            color: #687067;
+
+            max-width: 500px;
+
+            font-size: 14px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        .creator-button {
+            position: relative;
+            z-index: 2;
+
+            flex-shrink: 0;
+
+            padding: 14px 20px;
+
+            border: 0;
+            border-radius: 11px;
+
+            background: var(--green);
+            color: white;
+
+            font-weight: 600;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #101712;
+            color: white;
+
+            padding: 70px 0 25px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(3, 1fr);
+            gap: 50px;
+
+            padding-bottom: 60px;
+
+            border-bottom: 1px solid rgba(255,255,255,.1);
+        }
+
+        .footer-brand p {
+            color: #8d9890;
+            font-size: 13px;
+
+            max-width: 300px;
+
+            margin-top: 16px;
+        }
+
+        .footer-title {
+            font-size: 11px;
+
+            letter-spacing: .1em;
+
+            color: #748078;
+
+            margin-bottom: 17px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .footer-links a {
+            font-size: 13px;
+            color: #b1bab3;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 22px;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #69736c;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-visual {
+                min-height: 430px;
+            }
+
+            .visual-main {
+                right: 50%;
+                transform: translateX(50%) rotate(2deg);
+            }
+
+            .float-one {
+                left: 8%;
+            }
+
+            .float-two {
+                right: 8%;
+            }
+
+            .prompt-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .workflow {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .container,
+            .nav-inner {
+                width: min(100% - 30px, var(--max));
+            }
+
+            .navbar {
+                height: 70px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .login {
+                display: none;
+            }
+
+            .hero {
+                padding: 65px 0;
+            }
+
+            .hero h1 {
+                font-size: 50px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .hero-search {
+                flex-wrap: wrap;
+                padding: 8px;
+            }
+
+            .hero-search input {
+                min-width: 0;
+            }
+
+            .search-button {
+                width: 100%;
+                margin-top: 7px;
+            }
+
+            .hero-visual {
+                min-height: 400px;
+            }
+
+            .visual-main {
+                width: calc(100% - 25px);
+                right: 50%;
+            }
+
+            .float-one {
+                left: 0;
+                top: 60px;
+            }
+
+            .float-two {
+                right: 0;
+                bottom: 20px;
+            }
+
+            .trust-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .trust-items {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .section {
+                padding: 70px 0;
+            }
+
+            .section-head {
+                display: block;
+            }
+
+            .view-all {
+                display: inline-flex;
+                margin-top: 22px;
+            }
+
+            .prompt-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-card {
+                min-height: 160px;
+            }
+
+            .creator-banner {
+                padding: 32px 25px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<header class="navbar">
+
+    <div class="nav-inner">
+
+        <a href="#" class="brand">
+
+            <div class="brand-mark">
+                P
+            </div>
+
+            <span class="brand-name">
+                PromptVerse
+            </span>
+
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="#discover">
+                Discover
+            </a>
+
+            <a href="#categories">
+                Categories
+            </a>
+
+            <a href="#workflow">
+                How it works
+            </a>
+
+            <a href="#creators">
+                Creators
+            </a>
+
+        </nav>
+
+        <div class="nav-actions">
+
+            <button class="login">
+                Log in
+            </button>
+
+            <button class="nav-cta">
+                Start exploring
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="container hero-inner">
+
+        <div class="hero-copy">
+
+            <div class="eyebrow">
+
+                <span class="eyebrow-dot"></span>
+
+                THE PROMPT DISCOVERY PLATFORM
+
+            </div>
+
+            <h1>
+                Don't write
+                <span>better prompts.</span>
+                Find them.
+            </h1>
+
+            <p class="hero-description">
+                Explore a growing library of high-quality prompts
+                built by creators, professionals and AI enthusiasts.
+                Find the right starting point for your next idea.
+            </p>
+
+            <div class="hero-search">
+
+                <div class="search-icon">
+                    ⌕
+                </div>
+
+                <input
+                    id="heroSearch"
+                    type="text"
+                    placeholder="Search for a prompt, style, or use case..."
+                >
+
+                <button
+                    class="search-button"
+                    onclick="searchPrompts()"
+                >
+                    Search
+                </button>
+
+            </div>
+
+            <div class="popular">
+
+                <span>Popular:</span>
+
+                <a href="#">Product photography</a>
+                <a href="#">YouTube scripts</a>
+                <a href="#">Logo design</a>
+                <a href="#">Research</a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="floating-card float-one">
+
+                <div class="float-stat">
+                    18.4k+
+                </div>
+
+                <div class="float-text">
+                    prompts discovered today
+                </div>
+
+            </div>
+
+
+            <div class="visual-main">
+
+                <div class="visual-header">
+
+                    <span class="mini-label">
+                        FEATURED PROMPT
+                    </span>
+
+                    <div class="mini-icon">
+                        ✦
+                    </div>
+
+                </div>
+
+                <h2 class="prompt-title">
+                    Cinematic Product
+                    Photography
+                </h2>
+
+                <div class="prompt-box">
+
+                    Create a premium editorial product
+                    photograph with soft directional lighting,
+                    subtle shadows, refined composition and
+                    a luxury studio atmosphere.
+
+                </div>
+
+                <div class="prompt-footer">
+
+                    <div class="creator">
+
+                        <div class="avatar">
+                            AR
+                        </div>
+
+                        <span class="creator-name">
+                            Alex Rivera
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="copy"
+                        onclick="copyPrompt(this)"
+                    >
+                        Copy prompt
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="floating-card float-two">
+
+                <div class="float-stat">
+                    94%
+                </div>
+
+                <div class="float-text">
+                    community quality score
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     TRUST
+========================= -->
+
+<section class="trust">
+
+    <div class="container">
+
+        <div class="trust-inner">
+
+            <div class="trust-label">
+                USED BY PEOPLE BUILDING WITH AI
+            </div>
+
+            <div class="trust-items">
+
+                <span>DESIGNERS</span>
+                <span>MARKETERS</span>
+                <span>CREATORS</span>
+                <span>FOUNDERS</span>
+                <span>RESEARCHERS</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FEATURED PROMPTS
+========================= -->
+
+<section
+    class="section"
+    id="discover"
+>
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    CURATED LIBRARY
+                </div>
+
+                <h2 class="section-title">
+                    Worth stealing.
+                </h2>
+
+                <p class="section-description">
+                    A hand-picked collection of useful prompts
+                    that solve real creative and professional tasks.
+                </p>
+
+            </div>
+
+            <a
+                href="#"
+                class="view-all"
+            >
+                View all prompts →
+            </a>
+
+        </div>
+
+
+        <div class="prompt-grid">
+
+            <!-- CARD 1 -->
+
+            <article class="prompt-card">
+
+                <div class="card-top">
+
+                    <span class="category">
+                        IMAGE GENERATION
+                    </span>
+
+                    <button class="save">
+                        ♡
+                    </button>
+
+                </div>
+
+                <h3>
+                    Editorial Portrait
+                    Generator
+                </h3>
+
+                <p class="prompt-preview">
+                    Generate sophisticated editorial
+                    portraits with natural skin texture,
+                    controlled studio lighting and
+                    magazine-quality composition.
+                </p>
+
+                <div class="card-bottom">
+
+                    <div class="card-author">
+
+                        <div class="avatar">
+                            JM
+                        </div>
+
+                        Jamie Miller
+
+                    </div>
+
+                    <div class="card-stats">
+                        <span>♡ 1.8k</span>
+                        <span>↗ 420</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CARD 2 -->
+
+            <article class="prompt-card">
+
+                <div class="card-top">
+
+                    <span class="category">
+                        WRITING
+                    </span>
+
+                    <button class="save">
+                        ♡
+                    </button>
+
+                </div>
+
+                <h3>
+                    Turn Ideas Into
+                    Sharp Copy
+                </h3>
+
+                <p class="prompt-preview">
+                    Transform rough notes into concise,
+                    confident copy while preserving the
+                    original idea, personality and intent.
+                </p>
+
+                <div class="card-bottom">
+
+                    <div class="card-author">
+
+                        <div class="avatar">
+                            NK
+                        </div>
+
+                        Noah Kim
+
+                    </div>
+
+                    <div class="card-stats">
+                        <span>♡ 1.2k</span>
+                        <span>↗ 318</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CARD 3 -->
+
+            <article class="prompt-card">
+
+                <div class="card-top">
+
+                    <span class="category">
+                        PRODUCTIVITY
+                    </span>
+
+                    <button class="save">
+                        ♡
+                    </button>
+
+                </div>
+
+                <h3>
+                    The Weekly
+                    Strategy Review
+                </h3>
+
+                <p class="prompt-preview">
+                    Review your week like an operator:
+                    identify wins, bottlenecks, priorities,
+                    decisions and the highest-leverage action.
+                </p>
+
+                <div class="card-bottom">
+
+                    <div class="card-author">
+
+                        <div class="avatar">
+                            SR
+                        </div>
+
+                        Sofia Reed
+
+                    </div>
+
+                    <div class="card-stats">
+                        <span>♡ 987</span>
+                        <span>↗ 201</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CARD 4 -->
+
+            <article class="prompt-card">
+
+                <div class="card-top">
+
+                    <span class="category">
+                        MARKETING
+                    </span>
+
+                    <button class="save">
+                        ♡
+                    </button>
+
+                </div>
+
+                <h3>
+                    Find Your
+                    Positioning
+                </h3>
+
+                <p class="prompt-preview">
+                    Analyze a product, audience and market
+                    to create differentiated positioning
+                    statements with clear strategic reasoning.
+                </p>
+
+                <div class="card-bottom">
+
+                    <div class="card-author">
+
+                        <div class="avatar">
+                            DV
+                        </div>
+
+                        Daniel Voss
+
+                    </div>
+
+                    <div class="card-stats">
+                        <span>♡ 842</span>
+                        <span>↗ 177</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CARD 5 -->
+
+            <article class="prompt-card">
+
+                <div class="card-top">
+
+                    <span class="category">
+                        CODING
+                    </span>
+
+                    <button class="save">
+                        ♡
+                    </button>
+
+                </div>
+
+                <h3>
+                    Debug Without
+                    Breaking Everything
+                </h3>
+
+                <p class="prompt-preview">
+                    Give an AI coding assistant structured
+                    context so it diagnoses the actual issue
+                    before suggesting changes.
+                </p>
+
+                <div class="card-bottom">
+
+                    <div class="card-author">
+
+                        <div class="avatar">
+                            AT
+                        </div>
+
+                        Arun Thomas
+
+                    </div>
+
+                    <div class="card-stats">
+                        <span>♡ 2.1k</span>
+                        <span>↗ 560</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- CARD 6 -->
+
+            <article class="prompt-card">
+
+                <div class="card-top">
+
+                    <span class="category">
+                        RESEARCH
+                    </span>
+
+                    <button class="save">
+                        ♡
+                    </button>
+
+                </div>
+
+                <h3>
+                    Build a
+                    Research Brief
+                </h3>
+
+                <p class="prompt-preview">
+                    Convert a broad question into a structured
+                    research brief containing assumptions,
+                    evidence gaps and key questions.
+                </p>
+
+                <div class="card-bottom">
+
+                    <div class="card-author">
+
+                        <div class="avatar">
+                            LC
+                        </div>
+
+                        Lena Chen
+
+                    </div>
+
+                    <div class="card-stats">
+                        <span>♡ 734</span>
+                        <span>↗ 146</span>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CATEGORIES
+========================= -->
+
+<section
+    class="section category-section"
+    id="categories"
+>
+
+    <div class="container">
+
+        <div class="section-head">
+
+            <div>
+
+                <div class="section-kicker">
+                    EXPLORE BY INTENT
+                </div>
+
+                <h2 class="section-title">
+                    Start with what
+                    you're trying to do.
+                </h2>
+
+                <p class="section-description">
+                    Skip the endless scrolling. Jump directly
+                    into the kind of work you want to improve.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="category-grid">
+
+            <a href="#" class="category-card">
+
+                <span class="category-number">
+                    01
+                </span>
+
+                <div>
+
+                    <h3>
+                        Create
+                    </h3>
+
+                    <p>
+                        Images, videos, concepts
+                        and visual ideas.
+                    </p>
+
+                </div>
+
+                <span class="category-arrow">
+                    ↗
+                </span>
+
+            </a>
+
+
+            <a href="#" class="category-card">
+
+                <span class="category-number">
+                    02
+                </span>
+
+                <div>
+
+                    <h3>
+                        Write
+                    </h3>
+
+                    <p>
+                        Stories, emails, content
+                        and persuasive copy.
+                    </p>
+
+                </div>
+
+                <span class="category-arrow">
+                    ↗
+                </span>
+
+            </a>
+
+
+            <a href="#" class="category-card">
+
+                <span class="category-number">
+                    03
+                </span>
+
+                <div>
+
+                    <h3>
+                        Build
+                    </h3>
+
+                    <p>
+                        Code, products, websites
+                        and workflows.
+                    </p>
+
+                </div>
+
+                <span class="category-arrow">
+                    ↗
+                </span>
+
+            </a>
+
+
+            <a href="#" class="category-card">
+
+                <span class="category-number">
+                    04
+                </span>
+
+                <div>
+
+                    <h3>
+                        Think
+                    </h3>
+
+                    <p>
+                        Research, strategy,
+                        analysis and decisions.
+                    </p>
+
+                </div>
+
+                <span class="category-arrow">
+                    ↗
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section
+    class="section"
+    id="workflow"
+>
+
+    <div class="container workflow">
+
+        <div class="workflow-copy">
+
+            <div class="section-kicker">
+                SIMPLE BY DESIGN
+            </div>
+
+            <h2>
+                Your next great
+                prompt is probably
+                already here.
+            </h2>
+
+            <p>
+                PromptVerse turns prompt discovery into
+                a searchable, structured experience.
+                Find something useful, adapt it and move on.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <div>
+
+                    <h3>
+                        Search with intent
+                    </h3>
+
+                    <p>
+                        Describe what you're trying to accomplish,
+                        not just the AI tool you're using.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <div>
+
+                    <h3>
+                        Evaluate the prompt
+                    </h3>
+
+                    <p>
+                        See examples, categories, authors,
+                        saves and community signals.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <div>
+
+                    <h3>
+                        Copy. Adapt. Create.
+                    </h3>
+
+                    <p>
+                        Take the useful parts, customize them
+                        and put them to work immediately.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CREATOR CTA
+========================= -->
+
+<section
+    class="creator-section"
+    id="creators"
+>
+
+    <div class="container">
+
+        <div class="creator-banner">
+
+            <div>
+
+                <h2>
+                    Have a prompt
+                    worth sharing?
+                </h2>
+
+                <p>
+                    Publish your best prompts, build a reputation
+                    and help other people get better results from AI.
+                </p>
+
+            </div>
+
+            <button class="creator-button">
+                Become a creator →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-top">
+
+            <div class="footer-brand">
+
+                <a href="#" class="brand">
+
+                    <div class="brand-mark">
+                        P
+                    </div>
+
+                    <span class="brand-name">
+                        PromptVerse
+                    </span>
+
+                </a>
+
+                <p>
+                    A discovery platform for people
+                    building, creating and thinking
+                    with AI.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-title">
+                    EXPLORE
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="#">
+                        All prompts
+                    </a>
+
+                    <a href="#">
+                        Trending
+                    </a>
+
+                    <a href="#">
+                        Categories
+                    </a>
+
+                    <a href="#">
+                        Collections
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-title">
+                    COMMUNITY
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="#">
+                        Creators
+                    </a>
+
+                    <a href="#">
+                        Publish a prompt
+                    </a>
+
+                    <a href="#">
+                        Guidelines
+                    </a>
+
+                    <a href="#">
+                        Community
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="footer-title">
+                    COMPANY
+                </div>
+
+                <div class="footer-links">
+
+                    <a href="#">
+                        About
+                    </a>
+
+                    <a href="#">
+                        Contact
+                    </a>
+
+                    <a href="#">
+                        Privacy
+                    </a>
+
+                    <a href="#">
+                        Terms
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <span>
+                © 2026 PromptVerse
+            </span>
+
+            <span>
+                Built for people who build with AI.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    function searchPrompts() {
+
+        const input =
+            document.getElementById("heroSearch");
+
+        const query =
+            input.value.trim();
+
+        if (!query) {
+
+            input.focus();
+
+            return;
+
+        }
+
+        alert(
+            "Searching PromptVerse for: " + query
+        );
+
+    }
+
+
+    /* =========================
+       ENTER KEY SEARCH
+    ========================= */
+
+    document
+        .getElementById("heroSearch")
+        .addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+
+                searchPrompts();
+
+            }
+
+        });
+
+
+    /* =========================
+       COPY PROMPT
+    ========================= */
+
+    function copyPrompt(button) {
+
+        const text =
+            "Create a premium editorial product photograph with soft directional lighting, subtle shadows, refined composition and a luxury studio atmosphere.";
+
+        navigator.clipboard
+            .writeText(text)
+            .then(() => {
+
+                const oldText =
+                    button.innerText;
+
+                button.innerText =
+                    "Copied ✓";
+
+                setTimeout(() => {
+
+                    button.innerText =
+                        oldText;
+
+                }, 1500);
+
+            });
+
+    }
+
+
+    /* =========================
+       SAVE BUTTON
+    ========================= */
+
+    document
+        .querySelectorAll(".save")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    this.innerText =
+                        this.innerText === "♡"
+                            ? "♥"
+                            : "♡";
+
+                }
+            );
+
+        });
+
+</script>
+
+</body>
+</html>

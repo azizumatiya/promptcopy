@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Create Prompt — PromptVerse{% endblock %}
+{% block content %}
+<section class="page-head"><div class="wrap"><small>ADMIN MANAGED</small><h1>Prompt Publishing</h1><p>Public creator publishing is disabled. Only administrators can publish prompts.</p><a class="btn primary" href="{{url_for('admin_login')}}">Open Admin Panel</a></div></section>
+<section class="section"><div class="wrap"><div class="notice"><i data-lucide="shield-check"></i><div><b>Why?</b><p>This platform keeps prompt publishing controlled so every prompt can be reviewed, tagged, deduplicated and placed correctly in Featured and Trending.</p></div></div></div></section>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — PromptVerse{% endblock %}
+{% block content %}
+<section class="admin-head"><div class="wrap"><div><small>CONTROL CENTER</small><h1>PromptVerse Analytics</h1><p>Manage prompts, users, categories and platform activity.</p></div><form method="post" action="{{url_for('admin_logout')}}"><button class="btn ghost">Logout Admin</button></form></div></section>
+<section class="section admin-section"><div class="wrap">
+<div class="metric-grid">
+<div class="metric"><span>Users</span><b>{{stats.users}}</b><small>Accounts</small></div><div class="metric"><span>Prompts</span><b>{{stats.prompts}}</b><small>Published</small></div><div class="metric"><span>Likes</span><b>{{stats.likes}}</b><small>Total</small></div><div class="metric"><span>Saves</span><b>{{stats.saves}}</b><small>Total</small></div><div class="metric"><span>Copies</span><b>{{stats.copies}}</b><small>Total</small></div><div class="metric"><span>Views</span><b>{{stats.views}}</b><small>Total</small></div>
+</div>
+
+<div class="admin-two">
+<div class="admin-card">
+<div class="admin-card-head"><div><small>NEW CONTENT</small><h2>Add Prompt</h2></div></div>
+<form class="admin-form" method="post" action="{{url_for('admin_add_prompt')}}" enctype="multipart/form-data">
+<input name="title" placeholder="Prompt title" required>
+<input name="description" placeholder="Short description">
+<textarea name="prompt" rows="7" placeholder="Full AI prompt..." required></textarea>
+<div class="two"><select name="model">{% for m in models %}<option>{{m}}</option>{% endfor %}</select><select name="category">{% for c in categories %}<option>{{c}}</option>{% endfor %}</select></div>
+<div class="two"><select name="prompt_type"><option value="image">Image</option><option value="video">Video</option></select><input name="tags" placeholder="cinematic, 4k, realistic"></div>
+<input name="image" placeholder="Image URL (or upload below)">
+<input name="image_file" type="file" accept="image/*">
+<input name="growth" type="hidden" value="50">
+<button class="btn primary">Publish Prompt</button>
+</form>
+</div>
+
+<div class="admin-card">
+<div class="admin-card-head"><div><small>CATEGORIES</small><h2>Manage Categories</h2></div></div>
+<form class="inline-form" method="post" action="{{url_for('add_category')}}"><input name="name" placeholder="New category" required><input name="emoji" value="✨" style="max-width:80px"><button class="btn primary">Add</button></form>
+<div class="category-admin">{% for c in categories %}<div><span>{{c['emoji']}} {{c['name']}}</span><form method="post" action="{{url_for('delete_category',cid=c['id'])}}"><button class="danger-mini">×</button></form></div>{% endfor %}</div>
+</div>
+</div>
+
+<div class="admin-card">
+<div class="admin-card-head"><div><small>PROMPT MANAGEMENT</small><h2>All Prompts</h2></div><input id="adminSearch" placeholder="Search prompts..." class="admin-search"></div>
+<div class="table-wrap"><table id="adminTable"><thead><tr><th>Prompt</th><th>Stats</th><th>Order</th><th>Controls</th></tr></thead><tbody>
+{% for p in prompts %}
+<tr>
+<td><div class="table-prompt"><img src="{{p['image']}}"><div><b>{{p['title']}}</b><span>{{p['category']}} · {{p['model']}}</span><small>{{p['tags']}}</small></div></div></td>
+<td>{{p['views']}} views<br>{{p['likes']}} likes · {{p['saves']}} saves<br>{{p['copies']}} copies</td>
+<td><form class="tiny-form" method="post" action="{{url_for('reorder_prompt',pid=p['id'])}}"><input type="hidden" name="field" value="featured_order"><input name="value" value="{{p['featured_order']}}" title="Featured order"><button>Set</button></form><form class="tiny-form" method="post" action="{{url_for('reorder_prompt',pid=p['id'])}}"><input type="hidden" name="field" value="trending_order"><input name="value" value="{{p['trending_order']}}" title="Trending order"><button>Set</button></form></td>
+<td><div class="control-stack">
+<a class="small-btn" href="{{url_for('prompt_detail',prompt_id=p['id'])}}" target="_blank">View</a>
+<form method="post" action="{{url_for('toggle_featured',pid=p['id'])}}"><button class="small-btn {{'on' if p['manual_featured'] else ''}}">Featured</button></form>
+<form method="post" action="{{url_for('toggle_trending',pid=p['id'])}}"><button class="small-btn {{'on' if p['manual_trending'] else ''}}">Trending</button></form>
+<form method="post" action="{{url_for('admin_delete_prompt',pid=p['id'])}}" onsubmit="return confirm('Delete this prompt?')"><button class="small-btn danger">Delete</button></form>
+</div></td>
+</tr>
+{% endfor %}
+</tbody></table></div>
+</div>
+
+<div class="admin-two">
+<div class="admin-card"><div class="admin-card-head"><div><small>USERS</small><h2>Recent Accounts</h2></div></div>
+<div class="user-list">{% for u in users %}<div><div><b>{{u['email']}}</b><span>{{u['created_at'][:10]}}</span></div>{% if u['email'] != config_admin_email %}<form method="post" action="{{url_for('toggle_user',uid=u['id'])}}"><button class="small-btn">{{'Disable' if u['is_active'] else 'Enable'}}</button></form>{% endif %}</div>{% endfor %}</div>
+</div>
+<div class="admin-card"><div class="admin-card-head"><div><small>ACTIVITY LOG</small><h2>Recent Actions</h2></div></div>
+<div class="logs">{% for l in logs %}<div><b>{{l['action']}}</b><span>{{l['details']}}</span><small>{{l['created_at'][:19].replace('T',' ')}}</small></div>{% endfor %}</div></div>
+</div>
+</div></section>
+{% endblock %}
+{% block scripts %}
+<script>
+const adminSearch=document.getElementById('adminSearch');
+if(adminSearch){adminSearch.addEventListener('input',()=>{const q=adminSearch.value.toLowerCase();document.querySelectorAll('#adminTable tbody tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(q)?'':'none');});}
+</script>
+{% endblock %}

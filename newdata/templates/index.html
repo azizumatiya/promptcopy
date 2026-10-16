@@ -1,0 +1,4932 @@
+{% extends "base.html" %}
+
+{% block title %}PromptVerse — Discover AI Prompts{% endblock %}
+
+{% block content %}
+
+<style>
+/* =========================================================
+   PROMPTVERSE HERO
+   Layout: First Reference
+   Visual Style: Second Reference
+   ========================================================= */
+
+.hero {
+    position: relative;
+    min-height: 580px;
+    overflow: hidden;
+
+    /* SECOND IMAGE BACKGROUND */
+    background:
+        radial-gradient(
+            circle at 76% 18%,
+            rgba(236, 58, 174, 0.14),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 91% 42%,
+            rgba(138, 73, 239, 0.12),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 55% 95%,
+            rgba(65, 110, 255, 0.08),
+            transparent 35%
+        ),
+        linear-gradient(
+            115deg,
+            #070910 0%,
+            #0b0a17 40%,
+            #140b1a 70%,
+            #090a10 100%
+        );
+
+    color: #f7f7fb;
+}
+
+
+/* ---------------------------------------------------------
+   BACKGROUND GLOW
+   --------------------------------------------------------- */
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 650px;
+    height: 650px;
+
+    top: -260px;
+    right: -80px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(235, 52, 174, 0.15),
+            rgba(156, 67, 235, 0.07) 35%,
+            transparent 70%
+        );
+
+    filter: blur(20px);
+    pointer-events: none;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 700px;
+    height: 500px;
+
+    left: -300px;
+    bottom: -350px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(64, 100, 255, 0.09),
+            transparent 70%
+        );
+
+    filter: blur(30px);
+    pointer-events: none;
+}
+
+
+.hero-glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+
+    top: 100px;
+    right: 240px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(224, 52, 184, 0.08),
+            transparent 70%
+        );
+
+    filter: blur(50px);
+    pointer-events: none;
+}
+
+
+/* ---------------------------------------------------------
+   MAIN WRAPPER
+   --------------------------------------------------------- */
+
+.hero .wrap {
+    width: min(1190px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+.hero-inner {
+    position: relative;
+    z-index: 5;
+
+    min-height: 680px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 72px 0 105px;
+}
+
+/* =========================================================
+   REFERENCE DESKTOP SPACING
+   Left content stays completely on the left while the
+   visual feature composition occupies the right.
+   ========================================================= */
+
+.hero-inner > .eyebrow,
+.hero-inner > h1,
+.hero-inner > p,
+.hero-inner > .search-box,
+.hero-inner > .popular {
+    position: relative;
+    z-index: 20;
+}
+
+.hero-inner > .eyebrow {
+    width: 540px;
+}
+
+.hero-inner > h1 {
+    width: 650px;
+    max-width: 650px;
+}
+
+.hero-inner > p {
+    width: 550px;
+    max-width: 150px;
+}
+
+.hero-inner > .search-box {
+    width: 680px;
+    max-width: 680px;
+}
+
+.hero-inner > .popular {
+    width: 680px;
+    max-width: 680px;
+}
+
+
+
+/* ---------------------------------------------------------
+   EYEBROW
+   --------------------------------------------------------- */
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    width: fit-content;
+
+    margin-bottom: 25px;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+
+    color: #bfc0cc;
+}
+
+.eyebrow span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #ed3cae;
+
+    box-shadow:
+        0 0 0 4px rgba(237, 60, 174, 0.08),
+        0 0 15px rgba(237, 60, 174, 0.55);
+}
+
+
+/* ---------------------------------------------------------
+   MAIN HEADING
+   --------------------------------------------------------- */
+
+.hero h1 {
+    max-width: 720px;
+
+    margin: 0;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: clamp(58px, 6.2vw, 86px);
+    line-height: 0.98;
+
+    font-weight: 750;
+    letter-spacing: -4.8px;
+
+    color: #f7f7fa;
+}
+
+.hero h1 em {
+    font-style: normal;
+
+    background:
+        linear-gradient(
+            90deg,
+            #f23ba9 0%,
+            #ae54ee 48%,
+            #48b9ff 100%
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+
+/* ---------------------------------------------------------
+   DESCRIPTION
+   --------------------------------------------------------- */
+
+.hero > .wrap > .hero-inner > p {
+    max-width: 620px;
+
+    margin: 27px 0 28px;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 17px;
+    line-height: 1.7;
+
+    color: #9b9ba9;
+
+    letter-spacing: -0.15px;
+}
+
+
+/* ---------------------------------------------------------
+   SEARCH
+   --------------------------------------------------------- */
+
+.search-box {
+    width: min(680px, 100%);
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 7px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(255,255,255,0.065),
+            rgba(255,255,255,0.035)
+        );
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.search-box:focus-within {
+    border-color: rgba(194, 79, 230, 0.48);
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.35),
+        0 0 0 4px rgba(190, 76, 230, 0.07);
+}
+
+.search-box i {
+    width: 21px;
+    height: 21px;
+
+    margin-left: 17px;
+
+    color: #898b9b;
+
+    flex-shrink: 0;
+}
+
+.search-box input {
+    min-width: 0;
+    flex: 1;
+
+    height: 100%;
+
+    padding: 0 15px;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 15px;
+    color: #f7f7fa;
+}
+
+.search-box input::placeholder {
+    color: #777988;
+}
+
+.search-box input::-webkit-search-cancel-button {
+    filter: invert(1);
+    opacity: 0.5;
+}
+
+
+/* SEARCH BUTTON */
+
+.search-box button {
+    height: 56px;
+    min-width: 108px;
+
+    padding: 0 23px;
+
+    border: 0;
+    border-radius: 14px;
+
+    background: #f7f7fa;
+    color: #0a0a0f;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.search-box button:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 25px rgba(255,255,255,0.12);
+}
+
+
+/* ---------------------------------------------------------
+   POPULAR TAGS
+   --------------------------------------------------------- */
+
+.popular {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+
+    margin-top: 17px;
+}
+
+.popular > span {
+    margin-right: 4px;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 13px;
+    color: #686a78;
+}
+
+.popular button {
+    padding: 8px 14px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.025);
+
+    color: #8f909d;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.popular button:hover {
+    color: #f2f2f5;
+
+    background:
+        linear-gradient(
+            100deg,
+            rgba(237,60,174,0.11),
+            rgba(111,78,236,0.11)
+        );
+
+    border-color: rgba(184, 74, 229, 0.3);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RIGHT SIDE FEATURE AREA
+   ========================================================= */
+
+.hero-feature-area {
+    position: absolute;
+    z-index: 10;
+
+    width: 555px;
+    height: 450px;
+
+    /* Exact right-side placement like the reference */
+    right: -5px;
+    top: 105px;
+
+    pointer-events: none;
+}
+
+
+/* ---------------------------------------------------------
+   FEATURED PROMPT CARD
+   --------------------------------------------------------- */
+
+.featured-card {
+    position: absolute;
+
+    width: 410px;
+
+    right: 0;
+    top: 20px;
+
+    padding: 27px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.095),
+            rgba(255,255,255,0.035)
+        );
+
+    box-shadow:
+        0 30px 90px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    transform: rotate(-1deg);
+}
+
+.featured-card::before {
+    content: "";
+
+    position: absolute;
+    inset: -1px;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.15),
+            transparent 35%,
+            rgba(218,64,190,0.12)
+        );
+
+    pointer-events: none;
+
+    mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+
+    mask-composite: exclude;
+
+    padding: 1px;
+}
+
+
+/* FEATURED HEADER */
+
+.featured-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.featured-label {
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+
+    color: #8f909c;
+}
+
+.featured-icon {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(236,60,172,0.16),
+            rgba(95,117,255,0.15)
+        );
+
+    color: #eeeef4;
+}
+
+.featured-icon i {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* FEATURED TITLE */
+
+.featured-card h3 {
+    margin: 0 0 17px;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 25px;
+    line-height: 1.15;
+
+    letter-spacing: -0.8px;
+
+    color: #f4f4f7;
+}
+
+
+/* PROMPT DESCRIPTION */
+
+.featured-description {
+    padding: 17px 18px;
+
+    margin-bottom: 18px;
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,0.055);
+
+    color: #a6a7b3;
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+
+/* AUTHOR */
+
+.featured-author {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.author-avatar {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(242,59,170,0.2),
+            rgba(74,155,255,0.18)
+        );
+
+    color: #e8e8ee;
+
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.author-info {
+    flex: 1;
+}
+
+.author-name {
+    display: block;
+
+    color: #e6e6eb;
+
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.author-role {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #6f707d;
+
+    font-family: Inter, sans-serif;
+    font-size: 10px;
+}
+
+.copy-prompt {
+    padding: 9px 14px;
+
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.04);
+
+    color: #d8d8df;
+
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   FLOATING STAT CARDS
+   ========================================================= */
+
+.floating-stat {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 14px 17px;
+
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.09),
+            rgba(255,255,255,0.035)
+        );
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.35);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    z-index: 5;
+}
+
+.floating-stat .stat-icon {
+    width: 37px;
+    height: 37px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(236,60,174,0.12),
+            rgba(81,136,255,0.1)
+        );
+
+    color: #b8e2ff;
+}
+
+.floating-stat .stat-icon i {
+    width: 18px;
+    height: 18px;
+}
+
+.floating-stat strong {
+    display: block;
+
+    font-family: Inter, sans-serif;
+
+    font-size: 17px;
+    line-height: 1;
+
+    color: #f4f4f7;
+
+    letter-spacing: -0.5px;
+}
+
+.floating-stat small {
+    display: block;
+
+    margin-top: 5px;
+
+    font-family: Inter, sans-serif;
+
+    font-size: 9px;
+
+    color: #7f808d;
+}
+
+
+/* TOP LEFT STAT */
+
+.stat-discovered {
+    left: 0;
+    top: 36px;
+
+    transform: rotate(-7deg);
+}
+
+
+/* MIDDLE LEFT STAT */
+
+.stat-uses {
+    left: -7px;
+    top: 205px;
+
+    transform: rotate(-5deg);
+}
+
+
+/* QUALITY STAT */
+
+.stat-quality {
+    right: -35px;
+    top: 265px;
+
+    transform: rotate(5deg);
+}
+
+
+/* =========================================================
+   CURATED CHECK LIST
+   ========================================================= */
+
+.curated-list {
+    position: absolute;
+
+    right: 52px;
+    bottom: 0;
+
+    width: 255px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+
+    padding: 17px 18px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.045),
+            rgba(255,255,255,0.018)
+        );
+
+    border: 1px solid rgba(255,255,255,0.06);
+
+    backdrop-filter: blur(15px);
+}
+
+.curated-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-family: Inter, sans-serif;
+
+    font-size: 11px;
+
+    color: #8c8d99;
+}
+
+.curated-item i {
+    width: 17px;
+    height: 17px;
+
+    padding: 3px;
+
+    border-radius: 50%;
+
+    background: rgba(71, 211, 160, 0.12);
+
+    color: #70d7b1;
+}
+
+
+/* =========================================================
+   DECORATIVE CONNECTOR
+   ========================================================= */
+
+.feature-connector {
+    position: absolute;
+
+    width: 85px;
+    height: 60px;
+
+    left: 135px;
+    top: 285px;
+
+    border-left: 1px dashed rgba(180,180,195,0.28);
+    border-bottom: 1px dashed rgba(180,180,195,0.28);
+
+    border-radius: 0 0 0 50px;
+
+    transform: rotate(-12deg);
+}
+
+.feature-connector::after {
+    content: "";
+
+    position: absolute;
+
+    left: -5px;
+    bottom: -4px;
+
+    width: 7px;
+    height: 7px;
+
+    border-left: 1px solid rgba(200,200,210,0.45);
+    border-bottom: 1px solid rgba(200,200,210,0.45);
+
+    transform: rotate(45deg);
+}
+
+
+/* =========================================================
+   BOTTOM STATS BAR
+   ========================================================= */
+
+.hero-stats {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 50%;
+    bottom: 24px;
+
+    transform: translateX(-50%);
+
+    width: min(1190px, calc(100% - 48px));
+
+    min-height: 84px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px 14px;
+
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            110deg,
+            rgba(255,255,255,0.065),
+            rgba(255,255,255,0.025)
+        );
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.35),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+}
+
+
+/* STAT ITEM */
+
+.hero-stat {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0 17px;
+
+    border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+.hero-stat:last-of-type {
+    border-right: 0;
+}
+
+.hero-stat-icon {
+    width: 40px;
+    height: 40px;
+
+    flex: 0 0 40px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(235,60,174,0.12),
+            rgba(82,120,255,0.11)
+        );
+
+    color: #c3e3ff;
+}
+
+.hero-stat-icon i {
+    width: 18px;
+    height: 18px;
+}
+
+.hero-stat-content {
+    min-width: 0;
+}
+
+.hero-stat strong {
+    display: block;
+
+    white-space: nowrap;
+
+    font-family: Inter, sans-serif;
+
+    font-size: 14px;
+    line-height: 1.15;
+
+    color: #eeeeF3;
+}
+
+.hero-stat span {
+    display: block;
+
+    margin-top: 5px;
+
+    white-space: nowrap;
+
+    font-family: Inter, sans-serif;
+
+    font-size: 10px;
+
+    color: #747582;
+}
+
+
+/* START BUTTON */
+
+.start-exploring {
+    flex: 0 0 auto;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    height: 48px;
+
+    padding: 0 21px;
+
+    margin-left: 13px;
+
+    border: 0;
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            100deg,
+            #ed3cac,
+            #a44de9 60%,
+            #54aaf7
+        );
+
+    color: white;
+
+    font-family: Inter, sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 30px rgba(187, 58, 204, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.start-exploring:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 35px rgba(187, 58, 204, 0.32);
+}
+
+.start-exploring i {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1150px) and (min-width: 901px) {
+
+    .hero .wrap {
+        width: calc(100% - 40px);
+    }
+
+    .hero-inner > h1 {
+        width: 570px;
+        max-width: 570px;
+        font-size: 65px;
+    }
+
+    .hero-inner > p {
+        width: 500px;
+        max-width: 500px;
+    }
+
+    .hero-inner > .search-box {
+        width: 570px;
+        max-width: 570px;
+    }
+
+    .hero-inner > .popular {
+        width: 570px;
+        max-width: 570px;
+    }
+
+    .hero-feature-area {
+        opacity: 0.92;
+        right: -135px;
+        transform: scale(0.88);
+        transform-origin: right center;
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    .hero-inner > .eyebrow,
+    .hero-inner > h1,
+    .hero-inner > p,
+    .hero-inner > .search-box,
+    .hero-inner > .popular {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero {
+        min-height: auto;
+    }
+
+    .hero-inner {
+        min-height: auto;
+
+        padding:
+            80px 0
+            170px;
+    }
+
+    .hero h1 {
+        font-size: clamp(50px, 9vw, 72px);
+    }
+
+    .hero-feature-area {
+        display: none;
+    }
+
+    .hero-stats {
+        width: calc(100% - 30px);
+
+        overflow-x: auto;
+
+        justify-content: flex-start;
+    }
+
+    .hero-stat {
+        flex: 0 0 auto;
+
+        min-width: 175px;
+    }
+
+    .start-exploring {
+        margin-left: 10px;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .hero .wrap {
+        width: calc(100% - 32px);
+    }
+
+    .hero-inner {
+        padding:
+            60px 0
+            180px;
+    }
+
+    .hero h1 {
+        font-size: clamp(42px, 12vw, 58px);
+
+        line-height: 1;
+
+        letter-spacing: -3px;
+    }
+
+    .hero > .wrap > .hero-inner > p {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .search-box {
+        height: 62px;
+        border-radius: 15px;
+    }
+
+    .search-box button {
+        height: 48px;
+        min-width: 90px;
+
+        padding: 0 17px;
+
+        border-radius: 11px;
+    }
+
+    .search-box input {
+        font-size: 13px;
+        padding: 0 8px;
+    }
+
+    .search-box i {
+        margin-left: 12px;
+    }
+
+    .popular {
+        gap: 7px;
+    }
+
+    .popular button {
+        padding: 7px 11px;
+    }
+
+    .hero-stats {
+        bottom: 15px;
+
+        min-height: 74px;
+
+        border-radius: 16px;
+
+        padding: 8px;
+    }
+
+    .hero-stat {
+        min-width: 155px;
+
+        padding: 0 10px;
+    }
+
+    .hero-stat-icon {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+    }
+
+    .hero-stat strong {
+        font-size: 12px;
+    }
+
+    .hero-stat span {
+        font-size: 9px;
+    }
+
+    .start-exploring {
+        height: 42px;
+
+        padding: 0 15px;
+
+        font-size: 11px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    .hero-inner {
+        padding-bottom: 165px;
+    }
+
+    .eyebrow {
+        font-size: 10px;
+        letter-spacing: 1.3px;
+    }
+
+    .hero h1 {
+        font-size: 43px;
+    }
+
+    .hero > .wrap > .hero-inner > p {
+        font-size: 14px;
+    }
+
+    .search-box input::placeholder {
+        font-size: 11px;
+    }
+
+    .popular > span {
+        width: 100%;
+    }
+
+    .hero-stats {
+        width: calc(100% - 20px);
+    }
+}
+</style>
+
+
+<section class="hero">
+
+    <!-- Background Glow -->
+    <div class="hero-glow"></div>
+
+
+    <div class="wrap hero-inner">
+
+        <!-- =================================================
+             LEFT CONTENT
+             ================================================= -->
+
+        <div class="eyebrow">
+            <span></span>
+            AI PROMPT DISCOVERY ENGINE
+        </div>
+
+
+        <h1>
+            Better ideas start<br>
+            with the <em>right prompt.</em>
+        </h1>
+
+
+        <p>
+            Explore curated prompts for AI images, videos, photography,
+            design and more — with live trends powered by real activity.
+        </p>
+
+
+        <!-- SEARCH -->
+
+        <form id="searchForm" class="search-box">
+
+            <i data-lucide="search"></i>
+
+            <input
+                id="searchInput"
+                type="search"
+                autocomplete="off"
+                placeholder="Search title, prompt, category, model or tags..."
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+
+        <!-- POPULAR -->
+
+        <div class="popular">
+
+            <span>Popular</span>
+
+            <button
+                type="button"
+                data-search="cinematic"
+            >
+                Cinematic
+            </button>
+
+            <button
+                type="button"
+                data-search="portrait"
+            >
+                Portrait
+            </button>
+
+            <button
+                type="button"
+                data-search="anime"
+            >
+                Anime
+            </button>
+
+            <button
+                type="button"
+                data-search="realistic"
+            >
+                Realistic
+            </button>
+
+            <button
+                type="button"
+                data-search="product"
+            >
+                Product
+            </button>
+
+            <button
+                type="button"
+                data-search="4k"
+            >
+                4K
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT SIDE FEATURE AREA
+             ================================================= -->
+
+        <div class="hero-feature-area">
+
+
+            <!-- DISCOVERED STAT -->
+
+            <div class="floating-stat stat-discovered">
+
+                <div class="stat-icon">
+                    <i data-lucide="trending-up"></i>
+                </div>
+
+                <div>
+                    <strong>18.4k+</strong>
+                    <small>prompts discovered today</small>
+                </div>
+
+            </div>
+
+
+            <!-- USES STAT -->
+
+            <div class="floating-stat stat-uses">
+
+                <div class="stat-icon">
+                    <i data-lucide="bar-chart-3"></i>
+                </div>
+
+                <div>
+                    <strong>12M+</strong>
+                    <small>total prompt uses</small>
+                </div>
+
+            </div>
+
+
+            <!-- FEATURED PROMPT -->
+
+            <div class="featured-card">
+
+                <div class="featured-top">
+
+                    <span class="featured-label">
+                        FEATURED PROMPT
+                    </span>
+
+                    <div class="featured-icon">
+                        <i data-lucide="sparkles"></i>
+                    </div>
+
+                </div>
+
+
+                <h3>
+                    Cinematic Product Photography
+                </h3>
+
+
+                <div class="featured-description">
+                    Create a premium editorial product photograph
+                    with soft directional lighting, subtle shadows,
+                    refined composition and a luxury studio atmosphere.
+                </div>
+
+
+                <div class="featured-author">
+
+                    <div class="author-avatar">
+                        AR
+                    </div>
+
+                    <div class="author-info">
+
+                        <span class="author-name">
+                            Alex Rivera
+                        </span>
+
+                        <span class="author-role">
+                            Prompt Creator
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="copy-prompt"
+                    >
+                        Copy prompt
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONNECTOR -->
+
+            <div class="feature-connector"></div>
+
+
+            <!-- QUALITY -->
+
+            <div class="floating-stat stat-quality">
+
+                <div class="stat-icon">
+                    <i data-lucide="shield-check"></i>
+                </div>
+
+                <div>
+                    <strong>94%</strong>
+                    <small>community quality score</small>
+                </div>
+
+            </div>
+
+
+            <!-- CURATED CHECKS -->
+
+            <div class="curated-list">
+
+                <div class="curated-item">
+
+                    <i data-lucide="check"></i>
+
+                    Curated by experts
+
+                </div>
+
+
+                <div class="curated-item">
+
+                    <i data-lucide="check"></i>
+
+                    Updated daily
+
+                </div>
+
+
+                <div class="curated-item">
+
+                    <i data-lucide="check"></i>
+
+                    Works with all major AI tools
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         BOTTOM STATS
+         ===================================================== -->
+
+    <div class="hero-stats">
+
+
+        <!-- STAT 1 -->
+
+        <div class="hero-stat">
+
+            <div class="hero-stat-icon">
+                <i data-lucide="sparkles"></i>
+            </div>
+
+            <div class="hero-stat-content">
+
+                <strong>
+                    10,000+
+                </strong>
+
+                <span>
+                    high-quality prompts
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAT 2 -->
+
+        <div class="hero-stat">
+
+            <div class="hero-stat-icon">
+                <i data-lucide="users"></i>
+            </div>
+
+            <div class="hero-stat-content">
+
+                <strong>
+                    2,500+
+                </strong>
+
+                <span>
+                    creators worldwide
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAT 3 -->
+
+        <div class="hero-stat">
+
+            <div class="hero-stat-icon">
+                <i data-lucide="folder"></i>
+            </div>
+
+            <div class="hero-stat-content">
+
+                <strong>
+                    100+
+                </strong>
+
+                <span>
+                    curated collections
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAT 4 -->
+
+        <div class="hero-stat">
+
+            <div class="hero-stat-icon">
+                <i data-lucide="zap"></i>
+            </div>
+
+            <div class="hero-stat-content">
+
+                <strong>
+                    All major AI tools
+                </strong>
+
+                <span>
+                    ChatGPT, Claude, Gemini & more
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CTA -->
+
+        <button
+            type="button"
+            class="start-exploring"
+            onclick="document.getElementById('searchInput').focus()"
+        >
+
+            Start exploring
+
+            <i data-lucide="arrow-right"></i>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LUCIDE ICONS
+     ========================================================= -->
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* Initialize icons */
+    if (typeof lucide !== "undefined") {
+        lucide.createIcons();
+    }
+
+
+    /* =====================================================
+       SEARCH
+       ===================================================== */
+
+    const searchForm =
+        document.getElementById("searchForm");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+
+    if (searchForm && searchInput) {
+
+        searchForm.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const query =
+                searchInput.value.trim();
+
+            if (!query) {
+
+                searchInput.focus();
+
+                return;
+
+            }
+
+
+            /*
+             * If your Flask search route exists,
+             * change this to:
+             *
+             * window.location.href =
+             * "/prompts?search=" +
+             * encodeURIComponent(query);
+             *
+             */
+
+            const searchUrl =
+                "/prompts?search=" +
+                encodeURIComponent(query);
+
+            window.location.href = searchUrl;
+
+        });
+
+    }
+
+
+    /* =====================================================
+       POPULAR TAG SEARCH
+       ===================================================== */
+
+    document
+        .querySelectorAll("[data-search]")
+        .forEach(function (button) {
+
+            button.addEventListener("click", function () {
+
+                const value =
+                    this.dataset.search;
+
+                if (!searchInput) {
+                    return;
+                }
+
+                searchInput.value = value;
+
+                searchInput.focus();
+
+
+                /*
+                 * Automatically submit.
+                 */
+
+                if (searchForm) {
+                    searchForm.dispatchEvent(
+                        new Event("submit", {
+                            bubbles: true,
+                            cancelable: true
+                        })
+                    );
+                }
+
+            });
+
+        });
+
+
+    /* =====================================================
+       COPY PROMPT
+       ===================================================== */
+
+    const copyButton =
+        document.querySelector(".copy-prompt");
+
+
+    if (copyButton) {
+
+        copyButton.addEventListener("click", async function () {
+
+            const promptText =
+                "Create a premium editorial product photograph with soft directional lighting, subtle shadows, refined composition and a luxury studio atmosphere.";
+
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    promptText
+                );
+
+
+                const originalText =
+                    this.textContent;
+
+                this.textContent =
+                    "Copied ✓";
+
+
+                setTimeout(() => {
+
+                    this.textContent =
+                        originalText;
+
+                }, 1600);
+
+
+            } catch (error) {
+
+                console.log(
+                    "Copy failed",
+                    error
+                );
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+
+<!-- =========================================================
+     EXPLORE PROMPTS
+========================================================= -->
+
+<section class="section explore-section" id="explore">
+
+    <div class="wrap">
+
+        <div class="section-head">
+
+            <div>
+                <small>CURATED COLLECTION</small>
+
+                <h2>Explore Prompts</h2>
+
+                <p>
+                    Search and filter the live database.
+                </p>
+            </div>
+
+            <a href="{{ url_for('library') }}" class="library-button">
+                <i data-lucide="bookmark"></i>
+                <span>My Library</span>
+            </a>
+
+        </div>
+
+
+        <div class="explore-layout">
+
+            <!-- =================================================
+                 LEFT FILTER SIDEBAR
+            ================================================== -->
+
+            <aside class="filter-sidebar">
+
+                <div class="filter-sidebar-head">
+
+                    <div>
+                        <strong>FILTER PROMPTS</strong>
+
+                        <span>
+                            Refine your results
+                        </span>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="clearFilters"
+                        class="clear-filter"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+
+                <!-- MODEL -->
+
+                <div class="filter-menu">
+
+                    <button
+                        type="button"
+                        class="filter-menu-title"
+                        data-target="modelOptions"
+                    >
+                        <span>
+                            <i data-lucide="sparkles"></i>
+                            MODEL
+                        </span>
+
+                        <i
+                            data-lucide="chevron-down"
+                            class="filter-arrow"
+                        ></i>
+                    </button>
+
+
+                    <div
+                        class="filter-options"
+                        id="modelOptions"
+                    >
+
+                        <button
+                            type="button"
+                            class="filter active"
+                            data-model="All"
+                        >
+                            All
+                        </button>
+
+                        {% for m in models %}
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-model="{{ m }}"
+                        >
+                            {{ m }}
+                        </button>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- TYPE -->
+
+                <div class="filter-menu">
+
+                    <button
+                        type="button"
+                        class="filter-menu-title"
+                        data-target="typeOptions"
+                    >
+                        <span>
+                            <i data-lucide="layers"></i>
+                            TYPE
+                        </span>
+
+                        <i
+                            data-lucide="chevron-down"
+                            class="filter-arrow"
+                        ></i>
+                    </button>
+
+
+                    <div
+                        class="filter-options"
+                        id="typeOptions"
+                    >
+
+                        <button
+                            type="button"
+                            class="filter active"
+                            data-type="All"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-type="image"
+                        >
+                            Images
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-type="video"
+                        >
+                            Videos
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="filter-menu">
+
+                    <button
+                        type="button"
+                        class="filter-menu-title"
+                        data-target="categoryOptions"
+                    >
+                        <span>
+                            <i data-lucide="grid-3x3"></i>
+                            CATEGORY
+                        </span>
+
+                        <i
+                            data-lucide="chevron-down"
+                            class="filter-arrow"
+                        ></i>
+                    </button>
+
+
+                    <div
+                        class="filter-options"
+                        id="categoryOptions"
+                    >
+
+                        <button
+                            type="button"
+                            class="filter active"
+                            data-category="All"
+                        >
+                            All
+                        </button>
+
+                        {% for c in categories %}
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-category="{{ c['name'] }}"
+                        >
+                            {{ c['emoji'] }}
+                            {{ c['name'] }}
+                        </button>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- USE CASES -->
+
+                <div class="filter-menu">
+
+                    <button
+                        type="button"
+                        class="filter-menu-title"
+                        data-target="useCaseOptions"
+                    >
+                        <span>
+                            <i data-lucide="briefcase"></i>
+                            USE CASES
+                        </span>
+
+                        <i
+                            data-lucide="chevron-down"
+                            class="filter-arrow"
+                        ></i>
+                    </button>
+
+
+                    <div
+                        class="filter-options"
+                        id="useCaseOptions"
+                    >
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-usecase="All"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-usecase="social"
+                        >
+                            Social Media
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-usecase="marketing"
+                        >
+                            Marketing
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-usecase="design"
+                        >
+                            Design
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STYLES -->
+
+                <div class="filter-menu">
+
+                    <button
+                        type="button"
+                        class="filter-menu-title"
+                        data-target="styleOptions"
+                    >
+                        <span>
+                            <i data-lucide="palette"></i>
+                            STYLES
+                        </span>
+
+                        <i
+                            data-lucide="chevron-down"
+                            class="filter-arrow"
+                        ></i>
+                    </button>
+
+
+                    <div
+                        class="filter-options"
+                        id="styleOptions"
+                    >
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-style="All"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-style="cinematic"
+                        >
+                            Cinematic
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-style="realistic"
+                        >
+                            Realistic
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-style="minimal"
+                        >
+                            Minimal
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-style="anime"
+                        >
+                            Anime
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBJECTS -->
+
+                <div class="filter-menu">
+
+                    <button
+                        type="button"
+                        class="filter-menu-title"
+                        data-target="subjectOptions"
+                    >
+                        <span>
+                            <i data-lucide="scan-face"></i>
+                            SUBJECTS
+                        </span>
+
+                        <i
+                            data-lucide="chevron-down"
+                            class="filter-arrow"
+                        ></i>
+                    </button>
+
+
+                    <div
+                        class="filter-options"
+                        id="subjectOptions"
+                    >
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-subject="All"
+                        >
+                            All
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-subject="portrait"
+                        >
+                            Portrait
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-subject="people"
+                        >
+                            People
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-subject="product"
+                        >
+                            Product
+                        </button>
+
+                        <button
+                            type="button"
+                            class="filter"
+                            data-subject="nature"
+                        >
+                            Nature
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+
+            <!-- =================================================
+                 RIGHT RESULTS
+            ================================================== -->
+
+            <div class="explore-results">
+
+
+                <!-- SEARCH -->
+
+                <div class="explore-search">
+
+                    <i data-lucide="search"></i>
+
+                    <input
+                        id="exploreSearchInput"
+                        type="search"
+                        placeholder="Search prompts, categories, models or tags..."
+                    >
+
+                    <button
+                        type="button"
+                        id="exploreSearchButton"
+                    >
+                        Search
+                    </button>
+
+                </div>
+
+
+                <!-- RESULT BAR -->
+
+                <div class="sortbar">
+
+                    <div class="result-info">
+                        <strong id="resultCount">0</strong>
+                        <span>prompts found</span>
+                    </div>
+
+
+                    <div class="sort-wrapper">
+
+                        <select id="sortSelect">
+                            <option value="newest">
+                                Newest First
+                            </option>
+
+                            <option value="trending">
+                                Smart Trending
+                            </option>
+
+                            <option value="likes">
+                                Most Liked
+                            </option>
+                        </select>
+
+                        <i data-lucide="chevron-down"></i>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROMPT GALLERY -->
+
+                <div
+                    id="gallery"
+                    class="gallery"
+                ></div>
+
+
+                <!-- EMPTY STATE -->
+
+                <div
+                    id="emptyState"
+                    class="empty-state"
+                    style="display:none;"
+                >
+
+                    <div class="empty-icon">
+                        <i data-lucide="search-x"></i>
+                    </div>
+
+                    <h3>No prompts found</h3>
+
+                    <p>
+                        Try another search or clear your filters.
+                    </p>
+
+                    <button
+                        type="button"
+                        onclick="document.getElementById('clearFilters').click()"
+                    >
+                        Clear Filters
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     TRENDING
+========================================================= -->
+
+<section
+    class="trending-section"
+    id="trending"
+>
+
+    <div class="wrap">
+
+        <div class="trend-title">
+
+            <div>
+
+                <div class="live">
+                    <span></span>
+                    LIVE TREND RADAR
+                </div>
+
+                <h2>
+                    Trending <em>This Week.</em>
+                </h2>
+
+                <p>
+                    Smart ranking combines likes, saves, copies,
+                    views and freshness.
+                </p>
+
+            </div>
+
+
+            <div class="trend-nav">
+
+                <button id="trendPrev">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+
+                <div>
+                    <strong id="trendNumber">01</strong>
+                    <small>
+                        /
+                        <span id="trendTotal">05</span>
+                    </small>
+                </div>
+
+                <button id="trendNext">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="trendHero"
+            class="trend-hero"
+        ></div>
+
+        <div
+            id="trendRail"
+            class="trend-rail"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CATEGORIES
+========================================================= -->
+
+<section class="section alt category-section" id="categories">
+
+    <div class="wrap">
+
+        <!-- SECTION HEADER -->
+        <div class="category-header">
+
+            <div class="category-heading">
+
+                <div class="category-eyebrow">
+                    <span></span>
+                    VISUAL LANGUAGES
+                </div>
+
+                <h2>
+                    Explore by
+                    <em>Category.</em>
+                </h2>
+
+                <p>
+                    Discover prompts designed for every creative direction.
+                </p>
+
+            </div>
+
+            <a
+                href="#explore"
+                class="category-view-all"
+                onclick="document.getElementById('explore')?.scrollIntoView({behavior:'smooth'}); return false;"
+            >
+                View all prompts
+                <i data-lucide="arrow-up-right"></i>
+            </a>
+
+        </div>
+
+
+        <!-- CATEGORY GRID -->
+        <div class="category-grid">
+
+            {% for c in categories %}
+
+            <button
+                type="button"
+                class="category-card"
+                data-category="{{ c['name'] }}"
+                onclick="selectCategory('{{ c['name']|e }}')"
+            >
+
+                <!-- TOP -->
+                <div class="category-card-top">
+
+                    <div class="category-icon">
+                        {{ c['emoji'] }}
+                    </div>
+
+                    <div class="category-arrow">
+                        <i data-lucide="arrow-up-right"></i>
+                    </div>
+
+                </div>
+
+
+                <!-- CONTENT -->
+                <div class="category-card-content">
+
+                    <h3>
+                        {{ c['name'] }}
+                    </h3>
+
+                    <p>
+                        Explore {{ c['name']|lower }} prompts
+                    </p>
+
+                </div>
+
+
+                <!-- BOTTOM -->
+                <div class="category-card-footer">
+
+                    <span>
+                        EXPLORE PROMPTS
+                    </span>
+
+                    <i data-lucide="arrow-right"></i>
+
+                </div>
+
+            </button>
+
+            {% endfor %}
+
+
+            <!-- ALL CATEGORIES CARD -->
+            <button
+                type="button"
+                class="category-card category-card-all"
+                onclick="showAllCategories()"
+            >
+
+                <div class="category-card-top">
+
+                    <div class="category-icon all-icon">
+                        <i data-lucide="layers"></i>
+                    </div>
+
+                    <div class="category-arrow">
+                        <i data-lucide="arrow-up-right"></i>
+                    </div>
+
+                </div>
+
+                <div class="category-card-content">
+
+                    <h3>
+                        All Prompts
+                    </h3>
+
+                    <p>
+                        Browse the complete collection
+                    </p>
+
+                </div>
+
+                <div class="category-card-footer">
+
+                    <span>
+                        VIEW EVERYTHING
+                    </span>
+
+                    <i data-lucide="arrow-right"></i>
+
+                </div>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<style>
+
+/* =========================================================
+   CATEGORY SECTION
+========================================================= */
+
+.category-section{
+    position:relative;
+    overflow:hidden;
+}
+
+
+/* subtle background glow */
+
+.category-section::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    top:10%;
+    right:-250px;
+    background:rgba(168,85,247,.08);
+    filter:blur(100px);
+    pointer-events:none;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.category-header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:30px;
+    margin-bottom:42px;
+}
+
+
+.category-heading{
+    max-width:650px;
+}
+
+
+.category-eyebrow{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    margin-bottom:13px;
+
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1.8px;
+
+    color:rgba(255,255,255,.48);
+}
+
+
+.category-eyebrow span{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 0 4px rgba(255,255,255,.06);
+}
+
+
+.category-heading h2{
+    margin:0;
+
+    font-size:clamp(34px,4vw,52px);
+    line-height:1.02;
+
+    letter-spacing:-2px;
+}
+
+
+.category-heading h2 em{
+    font-style:normal;
+
+    color:rgba(255,255,255,.42);
+}
+
+
+.category-heading p{
+    margin:15px 0 0;
+
+    color:rgba(255,255,255,.48);
+
+    font-size:14px;
+    line-height:1.6;
+}
+
+
+/* =========================================================
+   VIEW ALL
+========================================================= */
+
+.category-view-all{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+
+    padding:12px 17px;
+
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:11px;
+
+    background:rgba(255,255,255,.035);
+
+    color:rgba(255,255,255,.78);
+
+    font-size:12px;
+    font-weight:700;
+
+    text-decoration:none;
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        border-color .25s ease;
+}
+
+
+.category-view-all svg{
+    width:15px;
+    height:15px;
+}
+
+
+.category-view-all:hover{
+    transform:translateY(-2px);
+
+    background:rgba(255,255,255,.08);
+
+    border-color:rgba(255,255,255,.18);
+
+    color:#fff;
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.category-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap:15px;
+}
+
+
+/* =========================================================
+   CATEGORY CARD
+========================================================= */
+
+.category-card{
+    position:relative;
+
+    min-height:235px;
+
+    padding:20px;
+
+    display:flex;
+    flex-direction:column;
+
+    text-align:left;
+
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.018)
+        );
+
+    color:#fff;
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    transition:
+        transform .3s cubic-bezier(.2,.8,.2,1),
+        border-color .3s ease,
+        background .3s ease,
+        box-shadow .3s ease;
+}
+
+
+/* hover glow */
+
+.category-card::before{
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    top:-90px;
+    right:-90px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.06);
+
+    filter:blur(20px);
+
+    opacity:0;
+
+    transition:opacity .3s ease;
+}
+
+
+.category-card:hover{
+    transform:translateY(-6px);
+
+    border-color:rgba(255,255,255,.20);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.09),
+            rgba(255,255,255,.025)
+        );
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.25);
+}
+
+
+.category-card:hover::before{
+    opacity:1;
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.category-card-top{
+    display:flex;
+
+    align-items:flex-start;
+    justify-content:space-between;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.category-icon{
+    width:54px;
+    height:54px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.07);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    font-size:26px;
+
+    transition:
+        transform .3s ease,
+        background .3s ease;
+}
+
+
+.category-card:hover .category-icon{
+    transform:scale(1.08) rotate(-3deg);
+
+    background:rgba(255,255,255,.11);
+}
+
+
+.all-icon svg{
+    width:24px;
+    height:24px;
+}
+
+
+/* =========================================================
+   TOP RIGHT ARROW
+========================================================= */
+
+.category-arrow{
+    width:34px;
+    height:34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    background:rgba(255,255,255,.025);
+
+    color:rgba(255,255,255,.38);
+
+    transition:
+        transform .3s ease,
+        color .3s ease,
+        background .3s ease;
+}
+
+
+.category-arrow svg{
+    width:15px;
+    height:15px;
+}
+
+
+.category-card:hover .category-arrow{
+    transform:translate(3px,-3px);
+
+    color:#fff;
+
+    background:rgba(255,255,255,.08);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.category-card-content{
+    margin-top:auto;
+
+    padding-top:32px;
+}
+
+
+.category-card-content h3{
+    margin:0;
+
+    font-size:20px;
+
+    font-weight:750;
+
+    letter-spacing:-.4px;
+}
+
+
+.category-card-content p{
+    margin:7px 0 0;
+
+    color:rgba(255,255,255,.43);
+
+    font-size:12px;
+
+    line-height:1.5;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.category-card-footer{
+    margin-top:22px;
+
+    padding-top:14px;
+
+    border-top:1px solid rgba(255,255,255,.07);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+}
+
+
+.category-card-footer span{
+    font-size:9px;
+
+    font-weight:800;
+
+    letter-spacing:1.2px;
+
+    color:rgba(255,255,255,.35);
+}
+
+
+.category-card-footer svg{
+    width:15px;
+    height:15px;
+
+    color:rgba(255,255,255,.38);
+
+    transition:
+        transform .25s ease,
+        color .25s ease;
+}
+
+
+.category-card:hover .category-card-footer svg{
+    transform:translateX(4px);
+
+    color:#fff;
+}
+
+
+/* =========================================================
+   ALL PROMPTS CARD
+========================================================= */
+
+.category-card-all{
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.09),
+            rgba(255,255,255,.025)
+        );
+}
+
+
+.category-card-all .all-icon{
+    background:#fff;
+
+    color:#111;
+}
+
+
+.category-card-all:hover .all-icon{
+    background:#fff;
+
+    color:#111;
+
+    transform:scale(1.08);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1100px){
+
+    .category-grid{
+        grid-template-columns:
+            repeat(3,minmax(0,1fr));
+    }
+
+}
+
+
+@media(max-width:800px){
+
+    .category-header{
+        align-items:flex-start;
+
+        flex-direction:column;
+
+        margin-bottom:30px;
+    }
+
+    .category-grid{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+}
+
+
+@media(max-width:520px){
+
+    .category-grid{
+        grid-template-columns:1fr;
+
+        gap:12px;
+    }
+
+    .category-card{
+        min-height:210px;
+    }
+
+    .category-heading h2{
+        font-size:36px;
+    }
+
+    .category-view-all{
+        width:100%;
+
+        justify-content:center;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+function selectCategory(category){
+
+    /*
+       Existing Explore section પર scroll
+    */
+
+    const explore =
+        document.getElementById("explore");
+
+    if(explore){
+        explore.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+    }
+
+
+    /*
+       Existing category filter trigger
+    */
+
+    const categoryButton =
+        document.querySelector(
+            '.filter[data-category="' +
+            CSS.escape(category) +
+            '"]'
+        );
+
+    if(categoryButton){
+
+        setTimeout(function(){
+
+            categoryButton.click();
+
+        },350);
+
+    }
+
+}
+
+
+/* All prompts */
+
+function showAllCategories(){
+
+    const explore =
+        document.getElementById("explore");
+
+    if(explore){
+        explore.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+    }
+
+
+    setTimeout(function(){
+
+        const clear =
+            document.getElementById("clearFilters");
+
+        if(clear){
+            clear.click();
+        }
+
+    },350);
+
+}
+
+
+/* Lucide */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        if(window.lucide){
+            lucide.createIcons();
+        }
+
+    }
+);
+
+</script>
+
+
+
+<!-- =========================================================
+     CTA
+========================================================= -->
+
+<section
+    class="section"
+    id="tools"
+>
+
+    <div class="wrap">
+
+        <div class="cta">
+
+            <div>
+
+                <small>PROMPTVERSE</small>
+
+                <h2>
+                    Copy. Create. Repeat.
+                </h2>
+
+                <p>
+                    Every prompt has its own shareable page,
+                    live analytics, tags and related inspiration.
+                </p>
+
+            </div>
+
+
+            <a
+                class="btn primary"
+                href="{{ url_for('signup') }}"
+            >
+                Create your library
+                <i data-lucide="arrow-right"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     MOBILE NAV
+========================================================= -->
+
+<nav class="mobile-bottom">
+
+    <a href="{{ url_for('index') }}#explore">
+        <i data-lucide="compass"></i>
+        <span>Explore</span>
+    </a>
+
+    <a href="{{ url_for('index') }}#trending">
+        <i data-lucide="flame"></i>
+        <span>Trending</span>
+    </a>
+
+    <a href="{{ url_for('library') }}">
+        <i data-lucide="bookmark"></i>
+        <span>Saved</span>
+    </a>
+
+    <a
+        href="{{ url_for('login') if not current_user else url_for('library') }}"
+    >
+        <i data-lucide="user"></i>
+        <span>Account</span>
+    </a>
+
+</nav>
+
+
+
+<!-- =========================================================
+     EXPLORE PROMPTS DESIGN
+========================================================= -->
+
+<style>
+
+/* =========================================================
+   EXPLORE SECTION
+========================================================= */
+
+.explore-section {
+    padding-top: 55px;
+    padding-bottom: 100px;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.explore-layout {
+    display: grid;
+    grid-template-columns: 282px minmax(0, 1fr);
+    gap: 34px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   FILTER SIDEBAR
+========================================================= */
+
+.filter-sidebar {
+    width: 100%;
+    position: sticky;
+    top: 95px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.018)
+        );
+
+    border: 1px solid rgba(255,255,255,.105);
+    border-radius: 19px;
+
+    overflow: hidden;
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.18);
+}
+
+
+/* =========================================================
+   FILTER HEADER
+========================================================= */
+
+.filter-sidebar-head {
+    min-height: 86px;
+
+    padding: 20px 20px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255,255,255,.075);
+}
+
+
+.filter-sidebar-head div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.filter-sidebar-head strong {
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    color: rgba(255,255,255,.9);
+}
+
+
+.filter-sidebar-head span {
+    font-size: 11px;
+    color: rgba(255,255,255,.43);
+}
+
+
+.clear-filter {
+    padding: 3px 0;
+
+    border: 0;
+    background: transparent;
+
+    color: rgba(255,255,255,.52);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color .2s ease,
+        opacity .2s ease;
+}
+
+
+.clear-filter:hover {
+    color: #fff;
+}
+
+
+/* =========================================================
+   FILTER MENU
+========================================================= */
+
+.filter-menu {
+    border-bottom: 1px solid rgba(255,255,255,.065);
+}
+
+
+.filter-menu:last-child {
+    border-bottom: 0;
+}
+
+
+.filter-menu-title {
+    width: 100%;
+
+    min-height: 58px;
+
+    padding: 0 19px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: rgba(255,255,255,.88);
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease;
+}
+
+
+.filter-menu-title:hover {
+    background: rgba(255,255,255,.035);
+}
+
+
+.filter-menu-title > span {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.filter-menu-title > span i {
+    width: 16px;
+    height: 16px;
+
+    color: rgba(255,255,255,.55);
+}
+
+
+.filter-arrow {
+    width: 15px;
+    height: 15px;
+
+    color: rgba(255,255,255,.45);
+
+    transition:
+        transform .25s ease;
+}
+
+
+.filter-menu-title.open .filter-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   FILTER OPTIONS
+========================================================= */
+
+.filter-options {
+    max-height: 0;
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    padding: 0 10px;
+
+    transition:
+        max-height .3s ease,
+        opacity .2s ease,
+        padding .3s ease;
+}
+
+
+.filter-options.open {
+    max-height: 550px;
+
+    opacity: 1;
+
+    padding:
+        2px
+        10px
+        13px;
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.filter {
+    width: 100%;
+
+    min-height: 38px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 8px 11px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: rgba(255,255,255,.58);
+
+    text-align: left;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+
+.filter:hover {
+    background: rgba(255,255,255,.055);
+
+    color: rgba(255,255,255,.9);
+
+    transform: translateX(2px);
+}
+
+
+.filter.active {
+    background: rgba(255,255,255,.075);
+
+    color: #fff;
+
+    font-weight: 600;
+}
+
+
+.filter.active::before {
+    content: "";
+
+    width: 6px;
+    height: 6px;
+
+    min-width: 6px;
+
+    margin-right: 10px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+.filter:not(.active)::before {
+    content: "";
+
+    width: 6px;
+    height: 6px;
+
+    min-width: 6px;
+
+    margin-right: 10px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,.25);
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.explore-results {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   SEARCH BAR
+========================================================= */
+
+.explore-search {
+    height: 60px;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 6px 7px 6px 19px;
+
+    margin-bottom: 22px;
+
+    border: 1px solid rgba(255,255,255,.11);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            100deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.02)
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.025);
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+
+.explore-search:focus-within {
+    border-color: rgba(255,255,255,.2);
+
+    box-shadow:
+        0 0 0 3px rgba(255,255,255,.025);
+}
+
+
+.explore-search > i {
+    width: 20px;
+    height: 20px;
+
+    flex-shrink: 0;
+
+    color: rgba(255,255,255,.48);
+}
+
+
+.explore-search input {
+    width: 100%;
+
+    height: 100%;
+
+    padding: 0 15px;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #fff;
+
+    font-size: 14px;
+}
+
+
+.explore-search input::placeholder {
+    color: rgba(255,255,255,.4);
+}
+
+
+.explore-search button {
+    height: 44px;
+
+    min-width: 104px;
+
+    padding: 0 18px;
+
+    border: 0;
+    border-radius: 11px;
+
+    background: #0b0b0f;
+
+    color: rgba(255,255,255,.9);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+
+.explore-search button:hover {
+    background: #16161c;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SORT BAR
+========================================================= */
+
+.sortbar {
+    min-height: 47px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 17px;
+}
+
+
+.result-info {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+
+    color: rgba(255,255,255,.48);
+
+    font-size: 13px;
+}
+
+
+.result-info strong {
+    color: rgba(255,255,255,.7);
+
+    font-size: 14px;
+}
+
+
+.sort-wrapper {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+}
+
+
+.sort-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    min-width: 174px;
+
+    height: 46px;
+
+    padding:
+        0 39px
+        0 16px;
+
+    border: 1px solid rgba(255,255,255,.105);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background:
+        rgba(255,255,255,.035);
+
+    color: rgba(255,255,255,.88);
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.sort-wrapper select option {
+    background: #15151b;
+    color: #fff;
+}
+
+
+.sort-wrapper > i {
+    position: absolute;
+
+    right: 13px;
+
+    width: 15px;
+    height: 15px;
+
+    pointer-events: none;
+
+    color: rgba(255,255,255,.6);
+}
+
+
+/* =========================================================
+   GALLERY
+========================================================= */
+
+.gallery {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   PROMPT CARD
+   Works with cards generated by home.js
+========================================================= */
+
+.gallery .prompt-card,
+.gallery .card,
+.gallery > article {
+    min-width: 0;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255,255,255,.095);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            150deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.018)
+        );
+
+    box-shadow:
+        0 16px 45px rgba(0,0,0,.18);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+
+    position: relative;
+}
+
+
+.gallery .prompt-card:hover,
+.gallery .card:hover,
+.gallery > article:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(255,255,255,.17);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,.3);
+}
+
+
+/* =========================================================
+   CARD IMAGE
+========================================================= */
+
+.gallery .prompt-card .card-image,
+.gallery .card .card-image,
+.gallery > article .card-image,
+.gallery .prompt-card img,
+.gallery .card img,
+.gallery > article img {
+    width: 100%;
+
+    aspect-ratio: 1.58 / 1;
+
+    display: block;
+
+    object-fit: cover;
+
+    background: #15151a;
+
+    transition:
+        transform .45s ease;
+}
+
+
+.gallery .prompt-card:hover img,
+.gallery .card:hover img,
+.gallery > article:hover img {
+    transform: scale(1.025);
+}
+
+
+/* =========================================================
+   IMAGE WRAPPER
+========================================================= */
+
+.gallery .card-media,
+.gallery .image-wrap,
+.gallery .prompt-image {
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   NEW BADGE
+========================================================= */
+
+.gallery .new-badge,
+.gallery .badge-new,
+.gallery .new {
+    position: absolute;
+
+    top: 13px;
+    left: 13px;
+
+    z-index: 3;
+
+    padding:
+        6px
+        10px;
+
+    border-radius: 8px;
+
+    background: #20dff1;
+
+    color: #071014;
+
+    font-size: 10px;
+
+    font-weight: 900;
+
+    letter-spacing: .4px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MODEL BADGE
+========================================================= */
+
+.gallery .model-badge,
+.gallery .model,
+.gallery .card-model {
+    position: absolute;
+
+    right: 12px;
+    bottom: 12px;
+
+    z-index: 3;
+
+    padding:
+        7px
+        10px;
+
+    border-radius: 9px;
+
+    background:
+        rgba(20,20,22,.88);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    color: rgba(255,255,255,.9);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.gallery .card-body,
+.gallery .prompt-body,
+.gallery .content {
+    padding: 18px 18px 15px;
+}
+
+
+/* =========================================================
+   CATEGORY / TYPE
+========================================================= */
+
+.gallery .card-meta,
+.gallery .meta,
+.gallery .prompt-meta {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 12px;
+}
+
+
+.gallery .category,
+.gallery .card-category {
+    color: rgba(255,255,255,.43);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+
+.gallery .type,
+.gallery .card-type {
+    color: rgba(255,255,255,.38);
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.gallery .card-title,
+.gallery .prompt-title,
+.gallery h3 {
+    margin: 0 0 8px;
+
+    color: rgba(255,255,255,.93);
+
+    font-size: 17px;
+
+    line-height: 1.25;
+
+    font-weight: 750;
+
+    letter-spacing: -.35px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.gallery .card-description,
+.gallery .description,
+.gallery .prompt-description {
+    min-height: 36px;
+
+    margin: 0;
+
+    color: rgba(255,255,255,.43);
+
+    font-size: 12px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.gallery .card-footer,
+.gallery .prompt-footer,
+.gallery .actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: 17px;
+
+    padding-top: 13px;
+
+    border-top: 1px solid rgba(255,255,255,.07);
+}
+
+
+.gallery .stats {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.gallery .stats span,
+.gallery .stat {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    color: rgba(255,255,255,.4);
+
+    font-size: 10px;
+}
+
+
+.gallery .stats i,
+.gallery .stat i {
+    width: 13px;
+    height: 13px;
+}
+
+
+.gallery .copy-btn,
+.gallery .copy-button,
+.gallery .copy {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: rgba(255,255,255,.48);
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+}
+
+
+.gallery .copy-btn:hover,
+.gallery .copy-button:hover,
+.gallery .copy:hover {
+    background: rgba(255,255,255,.07);
+
+    color: #fff;
+}
+
+
+.gallery .copy-btn i,
+.gallery .copy-button i,
+.gallery .copy i {
+    width: 19px;
+    height: 19px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    padding: 70px 20px;
+
+    text-align: center;
+
+    border: 1px dashed rgba(255,255,255,.1);
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,.02);
+}
+
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 15px;
+
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.06);
+}
+
+
+.empty-icon i {
+    width: 21px;
+    height: 21px;
+
+    color: rgba(255,255,255,.5);
+}
+
+
+.empty-state h3 {
+    margin: 0 0 7px;
+
+    font-size: 17px;
+}
+
+
+.empty-state p {
+    margin: 0 0 18px;
+
+    color: rgba(255,255,255,.42);
+
+    font-size: 12px;
+}
+
+
+.empty-state button {
+    height: 38px;
+
+    padding: 0 15px;
+
+    border: 1px solid rgba(255,255,255,.1);
+
+    border-radius: 9px;
+
+    background: rgba(255,255,255,.05);
+
+    color: #fff;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   LIBRARY BUTTON
+========================================================= */
+
+.library-button {
+    height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 0 17px;
+
+    border: 1px solid rgba(255,255,255,.1);
+
+    border-radius: 11px;
+
+    color: rgba(255,255,255,.82);
+
+    background: rgba(255,255,255,.025);
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 650;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+
+.library-button i {
+    width: 17px;
+    height: 17px;
+}
+
+
+.library-button:hover {
+    background: rgba(255,255,255,.065);
+
+    border-color: rgba(255,255,255,.16);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE — 1200
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .explore-layout {
+        grid-template-columns: 245px minmax(0, 1fr);
+
+        gap: 24px;
+    }
+
+    .gallery {
+        gap: 16px;
+    }
+
+    .gallery .card-title,
+    .gallery .prompt-title,
+    .gallery h3 {
+        font-size: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 950
+========================================================= */
+
+@media (max-width: 950px) {
+
+    .explore-layout {
+        grid-template-columns: 215px minmax(0, 1fr);
+
+        gap: 18px;
+    }
+
+    .gallery {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .filter-sidebar {
+        top: 80px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 700
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .explore-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-sidebar {
+        position: static;
+    }
+
+    .filter-menu {
+        display: block;
+    }
+
+    .explore-search {
+        margin-top: 5px;
+    }
+
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .sortbar {
+        margin-top: 8px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 520
+========================================================= */
+
+@media (max-width: 520px) {
+
+    .explore-section {
+        padding-top: 35px;
+        padding-bottom: 80px;
+    }
+
+    .section-head {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .library-button {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+    .explore-search {
+        height: auto;
+
+        min-height: 58px;
+
+        flex-wrap: wrap;
+
+        padding: 8px;
+    }
+
+    .explore-search > i {
+        margin-left: 7px;
+    }
+
+    .explore-search input {
+        width: calc(100% - 45px);
+
+        height: 42px;
+    }
+
+    .explore-search button {
+        width: 100%;
+
+        margin-top: 5px;
+    }
+
+    .sortbar {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 12px;
+    }
+
+    .sort-wrapper,
+    .sort-wrapper select {
+        width: 100%;
+    }
+
+    .sort-wrapper select {
+        min-width: 0;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .filter-sidebar-head {
+        padding: 17px;
+    }
+
+    .filter-menu-title {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .gallery .card-body,
+    .gallery .prompt-body,
+    .gallery .content {
+        padding: 15px;
+    }
+
+}
+
+</style>
+
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script src="{{ url_for('static',filename='js/home.js') }}"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =====================================================
+           LUCIDE ICONS
+        ===================================================== */
+
+        if (typeof lucide !== "undefined") {
+            lucide.createIcons();
+        }
+
+
+        /* =====================================================
+           FILTER ACCORDIONS
+        ===================================================== */
+
+        document
+            .querySelectorAll(".filter-menu-title")
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const targetId =
+                            this.dataset.target;
+
+                        const target =
+                            document.getElementById(targetId);
+
+                        if (!target) return;
+
+                        const alreadyOpen =
+                            target.classList.contains("open");
+
+
+                        /*
+                         * Close every other filter
+                         */
+
+                        document
+                            .querySelectorAll(".filter-options")
+                            .forEach(function (item) {
+
+                                item.classList.remove("open");
+
+                            });
+
+
+                        document
+                            .querySelectorAll(".filter-menu-title")
+                            .forEach(function (item) {
+
+                                item.classList.remove("open");
+
+                            });
+
+
+                        /*
+                         * Open clicked filter
+                         */
+
+                        if (!alreadyOpen) {
+
+                            target.classList.add("open");
+
+                            this.classList.add("open");
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        /* =====================================================
+           FILTER ACTIVE STATE
+        ===================================================== */
+
+        document
+            .querySelectorAll(".filter")
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        let filterType = null;
+
+
+                        if (
+                            this.dataset.model !== undefined
+                        ) {
+
+                            filterType = "model";
+
+                        }
+                        else if (
+                            this.dataset.type !== undefined
+                        ) {
+
+                            filterType = "type";
+
+                        }
+                        else if (
+                            this.dataset.category !== undefined
+                        ) {
+
+                            filterType = "category";
+
+                        }
+                        else if (
+                            this.dataset.usecase !== undefined
+                        ) {
+
+                            filterType = "usecase";
+
+                        }
+                        else if (
+                            this.dataset.style !== undefined
+                        ) {
+
+                            filterType = "style";
+
+                        }
+                        else if (
+                            this.dataset.subject !== undefined
+                        ) {
+
+                            filterType = "subject";
+
+                        }
+
+
+                        if (!filterType) return;
+
+
+                        /*
+                         * Remove active from same group
+                         */
+
+                        document
+                            .querySelectorAll(
+                                '.filter[data-' +
+                                filterType +
+                                ']'
+                            )
+                            .forEach(function (item) {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            });
+
+
+                        this.classList.add("active");
+
+                    }
+                );
+
+            });
+
+
+        /* =====================================================
+           CLEAR FILTERS
+        ===================================================== */
+
+        const clearButton =
+            document.getElementById(
+                "clearFilters"
+            );
+
+
+        if (clearButton) {
+
+            clearButton.addEventListener(
+                "click",
+                function () {
+
+
+                    document
+                        .querySelectorAll(".filter")
+                        .forEach(function (item) {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        });
+
+
+                    /*
+                     * Restore All
+                     */
+
+                    document
+                        .querySelectorAll(
+                            '.filter[data-model="All"],' +
+                            '.filter[data-type="All"],' +
+                            '.filter[data-category="All"]'
+                        )
+                        .forEach(function (item) {
+
+                            item.classList.add(
+                                "active"
+                            );
+
+                        });
+
+
+                    /*
+                     * Optional groups
+                     */
+
+                    document
+                        .querySelectorAll(
+                            '.filter[data-usecase="All"],' +
+                            '.filter[data-style="All"],' +
+                            '.filter[data-subject="All"]'
+                        )
+                        .forEach(function (item) {
+
+                            item.classList.add(
+                                "active"
+                            );
+
+                        });
+
+
+                    /*
+                     * Clear search
+                     */
+
+                    const search =
+                        document.getElementById(
+                            "exploreSearchInput"
+                        );
+
+                    if (search) {
+                        search.value = "";
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           EXPLORE SEARCH
+        ===================================================== */
+
+        const mainSearch =
+            document.getElementById(
+                "searchInput"
+            );
+
+        const exploreSearch =
+            document.getElementById(
+                "exploreSearchInput"
+            );
+
+        const exploreButton =
+            document.getElementById(
+                "exploreSearchButton"
+            );
+
+
+        /*
+         * Keep both search fields synchronized
+         */
+
+        if (mainSearch && exploreSearch) {
+
+            mainSearch.addEventListener(
+                "input",
+                function () {
+
+                    exploreSearch.value =
+                        this.value;
+
+                }
+            );
+
+
+            exploreSearch.addEventListener(
+                "input",
+                function () {
+
+                    mainSearch.value =
+                        this.value;
+
+                }
+            );
+
+        }
+
+
+        /*
+         * Search button scrolls to results
+         */
+
+        if (exploreButton) {
+
+            exploreButton.addEventListener(
+                "click",
+                function () {
+
+                    const searchForm =
+                        document.getElementById(
+                            "searchForm"
+                        );
+
+                    if (searchForm) {
+
+                        searchForm.dispatchEvent(
+                            new Event(
+                                "submit",
+                                {
+                                    bubbles: true,
+                                    cancelable: true
+                                }
+                            )
+                        );
+
+                    }
+
+                    document
+                        .getElementById("gallery")
+                        ?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           POPULAR SEARCH BUTTONS
+        ===================================================== */
+
+        document
+            .querySelectorAll("[data-search]")
+            .forEach(function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const value =
+                            this.dataset.search;
+
+                        if (mainSearch) {
+                            mainSearch.value =
+                                value;
+                        }
+
+                        if (exploreSearch) {
+                            exploreSearch.value =
+                                value;
+                        }
+
+
+                        /*
+                         * Trigger normal search
+                         */
+
+                        if (mainSearch) {
+
+                            const form =
+                                document.getElementById(
+                                    "searchForm"
+                                );
+
+                            if (form) {
+
+                                form.dispatchEvent(
+                                    new Event(
+                                        "submit",
+                                        {
+                                            bubbles: true,
+                                            cancelable: true
+                                        }
+                                    )
+                                );
+
+                            }
+
+                        }
+
+
+                        document
+                            .getElementById("explore")
+                            ?.scrollIntoView({
+                                behavior: "smooth"
+                            });
+
+                    }
+                );
+
+            });
+
+
+    }
+
+);
+
+</script>
+
+{% endblock %}

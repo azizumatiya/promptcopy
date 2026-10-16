@@ -1,0 +1,907 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard — PromptVerse{% endblock %}
+
+{% block content %}
+
+<style>
+/* ============================================================
+   ADMIN DASHBOARD — FULL WIDTH + PERFECT LEFT SIDEBAR
+   ============================================================ */
+
+/* Reset page width issues */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ============================================================
+   MAIN ADMIN LAYOUT
+   ============================================================ */
+
+.admin-layout {
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: 0 !important;
+
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: stretch !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* ============================================================
+   LEFT SIDEBAR
+   ============================================================ */
+
+.admin-layout > :first-child {
+    flex: 0 0 260px !important;
+
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+
+    margin: 0 !important;
+
+    box-sizing: border-box !important;
+
+    align-self: stretch !important;
+}
+
+
+/* If sidebar has its own class */
+.admin-layout > aside,
+.admin-layout > .admin-sidebar,
+.admin-layout > [class*="sidebar"] {
+    left: 0 !important;
+    margin-left: 0 !important;
+}
+
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+
+.admin-layout > .admin-main {
+    flex: 1 1 auto !important;
+
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    margin: 0 !important;
+    padding: 28px 32px 50px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.admin-main .admin-header {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 28px;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   STATS GRID
+   ============================================================ */
+
+.admin-main .stats-grid {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 24px;
+}
+
+
+/* ============================================================
+   STAT CARD
+   ============================================================ */
+
+.admin-main .stat-card {
+    min-width: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   ADMIN CARD
+   ============================================================ */
+
+.admin-main .admin-card {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    box-sizing: border-box;
+
+    margin-bottom: 24px;
+}
+
+
+/* ============================================================
+   CARD HEADER
+   ============================================================ */
+
+.admin-main .card-header {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+/* ============================================================
+   QUICK ACTIONS
+   ============================================================ */
+
+.admin-main .quick-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   QUICK CARD
+   ============================================================ */
+
+.admin-main .quick-card {
+    min-width: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   TWO COLUMN SECTION
+   ============================================================ */
+
+.admin-main .admin-two-column {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 24px;
+
+    box-sizing: border-box;
+}
+
+
+/* Cards inside two-column layout */
+.admin-main .admin-two-column > .admin-card {
+    min-width: 0;
+
+    width: 100% !important;
+
+    box-sizing: border-box;
+
+    margin-bottom: 0;
+}
+
+
+/* ============================================================
+   LISTS
+   ============================================================ */
+
+.admin-main .admin-list,
+.admin-main .activity-list {
+    width: 100%;
+
+    min-width: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* ============================================================
+   LIST ROW
+   ============================================================ */
+
+.admin-main .list-row,
+.admin-main .activity-row {
+    min-width: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* Prevent long text from breaking layout */
+.admin-main .list-info {
+    min-width: 0;
+}
+
+.admin-main .list-info strong,
+.admin-main .list-info span,
+.admin-main .activity-row strong,
+.admin-main .activity-row span,
+.admin-main .activity-row small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 1200px) {
+
+    .admin-main .stats-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+    .admin-main .quick-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE — 900px
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .admin-layout {
+        width: 100vw !important;
+
+        margin-left: 0 !important;
+
+        display: block !important;
+    }
+
+
+    /* Sidebar becomes full width */
+    .admin-layout > :first-child {
+
+        width: 100% !important;
+
+        min-width: 0 !important;
+
+        max-width: none !important;
+
+        flex: none !important;
+    }
+
+
+    /* Main content */
+    .admin-layout > .admin-main {
+
+        width: 100% !important;
+
+        max-width: none !important;
+
+        min-width: 0 !important;
+
+        padding: 22px 18px 40px !important;
+    }
+
+
+    .admin-main .admin-header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .admin-main .stats-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+
+    .admin-main .admin-two-column {
+
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .admin-main .admin-two-column > .admin-card {
+
+        margin-bottom: 0;
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .admin-layout > .admin-main {
+
+        padding: 16px 12px 32px !important;
+    }
+
+
+    .admin-main .stats-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .admin-main .quick-grid {
+
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .admin-main .admin-header {
+
+        gap: 16px;
+
+        margin-bottom: 20px;
+    }
+
+
+    .admin-main .admin-card {
+
+        margin-bottom: 16px;
+    }
+
+}
+</style>
+
+<style>
+/* WHITE ADMIN CONTENT AREA */
+.admin-main {
+    background: #ffffff !important;
+    color: #111827 !important;
+}
+
+.admin-main .admin-header,
+.admin-main .stats-grid,
+.admin-main .admin-card,
+.admin-main .admin-two-column {
+    background: #ffffff !important;
+}
+
+.admin-main .stat-card,
+.admin-main .quick-card,
+.admin-main .admin-card {
+    background: #ffffff !important;
+}
+
+.admin-main .admin-card,
+.admin-main .stat-card,
+.admin-main .quick-card {
+    border-color: #e5e7eb !important;
+}
+
+.admin-main h1,
+.admin-main h2,
+.admin-main h3,
+.admin-main strong,
+.admin-main b {
+    color: #111827 !important;
+}
+
+.admin-main p,
+.admin-main span,
+.admin-main small {
+    color: #6b7280;
+}
+</style>
+
+<div class="admin-layout">
+
+    {% include "admin/sidebar.html" %}
+
+
+    <main class="admin-main">
+
+
+        <!-- ====================================================
+             HEADER
+             ==================================================== -->
+
+        <header class="admin-header">
+
+            <div>
+
+                <span class="admin-eyebrow">
+                    CONTROL CENTER
+                </span>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome to your PromptVerse administration panel.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('admin_add_prompt') }}"
+                class="admin-primary-btn"
+            >
+                + Add Prompt
+            </a>
+
+        </header>
+
+
+
+        <!-- ====================================================
+             STATISTICS
+             ==================================================== -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <span>👤</span>
+
+                <small>
+                    Users
+                </small>
+
+                <strong>
+                    {{ stats.users }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>✦</span>
+
+                <small>
+                    Prompts
+                </small>
+
+                <strong>
+                    {{ stats.prompts }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>♡</span>
+
+                <small>
+                    Likes
+                </small>
+
+                <strong>
+                    {{ stats.likes }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>🔖</span>
+
+                <small>
+                    Saves
+                </small>
+
+                <strong>
+                    {{ stats.saves }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>⧉</span>
+
+                <small>
+                    Copies
+                </small>
+
+                <strong>
+                    {{ stats.copies }}
+                </strong>
+
+            </div>
+
+
+
+            <div class="stat-card">
+
+                <span>◉</span>
+
+                <small>
+                    Views
+                </small>
+
+                <strong>
+                    {{ stats.views }}
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ====================================================
+             QUICK ACTIONS
+             ==================================================== -->
+
+        <section class="admin-card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <small>
+                        QUICK ACTIONS
+                    </small>
+
+                    <h2>
+                        What do you want to manage?
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="quick-grid">
+
+
+                <a
+                    href="{{ url_for('admin_add_prompt') }}"
+                    class="quick-card"
+                >
+
+                    <b>
+                        ＋
+                    </b>
+
+                    <strong>
+                        Add Prompt
+                    </strong>
+
+                    <span>
+                        Create and publish a new prompt
+                    </span>
+
+                </a>
+
+
+
+                <a
+                    href="{{ url_for('admin_prompts') }}"
+                    class="quick-card"
+                >
+
+                    <b>
+                        ✦
+                    </b>
+
+                    <strong>
+                        Manage Prompts
+                    </strong>
+
+                    <span>
+                        Edit, feature and delete prompts
+                    </span>
+
+                </a>
+
+
+
+                <a
+                    href="{{ url_for('admin_categories') }}"
+                    class="quick-card"
+                >
+
+                    <b>
+                        ▦
+                    </b>
+
+                    <strong>
+                        Categories
+                    </strong>
+
+                    <span>
+                        Organize prompt categories
+                    </span>
+
+                </a>
+
+
+
+                <a
+                    href="{{ url_for('admin_users') }}"
+                    class="quick-card"
+                >
+
+                    <b>
+                        ♙
+                    </b>
+
+                    <strong>
+                        Users
+                    </strong>
+
+                    <span>
+                        Manage registered accounts
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ====================================================
+             TWO COLUMN CONTENT
+             ==================================================== -->
+
+        <div class="admin-two-column">
+
+
+            <!-- ==================================================
+                 RECENT USERS
+                 ================================================== -->
+
+            <section class="admin-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <small>
+                            USERS
+                        </small>
+
+                        <h2>
+                            Recent Accounts
+                        </h2>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('admin_users') }}"
+                    >
+                        View all
+                    </a>
+
+                </div>
+
+
+
+                <div class="admin-list">
+
+
+                    {% for u in users[:5] %}
+
+
+                    <div class="list-row">
+
+
+                        <div class="list-avatar">
+
+                            {{ u['email'][0]|upper }}
+
+                        </div>
+
+
+
+                        <div class="list-info">
+
+                            <strong>
+                                {{ u['email'] }}
+                            </strong>
+
+                            <span>
+                                {{ u['created_at'][:10] }}
+                            </span>
+
+                        </div>
+
+
+
+                        <span class="status">
+
+                            {{ 'Active' if u['is_active'] else 'Disabled' }}
+
+                        </span>
+
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <div class="empty">
+
+                        No users found.
+
+                    </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ==================================================
+                 RECENT ACTIVITY
+                 ================================================== -->
+
+            <section class="admin-card">
+
+
+                <div class="card-header">
+
+
+                    <div>
+
+                        <small>
+                            ACTIVITY
+                        </small>
+
+                        <h2>
+                            Recent Actions
+                        </h2>
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for('admin_activity') }}"
+                    >
+                        View all
+                    </a>
+
+
+                </div>
+
+
+
+                <div class="activity-list">
+
+
+                    {% for l in logs[:5] %}
+
+
+                    <div class="activity-row">
+
+
+                        <strong>
+                            {{ l['action'] }}
+                        </strong>
+
+
+                        <span>
+                            {{ l['details'] }}
+                        </span>
+
+
+                        <small>
+                            {{ l['created_at'][:19].replace('T',' ') }}
+                        </small>
+
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <div class="empty">
+
+                        No activity found.
+
+                    </div>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+</div>
+
+{% endblock %}

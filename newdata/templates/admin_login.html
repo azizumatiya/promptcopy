@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Admin Login — PromptVerse{% endblock %}
+{% block content %}
+<section class="auth-page"><div class="auth-card admin-auth"><div class="auth-logo"><span class="brand-icon"><i data-lucide="shield"></i></span></div><small>PRIVATE ADMIN AREA</small><h1>Admin Login</h1><p>Authorized administrators only.</p>
+<form method="post"><label>Email<input name="email" type="email" required></label><label>Password<input name="password" type="password" required></label><button class="btn primary full">Enter Dashboard</button></form>
+</div></section>
+{% endblock %}

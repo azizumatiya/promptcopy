@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Activity — PromptVerse{% endblock %}
+
+{% block content %}
+
+<div class="admin-layout">
+
+    {% include "admin/sidebar.html" %}
+
+    <main class="admin-main">
+
+        <header class="admin-header">
+
+            <div>
+                <span class="admin-eyebrow">PLATFORM LOG</span>
+                <h1>Recent Actions</h1>
+                <p>Track important activity across PromptVerse.</p>
+            </div>
+
+        </header>
+
+
+        <section class="admin-card">
+
+            <div class="card-header">
+
+                <div>
+                    <small>ACTIVITY LOG</small>
+                    <h2>All Recent Actions</h2>
+                </div>
+
+            </div>
+
+
+            <div class="activity-page-list">
+
+                {% for l in logs %}
+
+                <div class="activity-page-row">
+
+                    <div class="activity-icon">
+                        ◷
+                    </div>
+
+
+                    <div class="activity-content">
+
+                        <strong>
+                            {{ l['action'] }}
+                        </strong>
+
+                        <p>
+                            {{ l['details'] }}
+                        </p>
+
+                        <small>
+                            {{ l['created_at'][:19].replace('T',' ') }}
+                        </small>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="empty">
+                    No activity available.
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

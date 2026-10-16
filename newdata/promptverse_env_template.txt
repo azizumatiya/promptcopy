@@ -1,0 +1,13 @@
+# Rename this file to .env and put it beside app.py
+
+MONGO_HOST=promptminer.ptyeggi.mongodb.net
+MONGO_USERNAME=YOUR_DATABASE_ACCESS_USERNAME
+MONGO_PASSWORD=YOUR_DATABASE_ACCESS_PASSWORD
+MONGO_DB=promptverse
+
+SECRET_KEY=change-this-to-a-long-random-secret
+
+ADMIN_EMAIL=admin@promptverse.local
+ADMIN_PASSWORD=Admin@12345
+
+# No MONGO_URI is needed. The app builds it automatically.

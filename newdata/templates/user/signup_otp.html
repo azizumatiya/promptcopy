@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Email — PromptVerse{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card otp-card">
+        <div class="auth-logo">
+            <span class="brand-icon"><i data-lucide="mail-check"></i></span>
+        </div>
+
+        <div class="auth-heading">
+            <span class="auth-eyebrow">EMAIL VERIFICATION</span>
+            <h1>Enter your OTP</h1>
+            <p>We sent a 6-digit verification code to</p>
+            <strong class="email-display">{{ email }}</strong>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="auth-alerts">
+                    {% for category, message in messages %}
+                        <div class="alert {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('signup_otp') }}" class="auth-form" id="otpForm">
+            <div class="form-group">
+                <label for="signup-otp">6-Digit OTP</label>
+                <input
+                    id="signup-otp"
+                    name="otp"
+                    type="text"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    placeholder="000000"
+                    required
+                    autofocus
+                >
+            </div>
+
+            <button type="submit" class="btn primary full auth-submit" id="verifyBtn">
+                <i data-lucide="shield-check"></i>
+                <span>Verify & Continue</span>
+            </button>
+        </form>
+
+        <p class="change-email">
+            Wrong email?
+            <a href="{{ url_for('user_signup') }}">Change email</a>
+        </p>
+
+        <div class="otp-note">
+            <i data-lucide="clock-3"></i>
+            OTP is valid for 5 minutes.
+        </div>
+    </div>
+</section>
+
+<style>
+.auth-page{min-height:calc(100vh - 80px);display:flex;align-items:center;justify-content:center;padding:40px 20px}.auth-card{width:100%;max-width:460px;padding:38px;border-radius:24px;background:rgba(255,255,255,.96);border:1px solid #e5e7eb;box-shadow:0 20px 60px rgba(15,23,42,.10)}.auth-logo{text-align:center;margin-bottom:18px}.brand-icon{width:52px;height:52px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;background:#111827;color:#fff}.brand-icon svg{width:25px}.auth-heading{text-align:center}.auth-eyebrow{font-size:11px;font-weight:800;letter-spacing:1.8px;color:#6b7280}.auth-heading h1{margin:8px 0;color:#111827;font-size:32px}.auth-heading p{margin:0;color:#6b7280;font-size:14px}.email-display{display:block;margin-top:7px;color:#111827;word-break:break-all}.auth-alerts{margin:20px 0 0}.alert{padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:8px}.alert.error{background:#fef2f2;color:#b91c1c}.alert.success{background:#f0fdf4;color:#15803d}.auth-form{display:grid;gap:18px;margin-top:24px}.form-group{display:grid;gap:8px}.form-group label{font-size:14px;font-weight:700;color:#111827}.form-group input{width:100%;box-sizing:border-box;padding:16px;border:1px solid #d1d5db;border-radius:12px;text-align:center;font-size:25px;letter-spacing:8px;font-weight:800;outline:none}.form-group input:focus{border-color:#111827;box-shadow:0 0 0 3px rgba(17,24,39,.08)}.auth-submit{min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px}.change-email{text-align:center;font-size:13px;color:#6b7280;margin:20px 0 12px}.change-email a{color:#111827;font-weight:800;text-decoration:none}.otp-note{display:flex;justify-content:center;align-items:center;gap:6px;color:#9ca3af;font-size:12px}.otp-note svg{width:14px}@media(max-width:600px){.auth-card{padding:28px 20px}.auth-heading h1{font-size:27px}.form-group input{font-size:21px;letter-spacing:6px}}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    const otp=document.getElementById("signup-otp");
+    const form=document.getElementById("otpForm");
+    const btn=document.getElementById("verifyBtn");
+
+    otp.addEventListener("input",function(){
+        this.value=this.value.replace(/\D/g,"").slice(0,6);
+    });
+
+    form.addEventListener("submit",function(){
+        if(otp.value.length===6){
+            btn.disabled=true;
+            btn.querySelector("span").textContent="Verifying...";
+        }
+    });
+});
+</script>
+{% endblock %}

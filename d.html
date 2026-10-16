@@ -1,0 +1,2376 @@
+<!-- =========================================================
+     FEATURED PROMPTS
+     COMPLETE STANDALONE SECTION
+     ========================================================= -->
+
+<style>
+/* =========================================================
+   FEATURED PROMPTS — VARIABLES
+   ========================================================= */
+
+.featured-prompts-section {
+    --fp-bg: #08090d;
+    --fp-card: #11131a;
+    --fp-card-hover: #151821;
+    --fp-border: rgba(255,255,255,.08);
+
+    --fp-text: #f5f5f7;
+    --fp-muted: #9699a6;
+    --fp-muted-2: #696d7a;
+
+    --fp-purple: #8b5cf6;
+    --fp-indigo: #6366f1;
+
+    --fp-radius: 17px;
+
+    padding: 95px 0;
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(99,102,241,.07),
+            transparent 35%
+        ),
+        #08090d;
+
+    color: var(--fp-text);
+}
+
+.featured-prompts-container {
+    width: min(1400px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.featured-prompts-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 32px;
+}
+
+.featured-prompts-kicker {
+    color: #8d91a0;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.featured-prompts-title {
+    margin-top: 8px;
+
+    font-family: "Manrope", "Inter", sans-serif;
+    font-size: clamp(30px, 4vw, 43px);
+    line-height: 1.1;
+    letter-spacing: -1.8px;
+    font-weight: 800;
+
+    color: #f5f5f7;
+}
+
+.featured-prompts-subtitle {
+    max-width: 600px;
+    margin-top: 10px;
+
+    color: #9699a6;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.featured-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #aaa2ff;
+
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+
+    text-decoration: none;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.featured-view-all:hover {
+    color: white;
+    transform: translateX(3px);
+}
+
+.featured-view-all svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* =========================================================
+   FILTER AREA
+   ========================================================= */
+
+.featured-filter-area {
+    margin-bottom: 28px;
+}
+
+.featured-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    overflow-x: auto;
+    padding-bottom: 7px;
+
+    scrollbar-width: none;
+}
+
+.featured-filter-row::-webkit-scrollbar {
+    display: none;
+}
+
+.featured-filter-row + .featured-filter-row {
+    margin-top: 8px;
+}
+
+.featured-filter-label {
+    flex-shrink: 0;
+
+    margin-right: 4px;
+
+    color: var(--fp-muted-2);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .8px;
+}
+
+.featured-filter-btn {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    padding: 8px 12px;
+
+    border: 1px solid var(--fp-border);
+    border-radius: 9px;
+
+    background: rgba(255,255,255,.025);
+    color: #8d91a0;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        color .22s ease,
+        border-color .22s ease,
+        background .22s ease,
+        transform .22s ease;
+}
+
+.featured-filter-btn:hover {
+    color: white;
+    border-color: rgba(255,255,255,.15);
+    background: rgba(255,255,255,.055);
+    transform: translateY(-1px);
+}
+
+.featured-filter-btn.active {
+    color: white;
+
+    border-color: rgba(139,92,246,.42);
+
+    background: rgba(139,92,246,.13);
+
+    box-shadow:
+        0 5px 20px rgba(139,92,246,.08);
+}
+
+.featured-filter-btn svg {
+    width: 13px;
+    height: 13px;
+}
+
+
+/* =========================================================
+   RESULT / SORT
+   ========================================================= */
+
+.featured-sort-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+
+    color: var(--fp-muted);
+
+    font-size: 12px;
+}
+
+.featured-result-count strong {
+    color: white;
+}
+
+.featured-sort-select {
+    padding: 9px 32px 9px 11px;
+
+    border: 1px solid var(--fp-border);
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #11131a;
+    color: #a2a5b0;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.featured-sort-select:focus {
+    border-color: rgba(139,92,246,.45);
+}
+
+
+/* =========================================================
+   MASONRY GALLERY
+   ========================================================= */
+
+.featured-gallery {
+    columns: 5 220px;
+    column-gap: 16px;
+}
+
+
+/* =========================================================
+   PROMPT CARD
+   ========================================================= */
+
+.featured-card {
+    position: relative;
+
+    display: inline-block;
+    width: 100%;
+
+    margin: 0 0 16px;
+
+    break-inside: avoid;
+
+    overflow: hidden;
+
+    border:
+        1px solid var(--fp-border);
+
+    border-radius: var(--fp-radius);
+
+    background: var(--fp-card);
+
+    cursor: pointer;
+
+    animation:
+        featuredCardIn .55s cubic-bezier(.2,.8,.2,1) both;
+
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+.featured-card:hover {
+    transform: translateY(-4px);
+
+    border-color:
+        rgba(139,92,246,.30);
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.30);
+}
+
+@keyframes featuredCardIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   CARD IMAGE
+   ========================================================= */
+
+.featured-card-media {
+    position: relative;
+
+    overflow: hidden;
+
+    background: #171922;
+}
+
+.featured-card-media img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: cover;
+
+    transition:
+        transform .5s cubic-bezier(.2,.8,.2,1);
+}
+
+.featured-card:hover
+.featured-card-media img {
+    transform: scale(1.045);
+}
+
+
+/* =========================================================
+   IMAGE GRADIENT
+   ========================================================= */
+
+.featured-card-gradient {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 30%,
+            rgba(0,0,0,.86) 100%
+        );
+
+    transition: opacity .3s ease;
+}
+
+.featured-card:hover
+.featured-card-gradient {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   MODEL BADGE
+   ========================================================= */
+
+.featured-model-badge {
+    position: absolute;
+
+    left: 10px;
+    top: 10px;
+
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 8px;
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    border-radius: 7px;
+
+    background:
+        rgba(8,9,13,.70);
+
+    color: #e3e3e8;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    backdrop-filter: blur(12px);
+}
+
+
+/* =========================================================
+   VIDEO BADGE
+   ========================================================= */
+
+.featured-video-badge {
+    position: absolute;
+
+    right: 10px;
+    top: 10px;
+
+    width: 27px;
+    height: 27px;
+
+    display: grid;
+    place-items: center;
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    border-radius: 8px;
+
+    background:
+        rgba(8,9,13,.68);
+
+    color: white;
+
+    backdrop-filter: blur(12px);
+}
+
+.featured-video-badge svg {
+    width: 13px;
+    height: 13px;
+}
+
+
+/* =========================================================
+   HOVER ACTIONS
+   ========================================================= */
+
+.featured-card-actions {
+    position: absolute;
+
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    opacity: 0;
+
+    transform: translateY(7px);
+
+    transition:
+        opacity .3s cubic-bezier(.2,.8,.2,1),
+        transform .3s cubic-bezier(.2,.8,.2,1);
+}
+
+.featured-card:hover
+.featured-card-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+   ========================================================= */
+
+.featured-view-prompt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 8px 10px;
+
+    border: 0;
+    border-radius: 9px;
+
+    background: white;
+    color: #101116;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.featured-view-prompt:hover {
+    transform: translateY(-1px);
+    background: #f2efff;
+}
+
+.featured-view-prompt svg {
+    width: 13px;
+    height: 13px;
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+   ========================================================= */
+
+.featured-save-btn {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border:
+        1px solid rgba(255,255,255,.14);
+
+    border-radius: 9px;
+
+    background:
+        rgba(8,9,13,.68);
+
+    color: white;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(12px);
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.featured-save-btn:hover {
+    transform: translateY(-1px);
+    background: rgba(139,92,246,.18);
+    border-color: rgba(139,92,246,.40);
+}
+
+.featured-save-btn.saved {
+    color: #c4b5fd;
+
+    border-color:
+        rgba(139,92,246,.45);
+
+    background:
+        rgba(139,92,246,.17);
+}
+
+.featured-save-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
+
+.featured-card-content {
+    padding: 13px;
+}
+
+.featured-card-category {
+    color: #8d91a0;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .7px;
+}
+
+.featured-card-title {
+    margin-top: 5px;
+
+    color: white;
+
+    font-family:
+        "Manrope",
+        "Inter",
+        sans-serif;
+
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 700;
+
+    letter-spacing: -.2px;
+}
+
+.featured-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 13px;
+}
+
+
+/* =========================================================
+   CREATOR
+   ========================================================= */
+
+.featured-creator {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.featured-avatar {
+    width: 24px;
+    height: 24px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border:
+        1px solid rgba(255,255,255,.12);
+}
+
+.featured-creator-name {
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #8e919d;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   LIKE
+   ========================================================= */
+
+.featured-like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    border: 0;
+    background: transparent;
+
+    color: #777b88;
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.featured-like-btn:hover {
+    color: #fb7185;
+}
+
+.featured-like-btn.liked {
+    color: #fb7185;
+}
+
+.featured-like-btn.pop {
+    animation:
+        featuredHeartPop .35s cubic-bezier(.2,.8,.2,1);
+}
+
+.featured-like-btn svg {
+    width: 13px;
+    height: 13px;
+}
+
+@keyframes featuredHeartPop {
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.featured-empty-state {
+    display: none;
+
+    padding: 80px 20px;
+
+    text-align: center;
+
+    border:
+        1px solid var(--fp-border);
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,.02);
+}
+
+.featured-empty-state.show {
+    display: block;
+}
+
+.featured-empty-icon {
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    margin: auto;
+
+    border-radius: 15px;
+
+    background:
+        rgba(139,92,246,.10);
+
+    color: #a78bfa;
+}
+
+.featured-empty-icon svg {
+    width: 21px;
+    height: 21px;
+}
+
+.featured-empty-state h3 {
+    margin-top: 17px;
+
+    font-family:
+        "Manrope",
+        "Inter",
+        sans-serif;
+
+    font-size: 18px;
+}
+
+.featured-empty-state p {
+    margin-top: 7px;
+
+    color: var(--fp-muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+    .featured-gallery {
+        columns: 4 220px;
+    }
+}
+
+@media (max-width: 900px) {
+    .featured-gallery {
+        columns: 3 200px;
+    }
+}
+
+@media (max-width: 650px) {
+    .featured-prompts-section {
+        padding: 70px 0;
+    }
+
+    .featured-prompts-container {
+        width: min(100% - 28px, 1400px);
+    }
+
+    .featured-prompts-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .featured-gallery {
+        columns: 2 150px;
+        column-gap: 10px;
+    }
+
+    .featured-card {
+        margin-bottom: 10px;
+        border-radius: 13px;
+    }
+
+    .featured-card-content {
+        padding: 11px;
+    }
+
+    .featured-card-title {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 420px) {
+    .featured-gallery {
+        columns: 2 130px;
+    }
+
+    .featured-sort-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .featured-sort-select {
+        width: 100%;
+    }
+}
+</style>
+
+
+<!-- =========================================================
+     HTML
+     ========================================================= -->
+
+<section
+    class="featured-prompts-section"
+    id="featured-prompts"
+>
+
+    <div class="featured-prompts-container">
+
+        <!-- HEADER -->
+        <div class="featured-prompts-header">
+
+            <div>
+
+                <div class="featured-prompts-kicker">
+                    Curated collection
+                </div>
+
+                <h2 class="featured-prompts-title">
+                    Featured Prompts
+                </h2>
+
+                <p class="featured-prompts-subtitle">
+                    Explore exceptional creations from the community.
+                </p>
+
+            </div>
+
+
+            <a
+                href="#featured-prompts"
+                class="featured-view-all"
+            >
+                View all
+                <i data-lucide="arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <!-- FILTERS -->
+        <div class="featured-filter-area">
+
+            <!-- MODELS -->
+            <div class="featured-filter-row">
+
+                <span class="featured-filter-label">
+                    Models
+                </span>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter active"
+                    data-model="All"
+                >
+                    All
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter"
+                    data-model="Midjourney"
+                >
+                    Midjourney
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter"
+                    data-model="Flux"
+                >
+                    Flux
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter"
+                    data-model="Stable Diffusion"
+                >
+                    Stable Diffusion
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter"
+                    data-model="ChatGPT"
+                >
+                    ChatGPT
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter"
+                    data-model="Sora"
+                >
+                    Sora
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter"
+                    data-model="Veo"
+                >
+                    Veo
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn model-filter"
+                    data-model="Ideogram"
+                >
+                    Ideogram
+                </button>
+
+            </div>
+
+
+            <!-- TYPE -->
+            <div class="featured-filter-row">
+
+                <span class="featured-filter-label">
+                    Type
+                </span>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn type-filter active"
+                    data-type="All"
+                >
+                    All
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn type-filter"
+                    data-type="image"
+                >
+                    <i data-lucide="image"></i>
+                    Images
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn type-filter"
+                    data-type="video"
+                >
+                    <i data-lucide="play"></i>
+                    Videos
+                </button>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+            <div class="featured-filter-row">
+
+                <span class="featured-filter-label">
+                    Category
+                </span>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter active"
+                    data-category="All"
+                >
+                    All
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Photography"
+                >
+                    Photography
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Anime"
+                >
+                    Anime
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Fashion"
+                >
+                    Fashion
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Architecture"
+                >
+                    Architecture
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Fantasy"
+                >
+                    Fantasy
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Product"
+                >
+                    Product
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Cinematic"
+                >
+                    Cinematic
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="3D"
+                >
+                    3D
+                </button>
+
+                <button
+                    type="button"
+                    class="featured-filter-btn category-filter"
+                    data-category="Illustration"
+                >
+                    Illustration
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- SORT -->
+        <div class="featured-sort-row">
+
+            <div class="featured-result-count">
+                Showing
+                <strong id="featuredResultCount">20</strong>
+                prompts
+            </div>
+
+            <select
+                id="featuredSortSelect"
+                class="featured-sort-select"
+                aria-label="Sort featured prompts"
+            >
+                <option value="trending">
+                    Trending
+                </option>
+
+                <option value="newest">
+                    Newest
+                </option>
+
+                <option value="likes">
+                    Most Liked
+                </option>
+            </select>
+
+        </div>
+
+
+        <!-- GALLERY -->
+        <div
+            class="featured-gallery"
+            id="featuredGallery"
+        ></div>
+
+
+        <!-- EMPTY -->
+        <div
+            class="featured-empty-state"
+            id="featuredEmptyState"
+        >
+
+            <div class="featured-empty-icon">
+                <i data-lucide="search-x"></i>
+            </div>
+
+            <h3>
+                No prompts found
+            </h3>
+
+            <p>
+                Try another keyword or browse popular categories.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+/* =========================================================
+   FEATURED PROMPTS DATA
+   ========================================================= */
+
+const featuredPrompts = [
+
+    {
+        id: 1,
+        title: "Cinematic Cyberpunk City",
+        description: "Futuristic city glowing under neon rain.",
+        prompt:
+            "A cinematic futuristic cyberpunk city at midnight, towering glass skyscrapers, neon reflections on wet streets, atmospheric fog, volumetric light rays, ultra detailed environment, anamorphic composition, deep shadows, 35mm film look.",
+        image:
+            "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85",
+        model: "Midjourney",
+        category: "Cinematic",
+        creator: "Alex Studio",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=12",
+        likes: 2480,
+        type: "image",
+        createdAt: "2026-08-30"
+    },
+
+    {
+        id: 2,
+        title: "Neon Tokyo Rain",
+        description: "Cinematic Tokyo street scene.",
+        prompt:
+            "Tokyo street at night during heavy rain, glowing Japanese signs, pedestrians with transparent umbrellas, reflections across wet pavement, cinematic cyberpunk mood, realistic urban photography, 35mm lens, atmospheric depth.",
+        image:
+            "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=85",
+        model: "Flux",
+        category: "Photography",
+        creator: "Ken Visuals",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=14",
+        likes: 1890,
+        type: "image",
+        createdAt: "2026-08-29"
+    },
+
+    {
+        id: 3,
+        title: "Luxury Car Motion",
+        description: "High-end automotive commercial.",
+        prompt:
+            "Black luxury sports car driving through a rain-soaked city at night, headlights reflecting on wet asphalt, smooth tracking camera, subtle tire spray, cinematic motion blur, premium automotive commercial, realistic reflections, dramatic lighting.",
+        image:
+            "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=85",
+        model: "Sora",
+        category: "Cinematic",
+        creator: "Drive Films",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=8",
+        likes: 1670,
+        type: "video",
+        createdAt: "2026-08-29"
+    },
+
+    {
+        id: 4,
+        title: "Anime Hero Character",
+        description: "Dynamic anime character concept art.",
+        prompt:
+            "Powerful anime hero standing on a ruined futuristic rooftop, wind moving through detailed clothing, glowing energy surrounding the character, dramatic sunset sky, cinematic anime composition, expressive eyes, dynamic perspective, highly detailed illustration.",
+        image:
+            "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1000&q=85",
+        model: "Midjourney",
+        category: "Anime",
+        creator: "Momo Studio",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=25",
+        likes: 1540,
+        type: "image",
+        createdAt: "2026-08-28"
+    },
+
+    {
+        id: 5,
+        title: "Editorial Fashion Portrait",
+        description: "High-end editorial portrait.",
+        prompt:
+            "High-fashion editorial portrait of a confident young woman, sculptural black outfit, minimalist studio, soft directional lighting, subtle film grain, luxury magazine aesthetic, natural skin texture, 85mm lens.",
+        image:
+            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85",
+        model: "Flux",
+        category: "Fashion",
+        creator: "Mia Creative",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=47",
+        likes: 1420,
+        type: "image",
+        createdAt: "2026-08-27"
+    },
+
+    {
+        id: 6,
+        title: "Mystical Forest",
+        description: "Atmospheric fantasy environment.",
+        prompt:
+            "Enchanted ancient forest at blue hour, enormous trees covered in glowing moss, tiny floating particles, mysterious fog between the roots, magical warm light in the distance, cinematic fantasy environment.",
+        image:
+            "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85",
+        model: "Stable Diffusion",
+        category: "Fantasy",
+        creator: "Luna Frames",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=44",
+        likes: 1310,
+        type: "image",
+        createdAt: "2026-08-26"
+    },
+
+    {
+        id: 7,
+        title: "Fantasy Castle Reveal",
+        description: "Epic fantasy video concept.",
+        prompt:
+            "Slow cinematic camera movement toward a massive fantasy castle above the clouds, sunrise breaking through mist, flying birds, enormous mountain peaks, magical atmosphere, realistic environmental motion.",
+        image:
+            "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85",
+        model: "Veo",
+        category: "Fantasy",
+        creator: "Epic Frames",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=5",
+        likes: 1270,
+        type: "video",
+        createdAt: "2026-08-25"
+    },
+
+    {
+        id: 8,
+        title: "Minimal Product Photography",
+        description: "Premium product scene.",
+        prompt:
+            "Luxury skincare bottle centered on a sculptural stone pedestal, soft beige studio background, diffused sunlight, subtle shadows, premium commercial product photography, clean composition, realistic glass reflections.",
+        image:
+            "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=1000&q=85",
+        model: "Stable Diffusion",
+        category: "Product",
+        creator: "Pixel Works",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=23",
+        likes: 1180,
+        type: "image",
+        createdAt: "2026-08-24"
+    },
+
+    {
+        id: 9,
+        title: "Futuristic Architecture",
+        description: "Organic futuristic architecture.",
+        prompt:
+            "Monumental futuristic architecture emerging from a desert landscape, flowing organic concrete structures, enormous glass surfaces, soft morning haze, minimal human presence, architectural photography, realistic shadows.",
+        image:
+            "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1000&q=85",
+        model: "Flux",
+        category: "Architecture",
+        creator: "Form Studio",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=33",
+        likes: 1090,
+        type: "image",
+        createdAt: "2026-08-23"
+    },
+
+    {
+        id: 10,
+        title: "3D Glass Character",
+        description: "Minimal 3D character render.",
+        prompt:
+            "Cute abstract 3D character made from translucent glass, soft pastel environment, studio lighting, realistic caustics, smooth rounded geometry, premium 3D illustration, minimal composition.",
+        image:
+            "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1000&q=85",
+        model: "Stable Diffusion",
+        category: "3D",
+        creator: "Digital Matter",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=15",
+        likes: 980,
+        type: "image",
+        createdAt: "2026-08-22"
+    },
+
+    {
+        id: 11,
+        title: "Luxury Watch Campaign",
+        description: "Cinematic luxury product campaign.",
+        prompt:
+            "Luxury mechanical wristwatch floating above black volcanic stone, dramatic single-source lighting, sharp metallic reflections, deep black background, subtle smoke, premium advertising photography.",
+        image:
+            "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=1000&q=85",
+        model: "Midjourney",
+        category: "Product",
+        creator: "Noir Studio",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=5",
+        likes: 920,
+        type: "image",
+        createdAt: "2026-08-21"
+    },
+
+    {
+        id: 12,
+        title: "Animated Product Reveal",
+        description: "Short cinematic product reveal.",
+        prompt:
+            "Cinematic product reveal of a premium wireless headphone emerging from darkness, slow camera push-in, controlled studio lighting, subtle floating particles, glossy material reflections, luxury technology commercial.",
+        image:
+            "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1000&q=85",
+        model: "Sora",
+        category: "Product",
+        creator: "Motion Lab",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=19",
+        likes: 880,
+        type: "video",
+        createdAt: "2026-08-20"
+    },
+
+    {
+        id: 13,
+        title: "Golden Hour Portrait",
+        description: "Natural cinematic portrait.",
+        prompt:
+            "Cinematic portrait during golden hour, warm sunlight wrapping around the face, shallow depth of field, natural skin texture, soft wind, subtle film grain, professional photography, 85mm lens.",
+        image:
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1000&q=85",
+        model: "Midjourney",
+        category: "Photography",
+        creator: "Alex Studio",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=12",
+        likes: 840,
+        type: "image",
+        createdAt: "2026-08-19"
+    },
+
+    {
+        id: 14,
+        title: "Cyberpunk Warrior",
+        description: "Dark futuristic character concept.",
+        prompt:
+            "Futuristic cyberpunk warrior standing in a dark neon alley, advanced armor, glowing blue energy, wet pavement, atmospheric smoke, cinematic lighting, detailed character design, dramatic perspective.",
+        image:
+            "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85",
+        model: "Ideogram",
+        category: "Anime",
+        creator: "Ken Visuals",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=14",
+        likes: 790,
+        type: "image",
+        createdAt: "2026-08-18"
+    },
+
+    {
+        id: 15,
+        title: "Modern Brand Illustration",
+        description: "Clean editorial illustration for brands.",
+        prompt:
+            "Modern editorial illustration showing creative collaboration, bold geometric shapes, elegant characters, minimal vector aesthetic, sophisticated limited palette, clean negative space, premium technology brand visual language.",
+        image:
+            "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1000&q=85",
+        model: "ChatGPT",
+        category: "Illustration",
+        creator: "Form & Color",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=33",
+        likes: 720,
+        type: "image",
+        createdAt: "2026-08-17"
+    },
+
+    {
+        id: 16,
+        title: "Cinematic Ocean Journey",
+        description: "Epic ocean sequence for AI video.",
+        prompt:
+            "Cinematic aerial journey above enormous ocean waves at sunrise, golden light reflecting across the water, distant sailing vessel, realistic atmospheric haze, slow smooth camera movement, epic documentary cinematography.",
+        image:
+            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=85",
+        model: "Veo",
+        category: "Cinematic",
+        creator: "Ocean Films",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=19",
+        likes: 680,
+        type: "video",
+        createdAt: "2026-08-16"
+    },
+
+    {
+        id: 17,
+        title: "Cozy Anime Café",
+        description: "Warm anime slice-of-life scene.",
+        prompt:
+            "Cozy anime café during golden hour, warm sunlight through large windows, detailed wooden interior, young character reading a book, plants and small decorations, soft expressive anime style, peaceful atmosphere.",
+        image:
+            "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?auto=format&fit=crop&w=1000&q=85",
+        model: "Midjourney",
+        category: "Anime",
+        creator: "Momo Studio",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=25",
+        likes: 640,
+        type: "image",
+        createdAt: "2026-08-15"
+    },
+
+    {
+        id: 18,
+        title: "Abstract 3D Sculpture",
+        description: "Modern abstract digital sculpture.",
+        prompt:
+            "Abstract flowing 3D sculpture with polished metallic surfaces, deep indigo background, soft studio lighting, subtle reflections, elegant curves, premium digital art, octane render, minimal composition.",
+        image:
+            "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1000&q=85",
+        model: "Stable Diffusion",
+        category: "3D",
+        creator: "Digital Matter",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=15",
+        likes: 590,
+        type: "image",
+        createdAt: "2026-08-14"
+    },
+
+    {
+        id: 19,
+        title: "Mountain Film Sequence",
+        description: "Epic cinematic mountain scene.",
+        prompt:
+            "Massive mountain range at sunrise, clouds flowing through valleys, cinematic aerial camera movement, dramatic sunlight, atmospheric haze, realistic natural textures, epic documentary cinematography.",
+        image:
+            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=85",
+        model: "Veo",
+        category: "Cinematic",
+        creator: "Nature Films",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=8",
+        likes: 540,
+        type: "video",
+        createdAt: "2026-08-13"
+    },
+
+    {
+        id: 20,
+        title: "Minimal Creative Poster",
+        description: "Modern premium poster design.",
+        prompt:
+            "Minimal premium creative poster design, bold typography, geometric composition, elegant negative space, subtle gradients, modern editorial art direction, sophisticated visual hierarchy.",
+        image:
+            "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=1000&q=85",
+        model: "ChatGPT",
+        category: "Illustration",
+        creator: "Pixel Works",
+        creatorAvatar:
+            "https://i.pravatar.cc/100?img=23",
+        likes: 510,
+        type: "image",
+        createdAt: "2026-08-12"
+    }
+
+];
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+const featuredState = {
+    model: "All",
+    type: "All",
+    category: "All",
+    sort: "trending"
+};
+
+
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
+
+function featuredGetSaved() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "promptverse_saved"
+            ) || "[]"
+        );
+
+    } catch {
+
+        return [];
+
+    }
+}
+
+
+function featuredSetSaved(items) {
+
+    localStorage.setItem(
+        "promptverse_saved",
+        JSON.stringify(items)
+    );
+
+}
+
+
+function featuredGetLiked() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "promptverse_liked"
+            ) || "[]"
+        );
+
+    } catch {
+
+        return [];
+
+    }
+}
+
+
+function featuredSetLiked(items) {
+
+    localStorage.setItem(
+        "promptverse_liked",
+        JSON.stringify(items)
+    );
+
+}
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function featuredEscapeHTML(value) {
+
+    return String(value)
+
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+function featuredFormatNumber(number) {
+
+    if (number >= 1000) {
+
+        return (
+            (number / 1000)
+                .toFixed(
+                    number >= 10000 ? 0 : 1
+                )
+                .replace(".0", "")
+            + "k"
+        );
+
+    }
+
+    return number;
+
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+function getFeaturedFilteredPrompts() {
+
+    let result = [
+        ...featuredPrompts
+    ];
+
+
+    if (featuredState.model !== "All") {
+
+        result = result.filter(
+            prompt =>
+                prompt.model ===
+                featuredState.model
+        );
+
+    }
+
+
+    if (featuredState.type !== "All") {
+
+        result = result.filter(
+            prompt =>
+                prompt.type ===
+                featuredState.type
+        );
+
+    }
+
+
+    if (featuredState.category !== "All") {
+
+        result = result.filter(
+            prompt =>
+                prompt.category ===
+                featuredState.category
+        );
+
+    }
+
+
+    if (featuredState.sort === "likes") {
+
+        result.sort(
+            (a, b) =>
+                b.likes - a.likes
+        );
+
+    }
+
+
+    else if (
+        featuredState.sort === "newest"
+    ) {
+
+        result.sort(
+            (a, b) =>
+                new Date(b.createdAt) -
+                new Date(a.createdAt)
+        );
+
+    }
+
+
+    else {
+
+        result.sort(
+            (a, b) =>
+                b.likes - a.likes
+        );
+
+    }
+
+
+    return result;
+
+}
+
+
+/* =========================================================
+   RENDER CARD
+   ========================================================= */
+
+function renderFeaturedCard(
+    prompt,
+    index
+) {
+
+    const saved =
+        featuredGetSaved()
+            .includes(prompt.id);
+
+    const liked =
+        featuredGetLiked()
+            .includes(prompt.id);
+
+    const isVideo =
+        prompt.type === "video";
+
+
+    return `
+
+        <article
+            class="featured-card"
+            data-id="${prompt.id}"
+            tabindex="0"
+            role="button"
+            aria-label="View ${featuredEscapeHTML(prompt.title)}"
+            style="
+                animation-delay:
+                ${Math.min(index * 35, 400)}ms;
+            "
+        >
+
+            <div class="featured-card-media">
+
+                <img
+                    src="${prompt.image}"
+                    alt="${featuredEscapeHTML(prompt.title)}"
+                    loading="lazy"
+                    onerror="
+                        this.onerror=null;
+                        this.src=
+                        'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=80';
+                    "
+                >
+
+                <div
+                    class="featured-card-gradient"
+                ></div>
+
+
+                <span
+                    class="featured-model-badge"
+                >
+                    ${featuredEscapeHTML(prompt.model)}
+                </span>
+
+
+                ${
+                    isVideo
+                    ? `
+
+                        <span
+                            class="featured-video-badge"
+                            aria-label="Video prompt"
+                        >
+                            <i
+                                data-lucide="play"
+                            ></i>
+                        </span>
+
+                    `
+                    : ""
+                }
+
+
+                <div
+                    class="featured-card-actions"
+                >
+
+                    <button
+                        type="button"
+                        class="featured-view-prompt"
+                        data-featured-view="${prompt.id}"
+                    >
+                        View Prompt
+
+                        <i
+                            data-lucide="arrow-up-right"
+                        ></i>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="
+                            featured-save-btn
+                            ${saved ? "saved" : ""}
+                        "
+                        data-featured-save="${prompt.id}"
+                        aria-label="Save prompt"
+                    >
+
+                        <i
+                            data-lucide="bookmark"
+                        ></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="featured-card-content">
+
+                <div
+                    class="featured-card-category"
+                >
+                    ${featuredEscapeHTML(prompt.category)}
+                </div>
+
+
+                <div
+                    class="featured-card-title"
+                >
+                    ${featuredEscapeHTML(prompt.title)}
+                </div>
+
+
+                <div
+                    class="featured-card-bottom"
+                >
+
+                    <div
+                        class="featured-creator"
+                    >
+
+                        <img
+                            class="featured-avatar"
+                            src="${prompt.creatorAvatar}"
+                            alt=""
+                            loading="lazy"
+                        >
+
+                        <span
+                            class="featured-creator-name"
+                        >
+                            ${featuredEscapeHTML(prompt.creator)}
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="
+                            featured-like-btn
+                            ${liked ? "liked" : ""}
+                        "
+                        data-featured-like="${prompt.id}"
+                        aria-label="Like prompt"
+                    >
+
+                        <i
+                            data-lucide="heart"
+                        ></i>
+
+                        <span>
+                            ${featuredFormatNumber(prompt.likes)}
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+
+}
+
+
+/* =========================================================
+   RENDER GALLERY
+   ========================================================= */
+
+function renderFeaturedGallery() {
+
+    const gallery =
+        document.getElementById(
+            "featuredGallery"
+        );
+
+    const empty =
+        document.getElementById(
+            "featuredEmptyState"
+        );
+
+    const count =
+        document.getElementById(
+            "featuredResultCount"
+        );
+
+
+    const result =
+        getFeaturedFilteredPrompts();
+
+
+    count.textContent =
+        result.length;
+
+
+    if (!result.length) {
+
+        gallery.innerHTML = "";
+
+        empty.classList.add("show");
+
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        return;
+
+    }
+
+
+    empty.classList.remove("show");
+
+
+    gallery.innerHTML =
+        result
+            .map(renderFeaturedCard)
+            .join("");
+
+
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+
+}
+
+
+/* =========================================================
+   MODEL FILTER
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        ".featured-prompts-section .model-filter"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".featured-prompts-section .model-filter"
+                    )
+                    .forEach(btn =>
+                        btn.classList.remove(
+                            "active"
+                        )
+                    );
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                featuredState.model =
+                    button.dataset.model;
+
+
+                renderFeaturedGallery();
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   TYPE FILTER
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        ".featured-prompts-section .type-filter"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".featured-prompts-section .type-filter"
+                    )
+                    .forEach(btn =>
+                        btn.classList.remove(
+                            "active"
+                        )
+                    );
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                featuredState.type =
+                    button.dataset.type;
+
+
+                renderFeaturedGallery();
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   CATEGORY FILTER
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        ".featured-prompts-section .category-filter"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".featured-prompts-section .category-filter"
+                    )
+                    .forEach(btn =>
+                        btn.classList.remove(
+                            "active"
+                        )
+                    );
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                featuredState.category =
+                    button.dataset.category;
+
+
+                renderFeaturedGallery();
+
+            }
+        );
+
+    });
+
+
+/* =========================================================
+   SORT
+   ========================================================= */
+
+document
+    .getElementById(
+        "featuredSortSelect"
+    )
+    .addEventListener(
+        "change",
+        function () {
+
+            featuredState.sort =
+                this.value;
+
+            renderFeaturedGallery();
+
+        }
+    );
+
+
+/* =========================================================
+   CARD CLICK
+   ========================================================= */
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const viewButton =
+            event.target.closest(
+                "[data-featured-view]"
+            );
+
+
+        if (viewButton) {
+
+            event.stopPropagation();
+
+            const id =
+                viewButton.dataset.featuredView;
+
+            const prompt =
+                featuredPrompts.find(
+                    item =>
+                        item.id ===
+                        Number(id)
+                );
+
+
+            if (!prompt) return;
+
+
+            /*
+             * If your Flask route is:
+             *
+             * @app.route("/prompt/<pid>")
+             *
+             * this will open the real prompt page.
+             */
+
+            window.location.href =
+                "/prompt/" + prompt.id;
+
+            return;
+
+        }
+
+
+        const saveButton =
+            event.target.closest(
+                "[data-featured-save]"
+            );
+
+
+        if (saveButton) {
+
+            event.stopPropagation();
+
+            const id =
+                Number(
+                    saveButton.dataset.featuredSave
+                );
+
+            let saved =
+                featuredGetSaved();
+
+
+            if (saved.includes(id)) {
+
+                saved =
+                    saved.filter(
+                        item => item !== id
+                    );
+
+                saveButton.classList.remove(
+                    "saved"
+                );
+
+            } else {
+
+                saved.push(id);
+
+                saveButton.classList.add(
+                    "saved"
+                );
+
+            }
+
+
+            featuredSetSaved(saved);
+
+            return;
+
+        }
+
+
+        const likeButton =
+            event.target.closest(
+                "[data-featured-like]"
+            );
+
+
+        if (likeButton) {
+
+            event.stopPropagation();
+
+            const id =
+                Number(
+                    likeButton.dataset.featuredLike
+                );
+
+            let liked =
+                featuredGetLiked();
+
+
+            const prompt =
+                featuredPrompts.find(
+                    item =>
+                        item.id === id
+                );
+
+
+            if (!prompt) return;
+
+
+            if (liked.includes(id)) {
+
+                liked =
+                    liked.filter(
+                        item => item !== id
+                    );
+
+                prompt.likes =
+                    Math.max(
+                        0,
+                        prompt.likes - 1
+                    );
+
+                likeButton.classList.remove(
+                    "liked"
+                );
+
+            } else {
+
+                liked.push(id);
+
+                prompt.likes += 1;
+
+                likeButton.classList.add(
+                    "liked"
+                );
+
+                likeButton.classList.remove(
+                    "pop"
+                );
+
+                void likeButton.offsetWidth;
+
+                likeButton.classList.add(
+                    "pop"
+                );
+
+            }
+
+
+            featuredSetLiked(liked);
+
+
+            const number =
+                likeButton.querySelector(
+                    "span"
+                );
+
+            if (number) {
+
+                number.textContent =
+                    featuredFormatNumber(
+                        prompt.likes
+                    );
+
+            }
+
+
+            return;
+
+        }
+
+
+        const card =
+            event.target.closest(
+                ".featured-card"
+            );
+
+
+        if (card) {
+
+            const id =
+                card.dataset.id;
+
+            window.location.href =
+                "/prompt/" + id;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD ACCESSIBILITY
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (
+            event.key !== "Enter" &&
+            event.key !== " "
+        ) {
+            return;
+        }
+
+
+        const card =
+            event.target.closest(
+                ".featured-card"
+            );
+
+
+        if (!card) return;
+
+
+        if (
+            event.target.closest("button")
+        ) {
+            return;
+        }
+
+
+        event.preventDefault();
+
+
+        window.location.href =
+            "/prompt/" +
+            card.dataset.id;
+
+    }
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        renderFeaturedGallery();
+
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+    }
+);
+
+</script>

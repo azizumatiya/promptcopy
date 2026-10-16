@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}My Prompts — PromptVerse{% endblock %}
+
+{% block content %}
+
+{% include "user/slidebar.html" %}
+
+<div class="pv-main">
+
+    <div class="user-page">
+
+        <!-- PAGE CONTENT -->
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+<div class="user-page">
+
+    <div class="user-page-header">
+
+        <div>
+            <div class="dashboard-eyebrow">
+                ACCOUNT
+            </div>
+
+            <h1>Settings</h1>
+
+            <p>
+                Manage your PromptVerse account.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="settings-list">
+
+        <a
+            href="{{ url_for('user_edit_profile') }}"
+            class="setting-card"
+        >
+
+            <div class="setting-icon">
+                👤
+            </div>
+
+            <div>
+                <strong>Edit Profile</strong>
+                <span>
+                    Change your name and profile information.
+                </span>
+            </div>
+
+            <b>→</b>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('forgot_password') }}"
+            class="setting-card"
+        >
+
+            <div class="setting-icon">
+                🔐
+            </div>
+
+            <div>
+                <strong>Change Password</strong>
+                <span>
+                    Reset or update your account password.
+                </span>
+            </div>
+
+            <b>→</b>
+
+        </a>
+
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="setting-card danger-setting"
+        >
+
+            <div class="setting-icon">
+                ↪
+            </div>
+
+            <div>
+                <strong>Logout</strong>
+                <span>
+                    Sign out of your PromptVerse account.
+                </span>
+            </div>
+
+            <b>→</b>
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

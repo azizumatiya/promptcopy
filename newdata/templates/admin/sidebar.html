@@ -1,0 +1,102 @@
+<aside class="admin-sidebar">
+
+    <div class="admin-logo">
+
+        <div class="admin-logo-icon">
+            P
+        </div>
+
+        <div>
+            <strong>PromptVerse</strong>
+            <span>ADMIN PANEL</span>
+        </div>
+
+    </div>
+
+
+    <div class="sidebar-label">
+        MANAGEMENT
+    </div>
+
+
+    <nav class="admin-nav">
+
+        <a href="{{ url_for('admin_dashboard') }}"
+           class="{% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+            <span>⌂</span>
+            Dashboard
+        </a>
+
+
+        <a href="{{ url_for('admin_prompts') }}"
+           class="{% if request.endpoint == 'admin_prompts' %}active{% endif %}">
+            <span>✦</span>
+            Prompts
+        </a>
+
+
+        <a href="{{ url_for('admin_add_prompt') }}"
+           class="{% if request.endpoint == 'admin_add_prompt' %}active{% endif %}">
+            <span>＋</span>
+            Add Prompt
+        </a>
+
+
+        <a href="{{ url_for('admin_categories') }}"
+           class="{% if request.endpoint == 'admin_categories' %}active{% endif %}">
+            <span>▦</span>
+            Categories
+        </a>
+
+
+        <a href="{{ url_for('admin_users') }}"
+           class="{% if request.endpoint == 'admin_users' %}active{% endif %}">
+            <span>♙</span>
+            Users
+        </a>
+
+
+        <a href="{{ url_for('admin_activity') }}"
+           class="{% if request.endpoint == 'admin_activity' %}active{% endif %}">
+            <span>◷</span>
+            Activity
+        </a>
+
+
+        <a href="{{ url_for('admin_analytics') }}"
+           class="{% if request.endpoint == 'admin_analytics' %}active{% endif %}">
+            <span>◒</span>
+            Analytics
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="admin-user">
+
+            <div class="admin-avatar">
+                A
+            </div>
+
+            <div>
+                <strong>Administrator</strong>
+                <span>Full Access</span>
+            </div>
+
+        </div>
+
+
+        <form method="post"
+              action="{{ url_for('admin_logout') }}">
+
+            <button class="admin-logout" type="submit">
+                ↪ Logout Admin
+            </button>
+
+        </form>
+
+    </div>
+
+</aside>

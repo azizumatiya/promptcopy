@@ -1,0 +1,671 @@
+{% extends "base.html" %}
+
+{% block title %}Users — PromptVerse{% endblock %}
+
+{% block content %}
+
+<div class="admin-layout">
+
+    <!-- SAME DASHBOARD SIDEBAR -->
+    {% include "admin/sidebar.html" %}
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+        <header class="admin-header">
+            <span class="admin-eyebrow">USER MANAGEMENT</span>
+
+            <h1>Users</h1>
+
+            <p>Manage PromptVerse user accounts.</p>
+        </header>
+
+
+        <section class="admin-card">
+
+            <div class="card-header">
+
+                <div>
+                    <small>ACCOUNTS</small>
+                    <h2>All Users</h2>
+                </div>
+
+                <input
+                    id="userSearch"
+                    class="admin-search"
+                    type="text"
+                    placeholder="Search users..."
+                >
+
+            </div>
+
+
+            <div id="userList">
+
+                {% for u in users %}
+
+                <div
+                    class="user-row"
+                    data-email="{{ u['email']|lower }}"
+                >
+
+                    <div class="avatar">
+                        {{ u['email'][0]|upper }}
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>
+                            {{ u['email'] }}
+                        </strong>
+
+                        <span>
+                            Joined {{ u.get('created_at', '')[:10] }}
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        {% if u.get('is_active', True) %}
+
+                        <span class="status active">
+                            Active
+                        </span>
+
+                        {% else %}
+
+                        <span class="status">
+                            Disabled
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <div>
+
+                        {% if u['email'] != config_admin_email %}
+
+                        <form
+                            method="POST"
+                            action="{{ url_for('admin_toggle_user', uid=u['_id']) }}"
+                        >
+
+                            <button
+                                type="submit"
+                                class="action-btn"
+                            >
+                                {% if u.get('is_active', True) %}
+                                    Disable
+                                {% else %}
+                                    Enable
+                                {% endif %}
+                            </button>
+
+                        </form>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <div class="empty">
+                    No users found.
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div
+                id="pagination"
+                class="pagination"
+            ></div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<style>
+
+/* =====================================================
+   SAME FULL WHITE ADMIN AREA
+===================================================== */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* MAIN ADMIN WRAPPER */
+
+.admin-layout {
+    width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+
+    display: flex !important;
+
+    min-height: calc(100vh - 70px);
+
+    background: #fff;
+}
+
+
+/* =====================================================
+   LEFT SIDEBAR
+   Dashboard જેવી જ position
+===================================================== */
+
+.admin-layout > :first-child {
+    flex: 0 0 260px;
+
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+
+    align-self: stretch;
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.admin-main {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 40px;
+
+    background: #fff;
+
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.admin-header {
+    margin-bottom: 28px;
+}
+
+.admin-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #888;
+}
+
+.admin-header h1 {
+    margin: 7px 0 5px;
+
+    font-size: 32px;
+    font-weight: 700;
+
+    color: #181818;
+}
+
+.admin-header p {
+    margin: 0;
+
+    font-size: 14px;
+
+    color: #777;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.admin-card {
+    width: 100%;
+
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   CARD HEADER
+===================================================== */
+
+.card-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 22px 25px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.card-header small {
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    color: #999;
+}
+
+.card-header h2 {
+    margin: 5px 0 0;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    color: #222;
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+.admin-search {
+    width: 240px;
+
+    height: 38px;
+
+    padding: 0 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    background: #fff;
+}
+
+.admin-search:focus {
+    border-color: #aaa;
+}
+
+
+/* =====================================================
+   USER ROW
+===================================================== */
+
+.user-row {
+    display: grid;
+
+    grid-template-columns:
+        45px
+        1fr
+        110px
+        90px;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 70px;
+
+    padding: 12px 25px;
+
+    border-bottom: 1px solid #eee;
+
+    box-sizing: border-box;
+}
+
+.user-row:last-child {
+    border-bottom: 0;
+}
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+.avatar {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f0f0f0;
+
+    color: #333;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   USER INFO
+===================================================== */
+
+.user-info {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.user-info strong {
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #222;
+}
+
+.user-info span {
+    margin-top: 4px;
+
+    font-size: 12px;
+
+    color: #999;
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+.status {
+    display: inline-block;
+
+    width: fit-content;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: #f1f1f1;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+.status.active {
+    background: #edf7ef;
+
+    color: #287a42;
+}
+
+
+/* =====================================================
+   ACTION
+===================================================== */
+
+.action-btn {
+    padding: 7px 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #555;
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background: #f5f5f5;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty {
+    padding: 50px;
+
+    text-align: center;
+
+    color: #999;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   PAGINATION
+   ONLY 1 2 3...
+===================================================== */
+
+.pagination {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 20px;
+
+    border-top: 1px solid #eee;
+}
+
+.page {
+    width: 34px;
+    height: 34px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #555;
+
+    cursor: pointer;
+}
+
+.page.active {
+    background: #222;
+
+    color: #fff;
+
+    border-color: #222;
+}
+
+.page:hover {
+    background: #f5f5f5;
+}
+
+.page.active:hover {
+    background: #222;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .admin-layout {
+        display: block !important;
+    }
+
+    .admin-layout > :first-child {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .admin-main {
+        padding: 25px 18px;
+    }
+
+    .card-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .admin-search {
+        width: 100%;
+    }
+
+    .user-row {
+        grid-template-columns:
+            42px
+            1fr;
+    }
+
+    .user-row > div:nth-child(3),
+    .user-row > div:nth-child(4) {
+        grid-column: 2;
+    }
+
+}
+
+</style>
+
+
+<script>
+
+/* 15 USERS PER PAGE */
+
+const rows = [
+    ...document.querySelectorAll(".user-row")
+];
+
+const pagination =
+    document.getElementById("pagination");
+
+const search =
+    document.getElementById("userSearch");
+
+const perPage = 15;
+
+let page = 1;
+
+let filtered = rows;
+
+
+function showUsers() {
+
+    rows.forEach(row => {
+        row.style.display = "none";
+    });
+
+    const start =
+        (page - 1) * perPage;
+
+    filtered
+        .slice(start, start + perPage)
+        .forEach(row => {
+            row.style.display = "grid";
+        });
+
+    createPages();
+}
+
+
+function createPages() {
+
+    pagination.innerHTML = "";
+
+    const total =
+        Math.ceil(filtered.length / perPage);
+
+    if (total <= 1) {
+        return;
+    }
+
+    for (
+        let i = 1;
+        i <= total;
+        i++
+    ) {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "page";
+
+        button.textContent = i;
+
+        if (i === page) {
+            button.classList.add("active");
+        }
+
+        button.onclick = function () {
+
+            page = i;
+
+            showUsers();
+
+        };
+
+        pagination.appendChild(button);
+    }
+}
+
+
+search.addEventListener("input", function () {
+
+    const value =
+        this.value.toLowerCase();
+
+    filtered = rows.filter(row =>
+        row.dataset.email.includes(value)
+    );
+
+    page = 1;
+
+    showUsers();
+
+});
+
+
+showUsers();
+
+</script>
+
+{% endblock %}

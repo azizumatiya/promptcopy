@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block title %}{{ prompt['title'] }} — PromptVerse{% endblock %}
+
+{% block content %}
+
+<section class="detail-wrap">
+
+    <div class="wrap">
+
+        <!-- Back -->
+        <a class="back-link" href="{{ url_for('index') }}#explore">
+            <i data-lucide="arrow-left"></i>
+            Back to Explore
+        </a>
+
+
+        <!-- Main Detail Grid -->
+        <div class="detail-grid">
+
+            <!-- =========================
+                 IMAGE / MEDIA
+            ========================== -->
+            <div class="detail-media">
+
+                <img
+                    id="previewImage"
+                    src="{{ prompt['image'] }}"
+                    alt="{{ prompt['title'] }}"
+                >
+
+                <div class="media-actions">
+
+                    <!-- Preview -->
+                    <button
+                        class="icon-btn"
+                        type="button"
+                        onclick="openImagePreview()"
+                        aria-label="Preview image"
+                    >
+                        <i data-lucide="maximize-2"></i>
+                    </button>
+
+
+                    <!-- Download -->
+                    <a
+                        class="icon-btn"
+                        href="{{ prompt['image'] }}"
+                        download
+                        aria-label="Download image"
+                    >
+                        <i data-lucide="download"></i>
+                    </a>
+
+
+                    <!-- Share -->
+                    <button
+                        class="icon-btn"
+                        type="button"
+                        onclick="sharePrompt()"
+                        aria-label="Share prompt"
+                    >
+                        <i data-lucide="share-2"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 PROMPT INFORMATION
+            ========================== -->
+            <div class="detail-info">
+
+                <!-- Badges -->
+                <div class="badges">
+
+                    {% if prompt.get('category') %}
+                        <span class="badge pink">
+                            {{ prompt['category'] }}
+                        </span>
+                    {% endif %}
+
+
+                    {% if prompt.get('model') %}
+                        <span class="badge">
+                            {{ prompt['model'] }}
+                        </span>
+                    {% endif %}
+
+
+                    {% if prompt.get('prompt_type') %}
+                        <span class="badge">
+                            {{ prompt['prompt_type']|upper }}
+                        </span>
+                    {% endif %}
+
+
+                    <!-- HOT Badge -->
+                    {% if prompt.get('likes', 0)|int >= 1000 %}
+                        <span class="badge hot">
+                            HOT
+                        </span>
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Title -->
+                <h1>
+                    {{ prompt['title'] }}
+                </h1>
+
+
+                <!-- Description -->
+                {% if prompt.get('description') %}
+                    <p class="detail-description">
+                        {{ prompt['description'] }}
+                    </p>
+                {% endif %}
+
+
+                <!-- =========================
+                     STATS
+                ========================== -->
+                <div class="stats">
+
+                    <!-- Likes -->
+                    <div>
+                        <b id="likeCount">
+                            {{ prompt.get('likes', 0) }}
+                        </b>
+                        <small>
+                            Likes
+                        </small>
+                    </div>
+
+
+                    <!-- Saves -->
+                    <div>
+                        <b>
+                            {{ prompt.get('saves', 0) }}
+                        </b>
+                        <small>
+                            Saves
+                        </small>
+                    </div>
+
+
+                    <!-- Copies -->
+                    <div>
+                        <b>
+                            {{ prompt.get('copies', 0) }}
+                        </b>
+                        <small>
+                            Copies
+                        </small>
+                    </div>
+
+
+                    <!-- Views -->
+                    <div>
+                        <b>
+                            {{ prompt.get('views', 0) }}
+                        </b>
+                        <small>
+                            Views
+                        </small>
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     ACTION BUTTONS
+                ========================== -->
+                <div class="action-row">
+
+                    <!-- Like -->
+                    <button
+                        id="likeBtn"
+                        class="action"
+                        type="button"
+                    >
+                        <i data-lucide="heart"></i>
+                        Like
+                    </button>
+
+
+                    <!-- Save -->
+                    <button
+                        id="saveBtn"
+                        class="action"
+                        type="button"
+                    >
+                        <i data-lucide="bookmark"></i>
+                        Save
+                    </button>
+
+
+                    <!-- Copy -->
+                    <button
+                        id="copyBtn"
+                        class="action primary-action"
+                        type="button"
+                    >
+                        <i data-lucide="copy"></i>
+                        Copy Prompt
+                    </button>
+
+                </div>
+
+
+                <!-- =========================
+                     PROMPT BOX
+                ========================== -->
+                <div class="prompt-box">
+
+                    <div class="prompt-box-head">
+                        <span>PROMPT</span>
+                        <button id="copyInline" type="button">Copy</button>
+                    </div>
+
+                    <pre id="promptText">{{ prompt.get('prompt', '') }}</pre>
+
+                </div>
+
+
+                <!-- =========================
+                     TAGS (FIXED)
+                ========================== -->
+                <div class="tags">
+
+                    {% set tags = prompt.get('tags', []) %}
+
+                    {% if tags %}
+
+                        {# Case 1: Already a list (from MongoDB) #}
+                        {% if tags is iterable and tags is not string %}
+                            {% for tag in tags %}
+                                {% set clean = tag|string|trim %}
+                                {% if clean %}
+                                    <span>#{{ clean }}</span>
+                                {% endif %}
+                            {% endfor %}
+
+                        {# Case 2: String (comma or semicolon separated) #}
+                        {% else %}
+                            {% set tag_string = tags|string|replace(';', ',') %}
+                            {% for tag in tag_string.split(',') %}
+                                {% set clean = tag|trim %}
+                                {% if clean %}
+                                    <span>#{{ clean }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RELATED PROMPTS
+        ========================== -->
+        <section class="related">
+
+            <div class="section-head">
+                <div>
+                    <small>KEEP EXPLORING</small>
+                    <h2>Related Prompts</h2>
+                </div>
+            </div>
+
+            <div class="related-grid">
+
+                {% if related %}
+                    {% for p in related %}
+                        <a class="mini-card"
+                           href="{{ url_for('prompt_detail', pid=p['_id']) }}">
+
+                            <img
+                                src="{{ p.get('image', '') }}"
+                                alt="{{ p.get('title', 'Prompt') }}"
+                            >
+
+                            <div>
+                                <span>{{ p.get('category', '') }}</span>
+                                <b>{{ p.get('title', 'Untitled Prompt') }}</b>
+                                <small>
+                                    {{ p.get('model', '') }}
+                                    ·
+                                    {{ p.get('likes', 0) }} likes
+                                </small>
+                            </div>
+
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p>No related prompts found.</p>
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     IMAGE MODAL
+========================== -->
+<div
+    id="imageModal"
+    class="image-modal"
+    onclick="closeImagePreview()"
+>
+    <img
+        src="{{ prompt['image'] }}"
+        alt="{{ prompt['title'] }}"
+    >
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    window.PROMPT_ID = "{{ prompt['_id'] }}";
+</script>
+<script src="{{ url_for('static', filename='js/detail.js') }}"></script>
+{% endblock %}

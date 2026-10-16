@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PromptHero Style Masonry Gallery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="hero-masonry">
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/600?random=1" alt="AI Image 1">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/300?random=2" alt="AI Image 2">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/500?random=3" alt="AI Image 3">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/700?random=4" alt="AI Image 4">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/400?random=5" alt="AI Image 5">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/650?random=6" alt="AI Image 6">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/350?random=7" alt="AI Image 7">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/550?random=8" alt="AI Image 8">
+    </div>
+    <div class="masonry-item">
+      <img src="https://picsum.photos/400/480?random=9" alt="AI Image 9">
+    </div>
+  </div>
+<style>
+    * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0e0e10; /* PromptHero જેવી ડાર્ક થીમ */
+  padding: 15px;
+}
+
+/* PromptHero Masonry Container */
+.hero-masonry {
+  column-count: 5; /* એક લાઈનમાં કેટલી કોલમ રાખવી */
+  column-gap: 12px; /* ઈમેજ વચ્ચેની જગ્યા */
+}
+
+/* ઈમેજ કાર્ડ સેટિંગ્સ */
+.masonry-item {
+  break-inside: avoid; /* ઈમેજ વચ્ચેથી તૂટે નહીં તે માટે */
+  margin-bottom: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-color: #1a1a1e;
+  cursor: pointer;
+}
+
+.masonry-item img {
+  width: 100%;
+  height: auto; /* ઈમેજ પોતાની ઓરિજિનલ લંબાઈ જાળવી રાખશે */
+  display: block;
+  border-radius: 8px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Hover Effect - PromptHero Style */
+.masonry-item:hover img {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+/* Screen Size મુજબ Responsive Adjustments */
+@media (max-width: 1400px) {
+  .hero-masonry { column-count: 4; }
+}
+
+@media (max-width: 1000px) {
+  .hero-masonry { column-count: 3; }
+}
+
+@media (max-width: 700px) {
+  .hero-masonry { column-count: 2; }
+}
+
+@media (max-width: 450px) {
+  .hero-masonry { column-count: 1; }
+}
+</style>
+</body>
+</html>

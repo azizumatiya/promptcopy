@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ prompt['title'] }} — PromptVerse{% endblock %}
+
+{% block content %}
+<section class="detail-wrap">
+<div class="wrap">
+<a class="back-link" href="{{ url_for('index') }}#explore"><i data-lucide="arrow-left"></i> Back to Explore</a>
+
+<div class="detail-grid">
+<div class="detail-media">
+<img id="previewImage" src="{{ prompt['image'] }}" alt="{{ prompt['title'] }}">
+<div class="media-actions">
+<button class="icon-btn" onclick="openImagePreview()"><i data-lucide="maximize-2"></i></button>
+<a class="icon-btn" href="{{ prompt['image'] }}" download><i data-lucide="download"></i></a>
+<button class="icon-btn" onclick="sharePrompt()"><i data-lucide="share-2"></i></button>
+</div>
+</div>
+
+<div class="detail-info">
+<div class="badges">
+<span class="badge pink">{{ prompt['category'] }}</span><span class="badge">{{ prompt['model'] }}</span><span class="badge">{{ prompt['prompt_type']|upper }}</span>
+{% if (datetime.utcnow() - datetime.fromisoformat(prompt['created_at'])).days <= 7 %}<span class="badge new">NEW</span>{% endif %}
+{% if prompt['likes'] >= 1000 %}<span class="badge hot">HOT</span>{% endif %}
+</div>
+<h1>{{ prompt['title'] }}</h1>
+<p class="detail-description">{{ prompt['description'] }}</p>
+
+<div class="stats">
+<div><b id="likeCount">{{ prompt['likes'] }}</b><small>Likes</small></div>
+<div><b>{{ prompt['saves'] }}</b><small>Saves</small></div>
+<div><b>{{ prompt['copies'] }}</b><small>Copies</small></div>
+<div><b>{{ prompt['views'] }}</b><small>Views</small></div>
+</div>
+
+<div class="action-row">
+<button id="likeBtn" class="action"><i data-lucide="heart"></i> Like</button>
+<button id="saveBtn" class="action"><i data-lucide="bookmark"></i> Save</button>
+<button id="copyBtn" class="action primary-action"><i data-lucide="copy"></i> Copy Prompt</button>
+</div>
+
+<div class="prompt-box"><div class="prompt-box-head"><span>PROMPT</span><button id="copyInline">Copy</button></div><pre id="promptText">{{ prompt['prompt'] }}</pre></div>
+
+<div class="tags">{% for tag in prompt['tags'].split(',') if tag.strip() %}<span>#{{tag.strip()}}</span>{% endfor %}</div>
+</div>
+</div>
+
+<section class="related"><div class="section-head"><div><small>KEEP EXPLORING</small><h2>Related Prompts</h2></div></div>
+<div class="related-grid">{% for p in related %}<a class="mini-card" href="{{ url_for('prompt_detail',prompt_id=p['id']) }}"><img src="{{p['image']}}" alt=""><div><span>{{p['category']}}</span><b>{{p['title']}}</b><small>{{p['model']}} · {{p['likes']}} likes</small></div></a>{% endfor %}</div></section>
+</div>
+</section>
+
+<div id="imageModal" class="image-modal" onclick="closeImagePreview()"><img src="{{ prompt['image'] }}" alt=""></div>
+{% endblock %}
+
+{% block scripts %}
+<script>window.PROMPT_ID={{prompt['id']}};</script>
+<script src="{{ url_for('static',filename='js/detail.js') }}"></script>
+{% endblock %}

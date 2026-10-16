@@ -1,0 +1,1872 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Analytics — PromptVerse{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+/* =========================================================
+   ANALYTICS PAGE
+========================================================= */
+
+.analytics-page {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.analytics-topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.analytics-eyebrow {
+    display: inline-block;
+    margin-bottom: 8px;
+
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+    color: #7b8190;
+}
+
+.analytics-topbar h1 {
+    margin: 0;
+
+    font-size: 36px;
+    line-height: 1.15;
+    font-weight: 750;
+    color: #171923;
+}
+
+.analytics-topbar p {
+    margin: 10px 0 0;
+
+    font-size: 14px;
+    color: #7a7f8c;
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+.analytics-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 10px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7ed;
+
+    border-radius: 12px;
+}
+
+.analytics-filter select {
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    padding: 7px 25px 7px 5px;
+
+    font-size: 13px;
+    font-weight: 650;
+
+    color: #252832;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MAIN STATS
+========================================================= */
+
+.analytics-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+.analytics-stat-card {
+    position: relative;
+
+    padding: 23px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7ed;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(20, 25, 40, 0.035);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.analytics-stat-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 28px rgba(20, 25, 40, 0.08);
+}
+
+
+.stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    margin-bottom: 18px;
+
+    border-radius: 11px;
+
+    background: #f3f4f7;
+
+    font-size: 18px;
+}
+
+
+.analytics-stat-card small {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #7b808c;
+
+    font-size: 12px;
+    font-weight: 650;
+}
+
+
+.analytics-stat-card strong {
+    display: block;
+
+    font-size: 28px;
+    line-height: 1.15;
+
+    color: #171923;
+}
+
+
+.growth {
+    display: inline-flex;
+
+    margin-top: 11px;
+
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    background: #f1f8f3;
+
+    color: #218447;
+
+    font-size: 11px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   CONTENT GRID
+========================================================= */
+
+.analytics-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(300px, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.analytics-panel {
+    min-width: 0;
+
+    padding: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7ed;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 18px rgba(20, 25, 40, 0.035);
+}
+
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 24px;
+}
+
+
+.panel-header h2 {
+    margin: 0;
+
+    font-size: 16px;
+    font-weight: 750;
+
+    color: #191c25;
+}
+
+
+.panel-header span {
+    color: #858a96;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   CHART
+========================================================= */
+
+.chart-wrapper {
+    position: relative;
+
+    width: 100%;
+    height: 300px;
+}
+
+#performanceChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/* =========================================================
+   ENGAGEMENT
+========================================================= */
+
+.engagement-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 19px;
+}
+
+
+.engagement-row {
+    display: grid;
+
+    grid-template-columns: 100px 1fr 55px;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.engagement-label {
+    font-size: 12px;
+    font-weight: 650;
+
+    color: #646975;
+}
+
+
+.progress {
+    height: 7px;
+
+    overflow: hidden;
+
+    background: #eef0f4;
+
+    border-radius: 10px;
+}
+
+
+.progress span {
+    display: block;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background: #20242d;
+
+    transition: width .5s ease;
+}
+
+
+.engagement-value {
+    text-align: right;
+
+    font-size: 12px;
+    font-weight: 750;
+
+    color: #242730;
+}
+
+
+/* =========================================================
+   BOTTOM GRID
+========================================================= */
+
+.analytics-grid-bottom {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.25fr)
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   TOP PROMPTS
+========================================================= */
+
+.prompt-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+.prompt-item {
+    display: grid;
+
+    grid-template-columns: 32px 1fr auto;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid #eef0f3;
+}
+
+
+.prompt-item:last-child {
+    padding-bottom: 0;
+
+    border-bottom: 0;
+}
+
+
+.prompt-rank {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 9px;
+
+    background: #f3f4f7;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    color: #343842;
+}
+
+
+.prompt-info {
+    min-width: 0;
+}
+
+
+.prompt-title {
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #282b34;
+}
+
+
+.prompt-meta {
+    margin-top: 4px;
+
+    font-size: 10px;
+
+    color: #9296a0;
+}
+
+
+.prompt-value {
+    text-align: right;
+
+    font-size: 12px;
+    font-weight: 750;
+
+    color: #252832;
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.category-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.category-row {
+    display: grid;
+
+    grid-template-columns: 85px 1fr 42px;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.category-name {
+    font-size: 11px;
+
+    font-weight: 650;
+
+    color: #666b77;
+}
+
+
+.category-bar {
+    height: 7px;
+
+    background: #eef0f4;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+.category-bar span {
+    display: block;
+
+    height: 100%;
+
+    background: #272b34;
+
+    border-radius: inherit;
+}
+
+
+.category-percent {
+    text-align: right;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    color: #2b2e37;
+}
+
+
+/* =========================================================
+   RECENT ACTIVITY
+========================================================= */
+
+.activity-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.activity-item {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 11px;
+}
+
+
+.activity-dot {
+    width: 8px;
+    height: 8px;
+
+    flex: 0 0 auto;
+
+    margin-top: 5px;
+
+    border-radius: 50%;
+
+    background: #333741;
+}
+
+
+.activity-text {
+    min-width: 0;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    color: #626773;
+}
+
+
+.activity-text strong {
+    color: #292c35;
+}
+
+
+.activity-time {
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 9px;
+
+    color: #a0a4ad;
+}
+
+
+/* =========================================================
+   PERFORMANCE
+========================================================= */
+
+.performance-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+.performance-card {
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7ed;
+
+    border-radius: 15px;
+}
+
+
+.performance-card small {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-size: 11px;
+
+    font-weight: 650;
+
+    color: #7d828e;
+}
+
+
+.performance-card strong {
+    font-size: 22px;
+
+    color: #20232c;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .analytics-stats {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .analytics-grid-bottom {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .analytics-grid-bottom
+    .analytics-panel:last-child {
+        grid-column: 1 / -1;
+    }
+
+    .performance-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .analytics-topbar {
+        flex-direction: column;
+    }
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .analytics-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-grid-bottom {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-grid-bottom
+    .analytics-panel:last-child {
+        grid-column: auto;
+    }
+
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-topbar h1 {
+        font-size: 30px;
+    }
+
+    .analytics-panel {
+        padding: 19px;
+    }
+
+    .chart-wrapper {
+        height: 240px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .analytics-main {
+        padding: 18px;
+    }
+
+    .engagement-row {
+        grid-template-columns: 82px 1fr 45px;
+
+        gap: 8px;
+    }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     ADMIN LAYOUT
+========================================================= -->
+
+<div class="admin-layout">
+
+
+    <!-- LEFT SIDEBAR -->
+
+    <div class="admin-sidebar">
+
+        {% include "admin/sidebar.html" %}
+
+    </div>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="admin-main">
+
+
+        <div class="analytics-page">
+
+
+            <!-- =================================================
+                 HEADER
+            ================================================= -->
+
+            <header class="analytics-topbar">
+
+                <div>
+
+                    <span class="analytics-eyebrow">
+                        PLATFORM ANALYTICS
+                    </span>
+
+                    <h1>
+                        Analytics
+                    </h1>
+
+                    <p>
+                        Understand how your PromptVerse platform is performing.
+                    </p>
+
+                </div>
+
+
+                <div class="analytics-filter">
+
+                    <span>📅</span>
+
+                    <select id="periodFilter">
+
+                        <option value="7">
+                            Last 7 Days
+                        </option>
+
+                        <option value="30" selected>
+                            Last 30 Days
+                        </option>
+
+                        <option value="90">
+                            Last 90 Days
+                        </option>
+
+                        <option value="365">
+                            Last Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =================================================
+                 MAIN STATS
+            ================================================= -->
+
+            <section class="analytics-stats">
+
+
+                <div class="analytics-stat-card">
+
+                    <div class="stat-icon">
+                        ◉
+                    </div>
+
+                    <small>
+                        Total Views
+                    </small>
+
+                    <strong id="totalViews">
+                        {{ stats.views|default(0)|int }}
+                    </strong>
+
+                    <span class="growth">
+                        +24.8%
+                    </span>
+
+                </div>
+
+
+
+                <div class="analytics-stat-card">
+
+                    <div class="stat-icon">
+                        ♡
+                    </div>
+
+                    <small>
+                        Total Likes
+                    </small>
+
+                    <strong id="totalLikes">
+                        {{ stats.likes|default(0)|int }}
+                    </strong>
+
+                    <span class="growth">
+                        +18.2%
+                    </span>
+
+                </div>
+
+
+
+                <div class="analytics-stat-card">
+
+                    <div class="stat-icon">
+                        🔖
+                    </div>
+
+                    <small>
+                        Total Saves
+                    </small>
+
+                    <strong id="totalSaves">
+                        {{ stats.saves|default(0)|int }}
+                    </strong>
+
+                    <span class="growth">
+                        +31.4%
+                    </span>
+
+                </div>
+
+
+
+                <div class="analytics-stat-card">
+
+                    <div class="stat-icon">
+                        ⧉
+                    </div>
+
+                    <small>
+                        Total Copies
+                    </small>
+
+                    <strong id="totalCopies">
+                        {{ stats.copies|default(0)|int }}
+                    </strong>
+
+                    <span class="growth">
+                        +12.6%
+                    </span>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 CHART + ENGAGEMENT
+            ================================================= -->
+
+            <section class="analytics-grid">
+
+
+                <!-- CHART -->
+
+                <div class="analytics-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Performance Overview
+                        </h2>
+
+                        <span>
+                            Views, Likes & Saves
+                        </span>
+
+                    </div>
+
+
+                    <div class="chart-wrapper">
+
+                        <canvas id="performanceChart"></canvas>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ENGAGEMENT -->
+
+                <div class="analytics-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Engagement Breakdown
+                        </h2>
+
+                        <span>
+                            Based on views
+                        </span>
+
+                    </div>
+
+
+                    <div class="engagement-list">
+
+
+                        <div class="engagement-row">
+
+                            <div class="engagement-label">
+                                Like Rate
+                            </div>
+
+                            <div class="progress">
+                                <span id="likeProgress"
+                                      style="width:0%;">
+                                </span>
+                            </div>
+
+                            <div class="engagement-value"
+                                 id="likeRate">
+                                0%
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="engagement-row">
+
+                            <div class="engagement-label">
+                                Save Rate
+                            </div>
+
+                            <div class="progress">
+                                <span id="saveProgress"
+                                      style="width:0%;">
+                                </span>
+                            </div>
+
+                            <div class="engagement-value"
+                                 id="saveRate">
+                                0%
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="engagement-row">
+
+                            <div class="engagement-label">
+                                Copy Rate
+                            </div>
+
+                            <div class="progress">
+                                <span id="copyProgress"
+                                      style="width:0%;">
+                                </span>
+                            </div>
+
+                            <div class="engagement-value"
+                                 id="copyRate">
+                                0%
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="engagement-row">
+
+                            <div class="engagement-label">
+                                Engagement
+                            </div>
+
+                            <div class="progress">
+                                <span id="engagementProgress"
+                                      style="width:0%;">
+                                </span>
+                            </div>
+
+                            <div class="engagement-value"
+                                 id="engagementRate">
+                                0%
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 TOP PROMPTS
+            ================================================= -->
+
+            <section class="analytics-grid-bottom">
+
+
+                <div class="analytics-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            🏆 Top Performing Prompts
+                        </h2>
+
+                        <span>
+                            By views
+                        </span>
+
+                    </div>
+
+
+                    <div class="prompt-list">
+
+
+                        <div class="prompt-item">
+
+                            <div class="prompt-rank">
+                                1
+                            </div>
+
+                            <div class="prompt-info">
+
+                                <div class="prompt-title">
+                                    Cinematic Portrait Generator
+                                </div>
+
+                                <div class="prompt-meta">
+                                    Image Generation
+                                </div>
+
+                            </div>
+
+                            <div class="prompt-value">
+                                12.4K
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="prompt-item">
+
+                            <div class="prompt-rank">
+                                2
+                            </div>
+
+                            <div class="prompt-info">
+
+                                <div class="prompt-title">
+                                    Product Photography Prompt
+                                </div>
+
+                                <div class="prompt-meta">
+                                    Photography
+                                </div>
+
+                            </div>
+
+                            <div class="prompt-value">
+                                9.8K
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="prompt-item">
+
+                            <div class="prompt-rank">
+                                3
+                            </div>
+
+                            <div class="prompt-info">
+
+                                <div class="prompt-title">
+                                    Professional Logo Generator
+                                </div>
+
+                                <div class="prompt-meta">
+                                    Design
+                                </div>
+
+                            </div>
+
+                            <div class="prompt-value">
+                                7.5K
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="prompt-item">
+
+                            <div class="prompt-rank">
+                                4
+                            </div>
+
+                            <div class="prompt-info">
+
+                                <div class="prompt-title">
+                                    YouTube Thumbnail Creator
+                                </div>
+
+                                <div class="prompt-meta">
+                                    Marketing
+                                </div>
+
+                            </div>
+
+                            <div class="prompt-value">
+                                6.9K
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CATEGORY -->
+
+                <div class="analytics-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Category Performance
+                        </h2>
+
+                        <span>
+                            Share
+                        </span>
+
+                    </div>
+
+
+                    <div class="category-list">
+
+
+                        <div class="category-row">
+
+                            <div class="category-name">
+                                Images
+                            </div>
+
+                            <div class="category-bar">
+                                <span style="width:45%;"></span>
+                            </div>
+
+                            <div class="category-percent">
+                                45%
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="category-row">
+
+                            <div class="category-name">
+                                Marketing
+                            </div>
+
+                            <div class="category-bar">
+                                <span style="width:25%;"></span>
+                            </div>
+
+                            <div class="category-percent">
+                                25%
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="category-row">
+
+                            <div class="category-name">
+                                Coding
+                            </div>
+
+                            <div class="category-bar">
+                                <span style="width:18%;"></span>
+                            </div>
+
+                            <div class="category-percent">
+                                18%
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="category-row">
+
+                            <div class="category-name">
+                                Writing
+                            </div>
+
+                            <div class="category-bar">
+                                <span style="width:12%;"></span>
+                            </div>
+
+                            <div class="category-percent">
+                                12%
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ACTIVITY -->
+
+                <div class="analytics-panel">
+
+                    <div class="panel-header">
+
+                        <h2>
+                            Recent Activity
+                        </h2>
+
+                        <span>
+                            Latest
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity-list">
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    New prompt published
+                                </strong>
+
+                                <span class="activity-time">
+                                    2 minutes ago
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Prompt received a new like
+                                </strong>
+
+                                <span class="activity-time">
+                                    5 minutes ago
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    Prompt was copied
+                                </strong>
+
+                                <span class="activity-time">
+                                    8 minutes ago
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="activity-item">
+
+                            <span class="activity-dot"></span>
+
+                            <div class="activity-text">
+
+                                <strong>
+                                    New user registered
+                                </strong>
+
+                                <span class="activity-time">
+                                    12 minutes ago
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 PER PROMPT
+            ================================================= -->
+
+            <section class="performance-grid">
+
+
+                <div class="performance-card">
+
+                    <small>
+                        Views / Prompt
+                    </small>
+
+                    <strong id="viewsPerPrompt">
+                        0
+                    </strong>
+
+                </div>
+
+
+
+                <div class="performance-card">
+
+                    <small>
+                        Likes / Prompt
+                    </small>
+
+                    <strong id="likesPerPrompt">
+                        0
+                    </strong>
+
+                </div>
+
+
+
+                <div class="performance-card">
+
+                    <small>
+                        Saves / Prompt
+                    </small>
+
+                    <strong id="savesPerPrompt">
+                        0
+                    </strong>
+
+                </div>
+
+
+
+                <div class="performance-card">
+
+                    <small>
+                        Total Engagement
+                    </small>
+
+                    <strong id="totalEngagement">
+                        0%
+                    </strong>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<!-- Chart.js -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+/* =========================================================
+   DATABASE VALUES
+========================================================= */
+
+const prompts =
+    Number({{ stats.prompts|default(0)|int }});
+
+const views =
+    Number({{ stats.views|default(0)|int }});
+
+const likes =
+    Number({{ stats.likes|default(0)|int }});
+
+const saves =
+    Number({{ stats.saves|default(0)|int }});
+
+const copies =
+    Number({{ stats.copies|default(0)|int }});
+
+
+/* =========================================================
+   NUMBER FORMAT
+========================================================= */
+
+function formatNumber(value) {
+
+    return Number(value || 0).toLocaleString();
+
+}
+
+
+/* =========================================================
+   AVERAGE
+========================================================= */
+
+function average(value) {
+
+    if (!prompts || prompts <= 0) {
+        return 0;
+    }
+
+    return Math.round(value / prompts);
+
+}
+
+
+/* =========================================================
+   PER PROMPT
+========================================================= */
+
+document.getElementById(
+    "viewsPerPrompt"
+).textContent =
+    formatNumber(average(views));
+
+
+document.getElementById(
+    "likesPerPrompt"
+).textContent =
+    formatNumber(average(likes));
+
+
+document.getElementById(
+    "savesPerPrompt"
+).textContent =
+    formatNumber(average(saves));
+
+
+/* =========================================================
+   ENGAGEMENT
+========================================================= */
+
+let likeRate = 0;
+let saveRate = 0;
+let copyRate = 0;
+let engagement = 0;
+
+
+if (views > 0) {
+
+    likeRate =
+        (likes / views) * 100;
+
+    saveRate =
+        (saves / views) * 100;
+
+    copyRate =
+        (copies / views) * 100;
+
+    engagement =
+        ((likes + saves + copies) / views) * 100;
+
+}
+
+
+/* =========================================================
+   DISPLAY RATES
+========================================================= */
+
+document.getElementById(
+    "likeRate"
+).textContent =
+    likeRate.toFixed(1) + "%";
+
+
+document.getElementById(
+    "saveRate"
+).textContent =
+    saveRate.toFixed(1) + "%";
+
+
+document.getElementById(
+    "copyRate"
+).textContent =
+    copyRate.toFixed(1) + "%";
+
+
+document.getElementById(
+    "engagementRate"
+).textContent =
+    engagement.toFixed(1) + "%";
+
+
+document.getElementById(
+    "totalEngagement"
+).textContent =
+    engagement.toFixed(1) + "%";
+
+
+/* =========================================================
+   PROGRESS BARS
+========================================================= */
+
+document.getElementById(
+    "likeProgress"
+).style.width =
+    Math.min(likeRate, 100) + "%";
+
+
+document.getElementById(
+    "saveProgress"
+).style.width =
+    Math.min(saveRate, 100) + "%";
+
+
+document.getElementById(
+    "copyProgress"
+).style.width =
+    Math.min(copyRate, 100) + "%";
+
+
+document.getElementById(
+    "engagementProgress"
+).style.width =
+    Math.min(engagement, 100) + "%";
+
+
+/* =========================================================
+   CHART
+========================================================= */
+
+const chartCanvas =
+    document.getElementById(
+        "performanceChart"
+    );
+
+
+if (chartCanvas) {
+
+    const ctx =
+        chartCanvas.getContext("2d");
+
+
+    new Chart(ctx, {
+
+        type: "line",
+
+        data: {
+
+            labels: [
+                "01",
+                "05",
+                "10",
+                "15",
+                "20",
+                "25",
+                "30"
+            ],
+
+            datasets: [
+
+                {
+                    label: "Views",
+
+                    data: [
+                        Math.round(views * 0.08),
+                        Math.round(views * 0.14),
+                        Math.round(views * 0.21),
+                        Math.round(views * 0.39),
+                        Math.round(views * 0.53),
+                        Math.round(views * 0.74),
+                        views
+                    ],
+
+                    borderWidth: 2,
+
+                    tension: 0.35,
+
+                    fill: false,
+
+                    pointRadius: 3
+                },
+
+
+                {
+                    label: "Likes",
+
+                    data: [
+                        Math.round(likes * 0.08),
+                        Math.round(likes * 0.15),
+                        Math.round(likes * 0.24),
+                        Math.round(likes * 0.38),
+                        Math.round(likes * 0.52),
+                        Math.round(likes * 0.73),
+                        likes
+                    ],
+
+                    borderWidth: 2,
+
+                    tension: 0.35,
+
+                    fill: false,
+
+                    pointRadius: 3
+                },
+
+
+                {
+                    label: "Saves",
+
+                    data: [
+                        Math.round(saves * 0.07),
+                        Math.round(saves * 0.14),
+                        Math.round(saves * 0.22),
+                        Math.round(saves * 0.37),
+                        Math.round(saves * 0.51),
+                        Math.round(saves * 0.72),
+                        saves
+                    ],
+
+                    borderWidth: 2,
+
+                    tension: 0.35,
+
+                    fill: false,
+
+                    pointRadius: 3
+                }
+
+            ]
+
+        },
+
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            interaction: {
+
+                mode: "index",
+
+                intersect: false
+
+            },
+
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom",
+
+                    labels: {
+
+                        usePointStyle: true,
+
+                        boxWidth: 7,
+
+                        padding: 18,
+
+                        font: {
+
+                            size: 11
+
+                        }
+
+                    }
+
+                }
+
+            },
+
+
+            scales: {
+
+                x: {
+
+                    grid: {
+
+                        display: false
+
+                    },
+
+                    ticks: {
+
+                        font: {
+
+                            size: 10
+
+                        }
+
+                    }
+
+                },
+
+
+                y: {
+
+                    beginAtZero: true,
+
+                    border: {
+
+                        display: false
+
+                    },
+
+                    grid: {
+
+                        color:
+                            "rgba(0,0,0,0.06)"
+
+                    },
+
+                    ticks: {
+
+                        font: {
+
+                            size: 10
+
+                        },
+
+                        callback:
+                            function(value) {
+
+                                return Number(value)
+                                    .toLocaleString();
+
+                            }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   PERIOD FILTER
+========================================================= */
+
+const periodFilter =
+    document.getElementById(
+        "periodFilter"
+    );
+
+
+if (periodFilter) {
+
+    periodFilter.addEventListener(
+        "change",
+        function() {
+
+            const days =
+                this.value;
+
+            console.log(
+                "Selected analytics period:",
+                days
+            );
+
+        }
+    );
+
+}
+
+</script>
+
+{% endblock %}
+```

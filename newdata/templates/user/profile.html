@@ -1,0 +1,1128 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile — PromptVerse{% endblock %}
+
+{% block content %}
+
+
+<style>
+
+/* =========================================================
+   PROMPTVERSE — USER PROFILE
+   SINGLE FILE: HTML + CSS + JAVASCRIPT
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+.user-profile-page {
+    min-height: calc(100vh - 70px);
+    background:
+        radial-gradient(
+            circle at 85% 5%,
+            rgba(99,102,241,.07),
+            transparent 28%
+        ),
+        #f7f7fa;
+    padding: 45px 52px 80px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.profile-header {
+    width: min(100%, 1120px);
+    margin: 0 auto 28px;
+}
+
+.profile-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #73737e;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+    margin-bottom: 12px;
+}
+
+.profile-eyebrow::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6366f1;
+    box-shadow: 0 0 0 4px #e9e7ff;
+}
+
+.profile-header h1 {
+    margin: 0;
+    color: #15151a;
+    font-size: clamp(32px,4vw,45px);
+    line-height: 1.1;
+    letter-spacing: -1.8px;
+    font-weight: 850;
+}
+
+.profile-header p {
+    margin: 10px 0 0;
+    color: #8b8b96;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PROFILE CONTAINER
+========================================================= */
+
+.profile-container {
+    width: min(100%,1120px);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 310px 1fr;
+    gap: 18px;
+}
+
+
+/* =========================================================
+   LEFT PROFILE CARD
+========================================================= */
+
+.profile-card {
+    background: #fff;
+    border: 1px solid #e7e7ed;
+    border-radius: 18px;
+    padding: 25px;
+    height: fit-content;
+    box-shadow: 0 6px 22px rgba(20,20,40,.025);
+}
+
+.profile-card-top {
+    text-align: center;
+    padding-bottom: 23px;
+    border-bottom: 1px solid #eeeeF2;
+}
+
+
+/* AVATAR */
+
+.profile-avatar {
+    width: 86px;
+    height: 86px;
+    margin: 0 auto 14px;
+    border-radius: 25px;
+    background: linear-gradient(
+        135deg,
+        #6366f1,
+        #8b5cf6
+    );
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 31px;
+    font-weight: 850;
+    box-shadow:
+        0 15px 30px rgba(99,102,241,.22);
+}
+
+.profile-card h2 {
+    margin: 0;
+    color: #19191f;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.profile-email {
+    margin-top: 5px;
+    color: #9999a4;
+    font-size: 10px;
+    word-break: break-word;
+}
+
+
+/* ONLINE STATUS */
+
+.profile-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #effcf4;
+    color: #239152;
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+}
+
+
+/* PROFILE STATS */
+
+.profile-mini-stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 5px;
+    padding-top: 20px;
+}
+
+.mini-stat {
+    text-align: center;
+}
+
+.mini-stat strong {
+    display: block;
+    color: #202027;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.mini-stat span {
+    display: block;
+    margin-top: 4px;
+    color: #9999a4;
+    font-size: 8px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+
+/* =========================================================
+   INFORMATION CARD
+========================================================= */
+
+.info-card {
+    background: #fff;
+    border: 1px solid #e7e7ed;
+    border-radius: 18px;
+    padding: 26px;
+    box-shadow: 0 6px 22px rgba(20,20,40,.025);
+}
+
+.info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 19px;
+    margin-bottom: 21px;
+    border-bottom: 1px solid #eeeeF2;
+}
+
+.info-header h2 {
+    margin: 0;
+    color: #1b1b21;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.info-header p {
+    margin: 5px 0 0;
+    color: #9999a4;
+    font-size: 10px;
+}
+
+
+/* EDIT BUTTON */
+
+.edit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 12px;
+    border-radius: 9px;
+    background: #f4f3ff;
+    color: #554cc8;
+    border: 1px solid #e6e3ff;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 750;
+    transition: .2s ease;
+}
+
+.edit-btn:hover {
+    background: #ebe9ff;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   INFO ROWS
+========================================================= */
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-row {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid #f0f0f3;
+}
+
+.info-row:last-child {
+    border-bottom: 0;
+}
+
+.info-label {
+    color: #9999a4;
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.info-value {
+    color: #2b2b32;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+    max-width: 65%;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-card {
+    background: #fff;
+    border: 1px solid #e7e7ed;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 6px 22px rgba(20,20,40,.025);
+}
+
+.quick-card h2 {
+    margin: 0;
+    color: #1b1b21;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.quick-card > p {
+    margin: 5px 0 18px;
+    color: #9999a4;
+    font-size: 10px;
+}
+
+.quick-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+}
+
+.quick-action {
+    min-height: 83px;
+    padding: 14px;
+    border: 1px solid #e9e9ef;
+    border-radius: 12px;
+    background: #fafafd;
+    text-decoration: none;
+    transition: .2s ease;
+}
+
+.quick-action:hover {
+    background: #f6f5ff;
+    border-color: #d7d3ff;
+    transform: translateY(-2px);
+}
+
+.quick-icon {
+    width: 31px;
+    height: 31px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #efedff;
+    color: #5d54d3;
+    font-size: 14px;
+    margin-bottom: 9px;
+}
+
+.quick-action strong {
+    display: block;
+    color: #35353d;
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.quick-action span {
+    display: block;
+    margin-top: 3px;
+    color: #a0a0aa;
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   ACCOUNT CARD
+========================================================= */
+
+.account-card {
+    background: #fff;
+    border: 1px solid #e7e7ed;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 6px 22px rgba(20,20,40,.025);
+}
+
+.account-card h2 {
+    margin: 0;
+    color: #1b1b21;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.account-card p {
+    margin: 5px 0 17px;
+    color: #9999a4;
+    font-size: 10px;
+}
+
+.account-actions {
+    display: flex;
+    gap: 9px;
+}
+
+.account-action {
+    min-height: 38px;
+    padding: 0 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 9px;
+    font-weight: 750;
+    transition: .2s ease;
+}
+
+.settings-action {
+    background: #f5f5f8;
+    border: 1px solid #e5e5ea;
+    color: #5f5f6b;
+}
+
+.settings-action:hover {
+    background: #eeeeF3;
+}
+
+.logout-action {
+    background: #fff1f2;
+    border: 1px solid #ffe0e3;
+    color: #dc2626;
+}
+
+.logout-action:hover {
+    background: #ffe7e9;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes profileFade {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.profile-header,
+.profile-card,
+.info-card,
+.quick-card,
+.account-card {
+    animation: profileFade .45s ease both;
+}
+
+.profile-container {
+    animation-delay: .08s;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:900px) {
+
+    .user-profile-page {
+        padding: 40px 30px 60px;
+    }
+
+    .profile-container {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card-top {
+        padding-bottom: 20px;
+    }
+
+    .quick-grid {
+        grid-template-columns: repeat(3,1fr);
+    }
+
+}
+
+
+@media (max-width:680px) {
+
+    .user-profile-page {
+        padding: 28px 15px 45px;
+    }
+
+    .profile-header h1 {
+        font-size: 31px;
+        letter-spacing: -1.2px;
+    }
+
+    .profile-header p {
+        font-size: 11px;
+    }
+
+    .profile-card,
+    .info-card,
+    .quick-card,
+    .account-card {
+        padding: 18px;
+        border-radius: 15px;
+    }
+
+    .profile-avatar {
+        width: 76px;
+        height: 76px;
+        font-size: 27px;
+    }
+
+    .info-header {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .quick-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-action {
+        min-height: 65px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .quick-icon {
+        margin: 0;
+        flex-shrink: 0;
+    }
+
+    .account-actions {
+        flex-direction: column;
+    }
+
+    .account-action {
+        width: 100%;
+    }
+
+    .info-row {
+        align-items: flex-start;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        padding: 12px 0;
+    }
+
+    .info-value {
+        text-align: left;
+        max-width: 100%;
+    }
+
+}
+
+
+</style>
+
+<!-- =====================================================
+     PROFILE PAGE
+===================================================== -->
+
+<div class="user-profile-page">
+
+```
+<!-- HEADER -->
+
+<div class="profile-header">
+
+    <div class="profile-eyebrow">
+        ACCOUNT
+    </div>
+
+    <h1>
+        My Profile
+    </h1>
+
+    <p>
+        Manage your personal information and account.
+    </p>
+
+</div>
+
+
+
+<!-- MAIN PROFILE -->
+
+<div class="profile-container">
+
+
+    <!-- =================================================
+         LEFT CARD
+    ================================================= -->
+
+    <aside class="profile-card">
+
+        <div class="profile-card-top">
+
+            <div class="profile-avatar">
+
+                {{ current_user.get(
+                    'name',
+                    current_user.get('email','U')
+                )[0]|upper }}
+
+            </div>
+
+
+            <h2>
+                {{ current_user.get('name','User') }}
+            </h2>
+
+
+            <div class="profile-email">
+
+                {{ current_user.get('email','') }}
+
+            </div>
+
+
+            <div class="profile-status">
+
+                <span class="status-dot"></span>
+
+                Active Account
+
+            </div>
+
+        </div>
+
+
+        <!-- MINI STATS -->
+
+        <div class="profile-mini-stats">
+
+            <div class="mini-stat">
+
+                <strong>
+                    {{ stats.my_prompts if stats else 0 }}
+                </strong>
+
+                <span>
+                    Prompts
+                </span>
+
+            </div>
+
+
+            <div class="mini-stat">
+
+                <strong>
+                    {{ stats.likes if stats else 0 }}
+                </strong>
+
+                <span>
+                    Likes
+                </span>
+
+            </div>
+
+
+            <div class="mini-stat">
+
+                <strong>
+                    {{ stats.saves if stats else 0 }}
+                </strong>
+
+                <span>
+                    Saved
+                </span>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         RIGHT CONTENT
+    ================================================= -->
+
+    <div class="profile-content">
+
+
+        <!-- PERSONAL INFORMATION -->
+
+        <section class="info-card">
+
+            <div class="info-header">
+
+                <div>
+
+                    <h2>
+                        Personal Information
+                    </h2>
+
+                    <p>
+                        Your account details
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('user_edit_profile') }}"
+                    class="edit-btn"
+                >
+
+                    ✎ Edit Profile
+
+                </a>
+
+            </div>
+
+
+            <div class="info-list">
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Full Name
+                    </span>
+
+                    <span class="info-value">
+                        {{ current_user.get('name','Not provided') }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Email Address
+                    </span>
+
+                    <span class="info-value">
+                        {{ current_user.get('email','Not provided') }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Username
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                            current_user.get(
+                                'username',
+                                current_user.get(
+                                    'name',
+                                    'Not provided'
+                                )
+                            )
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Account Type
+                    </span>
+
+                    <span class="info-value">
+                        Creator / User
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Account Status
+                    </span>
+
+                    <span class="info-value">
+                        Active
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="quick-card">
+
+            <h2>
+                Quick Actions
+            </h2>
+
+            <p>
+                Jump directly to your most-used areas.
+            </p>
+
+
+            <div class="quick-grid">
+
+
+                <a
+                    href="{{ url_for('user_add_prompt') }}"
+                    class="quick-action"
+                >
+
+                    <div class="quick-icon">
+                        ＋
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Add Prompt
+                        </strong>
+
+                        <span>
+                            Create new content
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('user_my_prompts') }}"
+                    class="quick-action"
+                >
+
+                    <div class="quick-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            My Prompts
+                        </strong>
+
+                        <span>
+                            Manage your prompts
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('user_saved_prompts') }}"
+                    class="quick-action"
+                >
+
+                    <div class="quick-icon">
+                        🔖
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Saved
+                        </strong>
+
+                        <span>
+                            View saved prompts
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ACCOUNT -->
+
+        <section class="account-card">
+
+            <h2>
+                Account
+            </h2>
+
+            <p>
+                Manage your account settings and session.
+            </p>
+
+
+            <div class="account-actions">
+
+
+                <a
+                    href="{{ url_for('user_settings') }}"
+                    class="account-action settings-action"
+                >
+
+                    ⚙
+
+                    Account Settings
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('user_logout') }}"
+                    class="account-action logout-action"
+                    id="logoutButton"
+                >
+
+                    ↪
+
+                    Logout
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       LOGOUT CONFIRMATION
+    ===================================================== */
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+            "click",
+            function (event) {
+
+                const confirmed =
+                    confirm(
+                        "Are you sure you want to logout?"
+                    );
+
+                if (!confirmed) {
+
+                    event.preventDefault();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       NUMBER ANIMATION
+    ===================================================== */
+
+    const numbers =
+        document.querySelectorAll(
+            ".mini-stat strong"
+        );
+
+    numbers.forEach(function (element) {
+
+        const finalNumber =
+            parseInt(
+                element.textContent.trim()
+            );
+
+        if (
+            isNaN(finalNumber) ||
+            finalNumber <= 0
+        ) {
+            return;
+        }
+
+        let current = 0;
+
+        const duration = 650;
+
+        const start =
+            performance.now();
+
+        function animate(timestamp) {
+
+            const progress =
+                Math.min(
+                    (timestamp - start) / duration,
+                    1
+                );
+
+            current =
+                Math.floor(
+                    finalNumber * progress
+                );
+
+            element.textContent =
+                current.toLocaleString();
+
+            if (progress < 1) {
+
+                requestAnimationFrame(
+                    animate
+                );
+
+            } else {
+
+                element.textContent =
+                    finalNumber.toLocaleString();
+
+            }
+
+        }
+
+        requestAnimationFrame(animate);
+
+    });
+
+
+    /* =====================================================
+       QUICK ACTION KEYBOARD
+       N = New Prompt
+    ===================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            const active =
+                document.activeElement;
+
+            if (
+                active &&
+                (
+                    active.tagName === "INPUT" ||
+                    active.tagName === "TEXTAREA"
+                )
+            ) {
+                return;
+            }
+
+
+            if (
+                event.key.toLowerCase() === "n"
+            ) {
+
+                const addPrompt =
+                    document.querySelector(
+                        'a[href*="user_add_prompt"]'
+                    );
+
+                if (addPrompt) {
+
+                    addPrompt.click();
+
+                }
+
+            }
+
+        }
+    );
+
+
+});
+
+</script>
+
+{% endblock %}

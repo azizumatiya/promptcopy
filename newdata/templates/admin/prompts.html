@@ -1,0 +1,1362 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Prompts — PromptVerse{% endblock %}
+
+{% block content %}
+
+<style>
+/* ============================================================
+   ADMIN PROMPTS — FULL WIDTH + 15 ITEMS PER PAGE
+   ============================================================ */
+
+.admin-prompts-page {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 28px 32px 50px;
+    box-sizing: border-box;
+}
+
+.admin-prompts-page .admin-main {
+    width: 100%;
+    max-width: none;
+}
+
+.admin-prompts-page .admin-header {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.admin-prompts-page .admin-card {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+.admin-prompts-toolbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.admin-search-wrap {
+    flex: 1 1 320px;
+    max-width: 460px;
+}
+
+.admin-search {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+}
+
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-table {
+    width: 100%;
+    min-width: 1050px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.admin-table th,
+.admin-table td {
+    vertical-align: middle;
+}
+
+.admin-table th:nth-child(1) {
+    width: 34%;
+}
+
+.admin-table th:nth-child(2) {
+    width: 18%;
+}
+
+.admin-table th:nth-child(3) {
+    width: 18%;
+}
+
+.admin-table th:nth-child(4) {
+    width: 30%;
+}
+
+.prompt-table-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.prompt-table-info img {
+    width: 72px;
+    height: 72px;
+    min-width: 72px;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+}
+
+.prompt-table-info > div {
+    min-width: 0;
+}
+
+.prompt-table-info strong,
+.prompt-table-info span,
+.prompt-table-info small {
+    display: block;
+}
+
+.prompt-table-info strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.prompt-table-info span {
+    margin-top: 5px;
+}
+
+.prompt-table-info small {
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.order-form {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 8px;
+}
+
+.order-form:last-child {
+    margin-bottom: 0;
+}
+
+.order-form input {
+    width: 80px;
+    min-width: 80px;
+    height: 38px;
+    box-sizing: border-box;
+}
+
+.order-form button {
+    height: 38px;
+    padding: 0 14px;
+    cursor: pointer;
+}
+
+.control-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+}
+
+.control-buttons form {
+    margin: 0;
+}
+
+.control-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.control-btn.danger {
+    cursor: pointer;
+}
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+
+.prompt-pagination-area {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 24px;
+}
+
+.prompt-page-info {
+    font-size: 13px;
+    opacity: .7;
+    text-align: center;
+}
+
+.prompt-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.prompt-pagination button {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 9px;
+    background: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .18s ease;
+}
+
+.prompt-pagination button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.prompt-pagination button.active {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+.prompt-pagination button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.prompt-pagination .dots {
+    min-width: auto;
+    border: 0;
+    background: transparent;
+    cursor: default;
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 900px) {
+    .admin-prompts-page {
+        padding: 22px 18px 40px;
+    }
+
+    .admin-prompts-page .admin-header {
+        flex-direction: column;
+    }
+
+    .admin-search-wrap {
+        max-width: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-prompts-page {
+        padding: 16px 12px 32px;
+    }
+
+    .prompt-table-info img {
+        width: 58px;
+        height: 58px;
+        min-width: 58px;
+    }
+}
+
+/* ============================================================
+   FINAL LEFT SIDEBAR FIX
+   - Sidebar reaches the complete left edge
+   - Main content uses all remaining screen width
+   - Prevents the sidebar from being squeezed/clipped
+   ============================================================ */
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.admin-layout {
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: stretch !important;
+    box-sizing: border-box !important;
+}
+
+/* The sidebar is always a complete left column */
+.admin-layout > :first-child {
+    flex: 0 0 260px !important;
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    align-self: stretch !important;
+}
+
+/* Main area takes everything beside the sidebar */
+.admin-layout > .admin-main {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Prompt page itself fills the complete main area */
+.admin-main .admin-prompts-page {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 28px 32px 50px !important;
+    box-sizing: border-box !important;
+}
+
+/* Do not let the table force the whole page wider */
+.admin-main .admin-card,
+.admin-main .admin-header,
+.admin-main .admin-prompts-toolbar,
+.admin-main .table-scroll {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Keep wide table scroll inside the content area only */
+.admin-main .table-scroll {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+}
+
+/* If sidebar itself uses fixed positioning, keep it flush to the left */
+.admin-layout > aside,
+.admin-layout > .admin-sidebar,
+.admin-layout > [class*="sidebar"] {
+    left: 0 !important;
+    margin-left: 0 !important;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .admin-layout {
+        width: 100vw !important;
+        margin-left: 0 !important;
+        display: block !important;
+    }
+
+    .admin-layout > :first-child {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        flex: none !important;
+    }
+
+    .admin-layout > .admin-main {
+        width: 100% !important;
+        max-width: none !important;
+    }
+
+    .admin-main .admin-prompts-page {
+        padding: 22px 18px 40px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-main .admin-prompts-page {
+        padding: 16px 12px 32px !important;
+    }
+}
+
+</style>
+
+
+<div class="admin-layout">
+
+    {% include "admin/sidebar.html" %}
+
+    <main class="admin-main">
+
+        <div class="admin-prompts-page">
+
+            <!-- ==================================================
+                 HEADER
+                 ================================================== -->
+
+            <header class="admin-header">
+
+                <div>
+                    <span class="admin-eyebrow">
+                        CONTENT MANAGEMENT
+                    </span>
+
+                    <h1>Prompts</h1>
+
+                    <p>
+                        Manage all published prompts.
+                    </p>
+                </div>
+
+                <a
+                    href="{{ url_for('admin_add_prompt') }}"
+                    class="admin-primary-btn"
+                >
+                    + Add Prompt
+                </a>
+
+            </header>
+
+
+            <!-- ==================================================
+                 PROMPT LIBRARY
+                 ================================================== -->
+
+            <section class="admin-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <small>ALL CONTENT</small>
+                        <h2>Prompt Library</h2>
+                    </div>
+
+                    <div class="admin-prompts-toolbar">
+
+                        <div class="admin-search-wrap">
+
+                            <input
+                                id="promptSearch"
+                                class="admin-search"
+                                type="search"
+                                placeholder="Search prompts..."
+                                autocomplete="off"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ==================================================
+                     TABLE
+                     ================================================== -->
+
+                <div class="table-scroll">
+
+                    <table
+                        class="admin-table"
+                        id="promptTable"
+                    >
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Prompt</th>
+
+                                <th>Stats</th>
+
+                                <th>Order</th>
+
+                                <th>Controls</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="promptTableBody">
+
+                        {% for p in prompts %}
+
+                            <tr class="prompt-row">
+
+                                <!-- PROMPT -->
+                                <td>
+
+                                    <div class="prompt-table-info">
+
+                                        <img
+                                            src="{{ p.get('image', '') }}"
+                                            alt="{{ p.get('title', 'Prompt') }}"
+                                            loading="lazy"
+                                            onerror="this.style.display='none';"
+                                        >
+
+                                        <div>
+
+                                            <strong>
+                                                {{ p.get(
+                                                    'title',
+                                                    'Untitled Prompt'
+                                                ) }}
+                                            </strong>
+
+                                            <span>
+                                                {{ p.get(
+                                                    'category',
+                                                    'Uncategorized'
+                                                ) }}
+                                                ·
+                                                {{ p.get(
+                                                    'model',
+                                                    'Unknown'
+                                                ) }}
+                                            </span>
+
+                                            <small>
+
+                                                {% if p.get('tags') %}
+
+                                                    {% if p.get('tags') is string %}
+
+                                                        {{ p.get('tags') }}
+
+                                                    {% else %}
+
+                                                        {{ p.get('tags')|join(', ') }}
+
+                                                    {% endif %}
+
+                                                {% else %}
+
+                                                    No tags
+
+                                                {% endif %}
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- STATS -->
+                                <td>
+
+                                    <strong>
+                                        {{ p.get('views', 0) }}
+                                    </strong>
+                                    views
+
+                                    <br>
+
+                                    <strong>
+                                        {{ p.get('likes', 0) }}
+                                    </strong>
+                                    likes
+                                    ·
+
+                                    <strong>
+                                        {{ p.get('saves', 0) }}
+                                    </strong>
+                                    saves
+
+                                    <br>
+
+                                    <strong>
+                                        {{ p.get('copies', 0) }}
+                                    </strong>
+                                    copies
+
+                                </td>
+
+
+                                <!-- ORDER -->
+                                <td>
+
+                                    <form
+                                        class="order-form"
+                                        method="post"
+                                        action="{{ url_for(
+                                            'reorder_prompt',
+                                            pid=p['_id']
+                                        ) }}"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="field"
+                                            value="featured_order"
+                                        >
+
+                                        <input
+                                            name="value"
+                                            type="number"
+                                            min="0"
+                                            value="{{ p.get(
+                                                'featured_order',
+                                                0
+                                            ) }}"
+                                            aria-label="Featured order"
+                                        >
+
+                                        <button type="submit">
+                                            Set
+                                        </button>
+
+                                    </form>
+
+
+                                    <form
+                                        class="order-form"
+                                        method="post"
+                                        action="{{ url_for(
+                                            'reorder_prompt',
+                                            pid=p['_id']
+                                        ) }}"
+                                    >
+
+                                        <input
+                                            type="hidden"
+                                            name="field"
+                                            value="trending_order"
+                                        >
+
+                                        <input
+                                            name="value"
+                                            type="number"
+                                            min="0"
+                                            value="{{ p.get(
+                                                'trending_order',
+                                                0
+                                            ) }}"
+                                            aria-label="Trending order"
+                                        >
+
+                                        <button type="submit">
+                                            Set
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+
+                                <!-- CONTROLS -->
+                                <td>
+
+                                    <div class="control-buttons">
+
+                                        <a
+                                            href="{{ url_for(
+                                                'prompt_detail',
+                                                pid=p['_id']
+                                            ) }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="control-btn"
+                                        >
+                                            View
+                                        </a>
+
+
+                                        <form
+                                            method="post"
+                                            action="{{ url_for(
+                                                'toggle_featured',
+                                                pid=p['_id']
+                                            ) }}"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="control-btn"
+                                            >
+
+                                                {% if p.get(
+                                                    'manual_featured',
+                                                    False
+                                                ) %}
+
+                                                    ★ Featured
+
+                                                {% else %}
+
+                                                    Featured
+
+                                                {% endif %}
+
+                                            </button>
+
+                                        </form>
+
+
+                                        <form
+                                            method="post"
+                                            action="{{ url_for(
+                                                'toggle_trending',
+                                                pid=p['_id']
+                                            ) }}"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="control-btn"
+                                            >
+
+                                                {% if p.get(
+                                                    'manual_trending',
+                                                    False
+                                                ) %}
+
+                                                    🔥 Trending
+
+                                                {% else %}
+
+                                                    Trending
+
+                                                {% endif %}
+
+                                            </button>
+
+                                        </form>
+
+
+                                        <form
+                                            method="post"
+                                            action="{{ url_for(
+                                                'admin_delete_prompt',
+                                                pid=p['_id']
+                                            ) }}"
+                                            onsubmit="return confirm(
+                                                'Delete this prompt? This action cannot be undone.'
+                                            );"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="control-btn danger"
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                        {% else %}
+
+                            <tr id="emptyPromptRow">
+
+                                <td
+                                    colspan="4"
+                                    class="empty"
+                                >
+                                    No prompts found.
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- ==================================================
+                     PAGINATION
+                     15 PROMPTS PER PAGE
+                     ================================================== -->
+
+                <div
+                    id="promptPaginationArea"
+                    class="prompt-pagination-area"
+                >
+
+                    <div
+                        id="promptPageInfo"
+                        class="prompt-page-info"
+                    ></div>
+
+                    <div
+                        id="promptPagination"
+                        class="prompt-pagination"
+                        aria-label="Prompt pagination"
+                    ></div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    /*
+     * ============================================================
+     * PROMPT PAGINATION
+     * ============================================================
+     *
+     * Exactly 15 prompts are displayed on one page.
+     *
+     * Example:
+     * Page 1 -> 1 to 15
+     * Page 2 -> 16 to 30
+     * Page 3 -> 31 to 45
+     *
+     * The numbers below the table are generated automatically:
+     * 1  2  3  4  ...
+     */
+
+    const ITEMS_PER_PAGE = 15;
+
+    const tableBody =
+        document.getElementById("promptTableBody");
+
+    const searchInput =
+        document.getElementById("promptSearch");
+
+    const pagination =
+        document.getElementById("promptPagination");
+
+    const pageInfo =
+        document.getElementById("promptPageInfo");
+
+    if (!tableBody || !pagination) {
+        return;
+    }
+
+
+    /*
+     * Get only actual prompt rows.
+     * The empty-state row is excluded.
+     */
+    const allRows = Array.from(
+        tableBody.querySelectorAll(".prompt-row")
+    );
+
+
+    let filteredRows = allRows.slice();
+
+    let currentPage = 1;
+
+
+    /*
+     * ============================================================
+     * SEARCH
+     * ============================================================
+     */
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                const query =
+                    this.value
+                        .toLowerCase()
+                        .trim();
+
+
+                filteredRows = allRows.filter(
+                    function (row) {
+
+                        return row.innerText
+                            .toLowerCase()
+                            .includes(query);
+
+                    }
+                );
+
+
+                currentPage = 1;
+
+                render();
+
+            }
+        );
+
+    }
+
+
+    /*
+     * ============================================================
+     * PAGINATION HELPERS
+     * ============================================================
+     */
+
+    function totalPages() {
+
+        return Math.max(
+            1,
+            Math.ceil(
+                filteredRows.length /
+                ITEMS_PER_PAGE
+            )
+        );
+
+    }
+
+
+    function getVisibleRows() {
+
+        const start =
+            (currentPage - 1) *
+            ITEMS_PER_PAGE;
+
+        const end =
+            start +
+            ITEMS_PER_PAGE;
+
+        return filteredRows.slice(
+            start,
+            end
+        );
+
+    }
+
+
+    /*
+     * ============================================================
+     * SHOW / HIDE TABLE ROWS
+     * ============================================================
+     */
+
+    function renderRows() {
+
+        /*
+         * Hide every prompt first.
+         */
+        allRows.forEach(
+            function (row) {
+                row.style.display = "none";
+            }
+        );
+
+
+        /*
+         * Show only 15 rows for current page.
+         */
+        getVisibleRows().forEach(
+            function (row) {
+                row.style.display = "";
+            }
+        );
+
+
+        /*
+         * Empty search result.
+         */
+        const emptySearch =
+            document.getElementById(
+                "emptySearchRow"
+            );
+
+
+        if (emptySearch) {
+            emptySearch.remove();
+        }
+
+
+        if (
+            filteredRows.length === 0 &&
+            allRows.length > 0
+        ) {
+
+            const row =
+                document.createElement("tr");
+
+            row.id =
+                "emptySearchRow";
+
+            row.innerHTML = `
+                <td colspan="4" class="empty">
+                    No prompts match your search.
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+
+        }
+
+    }
+
+
+    /*
+     * ============================================================
+     * PAGE BUTTONS
+     * ============================================================
+     */
+
+    function createButton(
+        label,
+        page,
+        disabled,
+        active
+    ) {
+
+        const button =
+            document.createElement("button");
+
+        button.type = "button";
+
+        button.textContent = label;
+
+        button.disabled = disabled;
+
+        if (active) {
+            button.classList.add("active");
+            button.setAttribute(
+                "aria-current",
+                "page"
+            );
+        }
+
+        if (!disabled && !active) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    currentPage = page;
+
+                    render();
+
+                    /*
+                     * Keep the top of the table visible
+                     * after changing pages.
+                     */
+                    const table =
+                        document.getElementById(
+                            "promptTable"
+                        );
+
+                    if (table) {
+
+                        table.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    }
+
+                }
+            );
+
+        }
+
+        return button;
+
+    }
+
+
+    /*
+     * ============================================================
+     * NUMBERED PAGINATION
+     * ============================================================
+     */
+
+    function renderPagination() {
+
+        pagination.innerHTML = "";
+
+        const pages =
+            totalPages();
+
+
+        /*
+         * Previous
+         */
+        pagination.appendChild(
+            createButton(
+                "‹",
+                currentPage - 1,
+                currentPage === 1,
+                false
+            )
+        );
+
+
+        /*
+         * If there are only a few pages,
+         * show all page numbers.
+         */
+        if (pages <= 7) {
+
+            for (
+                let page = 1;
+                page <= pages;
+                page++
+            ) {
+
+                pagination.appendChild(
+                    createButton(
+                        String(page),
+                        page,
+                        false,
+                        page === currentPage
+                    )
+                );
+
+            }
+
+        } else {
+
+            /*
+             * Always show page 1.
+             */
+            pagination.appendChild(
+                createButton(
+                    "1",
+                    1,
+                    false,
+                    currentPage === 1
+                )
+            );
+
+
+            /*
+             * Left dots.
+             */
+            if (currentPage > 4) {
+
+                const dots =
+                    document.createElement(
+                        "span"
+                    );
+
+                dots.className = "dots";
+
+                dots.textContent = "…";
+
+                pagination.appendChild(dots);
+
+            }
+
+
+            /*
+             * Middle pages.
+             */
+            let startPage =
+                Math.max(
+                    2,
+                    currentPage - 1
+                );
+
+            let endPage =
+                Math.min(
+                    pages - 1,
+                    currentPage + 1
+                );
+
+
+            if (currentPage <= 3) {
+
+                startPage = 2;
+                endPage = 4;
+
+            }
+
+
+            if (currentPage >= pages - 2) {
+
+                startPage = pages - 3;
+                endPage = pages - 1;
+
+            }
+
+
+            for (
+                let page = startPage;
+                page <= endPage;
+                page++
+            ) {
+
+                pagination.appendChild(
+                    createButton(
+                        String(page),
+                        page,
+                        false,
+                        page === currentPage
+                    )
+                );
+
+            }
+
+
+            /*
+             * Right dots.
+             */
+            if (currentPage < pages - 3) {
+
+                const dots =
+                    document.createElement(
+                        "span"
+                    );
+
+                dots.className = "dots";
+
+                dots.textContent = "…";
+
+                pagination.appendChild(dots);
+
+            }
+
+
+            /*
+             * Last page.
+             */
+            pagination.appendChild(
+                createButton(
+                    String(pages),
+                    pages,
+                    false,
+                    currentPage === pages
+                )
+            );
+
+        }
+
+
+        /*
+         * Next
+         */
+        pagination.appendChild(
+            createButton(
+                "›",
+                currentPage + 1,
+                currentPage === pages,
+                false
+            )
+        );
+
+    }
+
+
+    /*
+     * ============================================================
+     * PAGE INFORMATION
+     * ============================================================
+     */
+
+    function renderPageInfo() {
+
+        const total =
+            filteredRows.length;
+
+        const pages =
+            totalPages();
+
+
+        if (total === 0) {
+
+            pageInfo.textContent =
+                "0 prompts";
+
+            return;
+
+        }
+
+
+        const start =
+            (currentPage - 1) *
+            ITEMS_PER_PAGE +
+            1;
+
+        const end =
+            Math.min(
+                currentPage *
+                ITEMS_PER_PAGE,
+                total
+            );
+
+
+        pageInfo.textContent =
+            `Showing ${start}–${end} of ${total} prompts · Page ${currentPage} of ${pages}`;
+
+    }
+
+
+    /*
+     * ============================================================
+     * MAIN RENDER
+     * ============================================================
+     */
+
+    function render() {
+
+        const pages =
+            totalPages();
+
+
+        /*
+         * Safety:
+         * if filtering reduces total pages,
+         * automatically go back to last page.
+         */
+        if (currentPage > pages) {
+            currentPage = pages;
+        }
+
+
+        renderRows();
+
+        renderPagination();
+
+        renderPageInfo();
+
+    }
+
+
+    /*
+     * Initial load.
+     */
+    render();
+
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Sign Up' if mode=='signup' else 'Log In' }} — PromptVerse{% endblock %}
+{% block content %}
+<section class="auth-page"><div class="auth-card">
+<div class="auth-logo"><span class="brand-icon"><i data-lucide="sparkles"></i></span></div>
+<small>{{ 'JOIN PROMPTVERSE' if mode=='signup' else 'WELCOME BACK' }}</small>
+<h1>{{ 'Create your account' if mode=='signup' else 'Log in to PromptVerse' }}</h1>
+<p>{{ 'Save, like and organize your favorite prompts.' if mode=='signup' else 'Continue to your personal prompt library.' }}</p>
+<form method="post">
+<label>Email<input name="email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+<label>Password<input name="password" type="password" required minlength="6" autocomplete="{{'new-password' if mode=='signup' else 'current-password'}}" placeholder="••••••••"></label>
+<button class="btn primary full">{{ 'Create Account' if mode=='signup' else 'Log In' }}</button>
+</form>
+{% if mode=='login' %}<a class="auth-link" href="{{url_for('forgot_password')}}">Forgot password?</a>{% endif %}
+<p class="switch">{{ 'Already have an account?' if mode=='signup' else "Don't have an account?" }} <a href="{{url_for('login' if mode=='signup' else 'signup')}}">{{ 'Log in' if mode=='signup' else 'Sign up' }}</a></p>
+</div></section>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}My Library — PromptVerse{% endblock %}
+{% block content %}
+<section class="page-head"><div class="wrap"><small>PERSONAL SPACE</small><h1>My Library</h1><p>Your saved, liked and recently viewed prompts.</p></div></section>
+<section class="section">
+<div class="wrap library-tabs">
+<div class="library-section"><h2>🔖 Saved Prompts</h2><div class="library-grid">{% for p in saved %}<a class="library-card" href="{{url_for('prompt_detail',prompt_id=p['id'])}}"><img src="{{p['image']}}"><div><b>{{p['title']}}</b><span>{{p['category']}} · {{p['model']}}</span></div></a>{% else %}<p class="empty">No saved prompts yet.</p>{% endfor %}</div></div>
+<div class="library-section"><h2>❤️ Liked Prompts</h2><div class="library-grid">{% for p in liked %}<a class="library-card" href="{{url_for('prompt_detail',prompt_id=p['id'])}}"><img src="{{p['image']}}"><div><b>{{p['title']}}</b><span>{{p['likes']}} likes</span></div></a>{% else %}<p class="empty">No liked prompts yet.</p>{% endfor %}</div></div>
+<div class="library-section"><h2>🕐 Recently Viewed</h2><div class="library-grid">{% for p in recent %}<a class="library-card" href="{{url_for('prompt_detail',prompt_id=p['id'])}}"><img src="{{p['image']}}"><div><b>{{p['title']}}</b><span>{{p['category']}}</span></div></a>{% else %}<p class="empty">No viewing history yet.</p>{% endfor %}</div></div>
+</div></section>
+{% endblock %}

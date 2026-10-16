@@ -1,0 +1,699 @@
+
+<style>
+
+    /* =====================================================
+       SIDEBAR
+    ===================================================== */
+
+    .pv-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+
+        width: 235px;
+
+        z-index: 1000;
+
+        display: flex;
+        flex-direction: column;
+
+        background: #ffffff;
+
+        border-right: 1px solid #e6e8ed;
+
+        padding: 22px 14px;
+
+        box-sizing: border-box;
+    }
+
+
+    /* =====================================================
+       BRAND
+    ===================================================== */
+
+    .pv-sidebar-brand {
+        padding: 4px 8px 25px;
+
+        border-bottom: 1px solid #eceef1;
+    }
+
+    .pv-brand-link {
+        display: flex;
+        align-items: center;
+
+        gap: 10px;
+
+        color: #17191d;
+
+        text-decoration: none;
+    }
+
+    .pv-brand-mark {
+        width: 34px;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 9px;
+
+        background: #17191d;
+
+        color: #ffffff;
+
+        font-size: 15px;
+        font-weight: 850;
+    }
+
+    .pv-brand-text {
+        font-size: 15px;
+
+        font-weight: 800;
+
+        letter-spacing: -0.35px;
+    }
+
+
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
+
+    .pv-sidebar-nav {
+        padding-top: 24px;
+    }
+
+    .pv-nav-label {
+        padding: 0 10px 10px;
+
+        color: #9a9ea7;
+
+        font-size: 9px;
+
+        font-weight: 800;
+
+        letter-spacing: 1.3px;
+    }
+
+
+    /* =====================================================
+       NAV ITEM
+    ===================================================== */
+
+    .pv-nav-item {
+        display: flex;
+
+        align-items: center;
+
+        gap: 11px;
+
+        width: 100%;
+
+        min-height: 40px;
+
+        margin-bottom: 4px;
+
+        padding: 0 11px;
+
+        border-radius: 8px;
+
+        color: #555a64;
+
+        text-decoration: none;
+
+        font-size: 12px;
+
+        font-weight: 650;
+
+        box-sizing: border-box;
+
+        transition:
+            background 0.18s ease,
+            color 0.18s ease,
+            transform 0.18s ease;
+    }
+
+    .pv-nav-item:hover {
+        background: #f6f6f8;
+
+        color: #202329;
+
+        transform: translateX(2px);
+    }
+
+
+    /* =====================================================
+       ICON
+    ===================================================== */
+
+    .pv-nav-icon {
+        width: 19px;
+
+        flex: 0 0 19px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        color: #858a94;
+
+        font-size: 15px;
+
+        line-height: 1;
+    }
+
+
+    /* =====================================================
+       ACTIVE ITEM
+    ===================================================== */
+
+    .pv-nav-item.active {
+        background: #f0eeff;
+
+        color: #635bdb;
+    }
+
+    .pv-nav-item.active .pv-nav-icon {
+        color: #635bdb;
+    }
+
+
+    /* =====================================================
+       CREATE PROMPT
+    ===================================================== */
+
+    .pv-create {
+        margin-top: 9px;
+
+        background: #17191d;
+
+        color: #ffffff;
+    }
+
+    .pv-create .pv-nav-icon {
+        color: #ffffff;
+    }
+
+    .pv-create:hover {
+        background: #292c32;
+
+        color: #ffffff;
+
+        transform: translateX(2px);
+    }
+
+
+    /* =====================================================
+       SIDEBAR BOTTOM
+    ===================================================== */
+
+    .pv-sidebar-bottom {
+        margin-top: auto;
+
+        padding-top: 14px;
+
+        border-top: 1px solid #eceef1;
+    }
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    .pv-logout:hover {
+        background: #fff5f6;
+
+        color: #c33f4d;
+    }
+
+    .pv-logout:hover .pv-nav-icon {
+        color: #c33f4d;
+    }
+
+
+    /* =====================================================
+       MOBILE HEADER
+    ===================================================== */
+
+    .pv-mobile-header {
+        display: none;
+
+        height: 58px;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 0 16px;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #e6e8ed;
+    }
+
+    .pv-mobile-brand {
+        display: flex;
+
+        align-items: center;
+
+        gap: 9px;
+
+        font-size: 14px;
+
+        font-weight: 800;
+    }
+
+    .pv-mobile-mark {
+        width: 30px;
+        height: 30px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 8px;
+
+        background: #17191d;
+
+        color: #ffffff;
+
+        font-size: 13px;
+    }
+
+    .pv-menu-btn {
+        width: 36px;
+        height: 36px;
+
+        border: 1px solid #e1e3e8;
+
+        border-radius: 7px;
+
+        background: #ffffff;
+
+        cursor: pointer;
+
+        font-size: 18px;
+    }
+
+
+    /* =====================================================
+       MOBILE OVERLAY
+    ===================================================== */
+
+    .pv-overlay {
+        display: none;
+
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 999;
+
+        background: rgba(0, 0, 0, 0.25);
+    }
+
+
+    /* =====================================================
+       MOBILE RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 800px) {
+
+        .pv-sidebar {
+            left: -245px;
+
+            transition: left 0.25s ease;
+
+            box-shadow:
+                10px 0 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .pv-sidebar.open {
+            left: 0;
+        }
+
+        .pv-mobile-header {
+            display: flex;
+        }
+
+        .pv-overlay.open {
+            display: block;
+        }
+    }
+
+
+    /* =====================================================
+       DESKTOP
+    ===================================================== */
+
+    @media (min-width: 801px) {
+
+        .pv-mobile-header {
+            display: none;
+        }
+    }
+
+</style>
+
+
+<!-- =========================================================
+     MOBILE HEADER
+========================================================= -->
+
+<header class="pv-mobile-header">
+
+    <div class="pv-mobile-brand">
+
+        <span class="pv-mobile-mark">
+            P
+        </span>
+
+        <span>
+            PromptVerse
+        </span>
+
+    </div>
+
+    <button
+        type="button"
+        class="pv-menu-btn"
+        id="pvMenuBtn"
+        aria-label="Open menu"
+    >
+        ☰
+    </button>
+
+</header>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside
+    class="pv-sidebar"
+    id="pvSidebar"
+>
+
+
+    <!-- =====================================================
+         BRAND
+    ====================================================== -->
+
+    <div class="pv-sidebar-brand">
+
+        <a
+            href="{{ url_for('user_dashboard') }}"
+            class="pv-brand-link"
+        >
+
+            <span class="pv-brand-mark">
+                P
+            </span>
+
+            <span class="pv-brand-text">
+                PromptVerse
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <nav
+        class="pv-sidebar-nav"
+        aria-label="User navigation"
+    >
+
+        <div class="pv-nav-label">
+            WORKSPACE
+        </div>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+            href="{{ url_for('user_dashboard') }}"
+            class="pv-nav-item"
+            data-page="dashboard"
+        >
+
+            <span class="pv-nav-icon">
+                ⌂
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+
+        </a>
+
+
+        <!-- MY PROMPTS -->
+
+        <a
+            href="{{ url_for('user_my_prompts') }}"
+            class="pv-nav-item"
+            data-page="my-prompts"
+        >
+
+            <span class="pv-nav-icon">
+                ✦
+            </span>
+
+            <span>
+                My Prompts
+            </span>
+
+        </a>
+
+
+        <!-- CREATE PROMPT -->
+
+        <a
+            href="{{ url_for('user_add_prompt') }}"
+            class="pv-nav-item pv-create"
+            data-page="create"
+        >
+
+            <span class="pv-nav-icon">
+                +
+            </span>
+
+            <span>
+                Create Prompt
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- =====================================================
+         BOTTOM
+    ====================================================== -->
+
+    <div class="pv-sidebar-bottom">
+
+        <a
+            href="{{ url_for('user_logout') }}"
+            class="pv-nav-item pv-logout"
+        >
+
+            <span class="pv-nav-icon">
+                ↪
+            </span>
+
+            <span>
+                Logout
+            </span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MOBILE OVERLAY
+========================================================= -->
+
+<div
+    class="pv-overlay"
+    id="pvOverlay"
+></div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const sidebar =
+            document.getElementById("pvSidebar");
+
+        const menuBtn =
+            document.getElementById("pvMenuBtn");
+
+        const overlay =
+            document.getElementById("pvOverlay");
+
+
+        /* =================================================
+           OPEN SIDEBAR
+        ================================================= */
+
+        function openSidebar() {
+
+            if (!sidebar) return;
+
+            sidebar.classList.add("open");
+
+            if (overlay) {
+                overlay.classList.add("open");
+            }
+        }
+
+
+        /* =================================================
+           CLOSE SIDEBAR
+        ================================================= */
+
+        function closeSidebar() {
+
+            if (!sidebar) return;
+
+            sidebar.classList.remove("open");
+
+            if (overlay) {
+                overlay.classList.remove("open");
+            }
+        }
+
+
+        /* =================================================
+           MOBILE MENU
+        ================================================= */
+
+        if (menuBtn) {
+
+            menuBtn.addEventListener(
+                "click",
+                openSidebar
+            );
+
+        }
+
+
+        /* =================================================
+           OVERLAY CLICK
+        ================================================= */
+
+        if (overlay) {
+
+            overlay.addEventListener(
+                "click",
+                closeSidebar
+            );
+
+        }
+
+
+        /* =================================================
+           ACTIVE PAGE
+        ================================================= */
+
+        const currentPath =
+            window.location.pathname;
+
+
+        const navItems =
+            document.querySelectorAll(
+                ".pv-nav-item[data-page]"
+            );
+
+
+        navItems.forEach(
+            function (item) {
+
+                const href =
+                    item.getAttribute("href");
+
+                if (!href) return;
+
+
+                if (
+                    currentPath === href ||
+                    (
+                        href !== "/" &&
+                        currentPath.startsWith(href)
+                    )
+                ) {
+
+                    item.classList.add("active");
+
+                    item.setAttribute(
+                        "aria-current",
+                        "page"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           CLOSE SIDEBAR AFTER NAVIGATION
+        ================================================= */
+
+        navItems.forEach(
+            function (item) {
+
+                item.addEventListener(
+                    "click",
+                    function () {
+
+                        closeSidebar();
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           ESCAPE KEY
+        ================================================= */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Escape") {
+
+                    closeSidebar();
+
+                }
+
+            }
+        );
+
+    }
+);
+
+</script>

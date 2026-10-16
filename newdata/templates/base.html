@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}PromptVerse{% endblock %}</title>
+
+    <!-- =====================================================
+         GOOGLE FONTS
+         ===================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =====================================================
+         LUCIDE ICONS
+         ===================================================== -->
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- =====================================================
+         MAIN CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    {% block head %}{% endblock %}
+
+
+    <!-- =====================================================
+         SECOND NAVBAR CSS
+         ===================================================== -->
+
+    <style>
+
+        /* -----------------------------------------------------
+           SECONDARY NAVBAR
+           ----------------------------------------------------- */
+
+
+        /* =====================================================
+           LOGGED-IN USER DASHBOARD NAV BUTTON
+           ===================================================== */
+
+        .dashboard-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            white-space: nowrap;
+        }
+
+        .dashboard-nav-btn svg {
+            width: 15px;
+            height: 15px;
+            stroke-width: 2.2;
+        }
+
+        @media (max-width: 700px) {
+
+            .dashboard-nav-btn {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .dashboard-nav-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+
+        }
+
+        .sub-navbar {
+
+            width: 100%;
+
+            height: 50px;
+
+            position: relative;
+
+            z-index: 90;
+
+            background: rgba(255, 255, 255, 0.82);
+
+            border-top:
+                1px solid rgba(20, 20, 30, 0.05);
+
+            border-bottom:
+                1px solid rgba(20, 20, 30, 0.09);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+        }
+
+
+        /* -----------------------------------------------------
+           INNER
+           ----------------------------------------------------- */
+
+        .sub-nav-inner {
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            overflow: hidden;
+
+        }
+
+
+        /* -----------------------------------------------------
+           DISCOVER TITLE
+           ----------------------------------------------------- */
+
+        .sub-nav-label {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            flex-shrink: 0;
+
+            color: #6c6c77;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: .06em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .sub-nav-label svg {
+
+            width: 15px;
+
+            height: 15px;
+
+        }
+
+
+        /* -----------------------------------------------------
+           LINKS CONTAINER
+           ----------------------------------------------------- */
+
+        .sub-nav-links {
+
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 2px;
+
+            min-width: 0;
+
+            overflow-x: auto;
+
+            scrollbar-width: none;
+
+        }
+
+
+        .sub-nav-links::-webkit-scrollbar {
+
+            display: none;
+
+        }
+
+
+        /* -----------------------------------------------------
+           INDIVIDUAL LINK
+           ----------------------------------------------------- */
+
+        .sub-nav-link {
+
+            position: relative;
+
+            height: 100%;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 0 11px;
+
+            white-space: nowrap;
+
+            color: #666672;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transition:
+                color .2s ease,
+                background .2s ease;
+
+        }
+
+
+        .sub-nav-link svg {
+
+            width: 14px;
+
+            height: 14px;
+
+            stroke-width: 2;
+
+        }
+
+
+        /* -----------------------------------------------------
+           HOVER
+           ----------------------------------------------------- */
+
+        .sub-nav-link:hover {
+
+            color: #111118;
+
+            background:
+                rgba(0, 0, 0, .035);
+
+        }
+
+
+        /* -----------------------------------------------------
+           ACTIVE
+           ----------------------------------------------------- */
+
+        .sub-nav-link.active {
+
+            color: #111118;
+
+            font-weight: 700;
+
+        }
+
+
+        .sub-nav-link.active::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: 10px;
+
+            right: 10px;
+
+            bottom: 0;
+
+            height: 2px;
+
+            border-radius: 10px;
+
+            background: currentColor;
+
+        }
+
+
+        /* -----------------------------------------------------
+           BROWSE ALL
+           ----------------------------------------------------- */
+
+        .sub-nav-more {
+
+            margin-left: auto;
+
+            flex-shrink: 0;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 7px 11px;
+
+            border-radius: 8px;
+
+            border:
+                1px solid rgba(20, 20, 30, .10);
+
+            background:
+                rgba(255, 255, 255, .85);
+
+            color: #24242b;
+
+            text-decoration: none;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            transition:
+                all .2s ease;
+
+        }
+
+
+        .sub-nav-more svg {
+
+            width: 13px;
+
+            height: 13px;
+
+        }
+
+
+        .sub-nav-more:hover {
+
+            background: #fff;
+
+            border-color:
+                rgba(20, 20, 30, .18);
+
+            transform:
+                translateX(2px);
+
+        }
+
+
+        /* =====================================================
+           TABLET
+           ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .sub-nav-label {
+
+                display: none;
+
+            }
+
+            .sub-nav-inner {
+
+                gap: 5px;
+
+            }
+
+            .sub-nav-more {
+
+                display: none;
+
+            }
+
+            .sub-nav-links {
+
+                width: 100%;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .sub-navbar {
+
+                height: 45px;
+
+            }
+
+            .sub-nav-inner {
+
+                padding-left: 8px;
+
+                padding-right: 8px;
+
+            }
+
+            .sub-nav-link {
+
+                padding: 0 10px;
+
+                font-size: 11.5px;
+
+            }
+
+            .sub-nav-link svg {
+
+                width: 13px;
+
+                height: 13px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         BACKGROUND
+         ===================================================== -->
+
+    <div class="ambient ambient-a"></div>
+
+    <div class="ambient ambient-b"></div>
+
+    <div class="noise"></div>
+
+
+
+    <!-- =====================================================
+         MAIN NAVBAR
+         ===================================================== -->
+
+    <header class="nav">
+
+        <div class="wrap nav-inner">
+
+
+            <!-- BRAND -->
+
+            <a
+                class="brand"
+                href="{{ url_for('index') }}"
+            >
+
+                <span class="brand-icon">
+
+                    <i data-lucide="sparkles"></i>
+
+                </span>
+
+                PromptVerse
+
+            </a>
+
+
+
+            <!-- MAIN NAVIGATION -->
+
+            <nav class="desktop-nav">
+
+                <a
+                    href="{{ url_for('index') }}#explore"
+                >
+                    Explore
+                </a>
+
+                <a
+                    href="{{ url_for('index') }}#trending"
+                >
+                    Trending
+                </a>
+
+                <a
+                    href="{{ url_for('index') }}#categories"
+                >
+                    Categories
+                </a>
+
+                <a
+                    href="{{ url_for('library') }}"
+                >
+                    My Library
+                </a>
+
+                <a
+                    href="{{ url_for('prompts') }}"
+                >
+                    Prompts
+                </a>
+
+            </nav>
+
+
+
+            <!-- NAV ACTIONS -->
+
+            <div class="nav-actions">
+
+
+                {% if is_admin %}
+
+                    <a
+                        class="btn ghost"
+                        href="{{ url_for('admin_dashboard') }}"
+                    >
+                        Admin
+                    </a>
+
+
+                    <form
+                        method="post"
+                        action="{{ url_for('admin_logout') }}"
+                    >
+
+                        <button
+                            type="submit"
+                            class="btn primary"
+                        >
+                            Logout
+                        </button>
+
+                    </form>
+
+
+                {% elif current_user %}
+
+
+                    <span class="user-pill">
+
+                        <i data-lucide="user"></i>
+
+                        {{ current_user['email'] }}
+
+                    </span>
+
+                    <!-- USER DASHBOARD -->
+                    <a
+                        class="btn ghost dashboard-nav-btn"
+                        href="{{ url_for('user_dashboard') }}"
+                    >
+                        <i data-lucide="layout-dashboard"></i>
+                        Dashboard
+                    </a>
+
+                    <a
+                        class="btn primary"
+                        href="{{ url_for('logout') }}"
+                    >
+                        Logout
+                    </a>
+
+
+                {% else %}
+
+
+                    <a
+                        class="btn ghost"
+                        href="{{ url_for('login') }}"
+                    >
+                        Log in
+                    </a>
+
+
+                    <a
+                        class="btn primary"
+                        href="{{ url_for('signup') }}"
+                    >
+                        Sign Up
+                    </a>
+
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         SECONDARY PROMPT NAVBAR
+         ===================================================== -->
+
+    <div class="sub-navbar">
+
+        <div class="wrap sub-nav-inner">
+
+
+            <!-- DISCOVER -->
+
+            <div class="sub-nav-label">
+
+                <i data-lucide="compass"></i>
+
+                <span>Discover</span>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CATEGORY LINKS
+                 ================================================= -->
+
+            <nav class="sub-nav-links">
+
+
+                <!-- ALL PROMPTS -->
+
+                <a
+                    href="{{ url_for('prompts') }}"
+                    class="sub-nav-link active"
+                >
+
+                    <i data-lucide="sparkles"></i>
+
+                    <span>Prompts</span>
+
+                </a>
+
+
+
+                <!-- WEBSITE -->
+
+                <a
+                    href="{{ url_for('index') }}#website"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="globe"></i>
+
+                    <span>Website</span>
+
+                </a>
+
+
+
+                <!-- SHEETS -->
+
+                <a
+                    href="{{ url_for('index') }}#sheets"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="table-2"></i>
+
+                    <span>Sheets</span>
+
+                </a>
+
+
+
+                <!-- SLIDES -->
+
+                <a
+                    href="{{ url_for('index') }}#slides"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="presentation"></i>
+
+                    <span>Slides</span>
+
+                </a>
+
+
+
+                <!-- DOCS -->
+
+                <a
+                    href="{{ url_for('index') }}#docs"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="file-text"></i>
+
+                    <span>Docs</span>
+
+                </a>
+
+
+
+                <!-- AI IMAGE -->
+
+                <a
+                    href="{{ url_for('index') }}#image-prompts"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="image"></i>
+
+                    <span>Images</span>
+
+                </a>
+
+
+
+                <!-- AI VIDEO -->
+
+                <a
+                    href="{{ url_for('index') }}#video-prompts"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="clapperboard"></i>
+
+                    <span>Video</span>
+
+                </a>
+
+
+
+                <!-- AUDIO -->
+
+                <a
+                    href="{{ url_for('index') }}#audio"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="headphones"></i>
+
+                    <span>Audio</span>
+
+                </a>
+
+
+
+                <!-- UI / UX -->
+
+                <a
+                    href="{{ url_for('index') }}#ui-ux"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="layout-template"></i>
+
+                    <span>UI / UX</span>
+
+                </a>
+
+
+
+                <!-- CODING -->
+
+                <a
+                    href="{{ url_for('index') }}#coding"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="code-2"></i>
+
+                    <span>Coding</span>
+
+                </a>
+
+
+
+                <!-- MARKETING -->
+
+                <a
+                    href="{{ url_for('index') }}#marketing"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="megaphone"></i>
+
+                    <span>Marketing</span>
+
+                </a>
+
+
+
+                <!-- BUSINESS -->
+
+                <a
+                    href="{{ url_for('index') }}#business"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="briefcase-business"></i>
+
+                    <span>Business</span>
+
+                </a>
+
+
+
+                <!-- DESIGN -->
+
+                <a
+                    href="{{ url_for('index') }}#design"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="palette"></i>
+
+                    <span>Design</span>
+
+                </a>
+
+
+
+                <!-- SOCIAL MEDIA -->
+
+                <a
+                    href="{{ url_for('index') }}#social-media"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="share-2"></i>
+
+                    <span>Social</span>
+
+                </a>
+
+
+
+                <!-- TRENDING -->
+
+                <a
+                    href="{{ url_for('index') }}#trending"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="flame"></i>
+
+                    <span>Trending</span>
+
+                </a>
+
+
+
+                <!-- NEW -->
+
+                <a
+                    href="{{ url_for('index') }}#new"
+                    class="sub-nav-link"
+                >
+
+                    <i data-lucide="clock-3"></i>
+
+                    <span>New</span>
+
+                </a>
+
+
+            </nav>
+
+
+
+            <!-- =================================================
+                 BROWSE ALL
+                 ================================================= -->
+
+            <a
+                href="{{ url_for('prompts') }}"
+                class="sub-nav-more"
+            >
+
+                <span>Browse All</span>
+
+                <i data-lucide="arrow-right"></i>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         FLASH MESSAGES
+         ===================================================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            <div class="flash-wrap">
+
+                {% for cat, msg in messages %}
+
+                    <div class="flash {{ cat }}">
+                        {{ msg }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <div class="wrap footer-grid">
+
+
+            <!-- BRAND -->
+
+            <div>
+
+                <a
+                    class="brand"
+                    href="{{ url_for('index') }}"
+                >
+
+                    <span class="brand-icon">
+
+                        <i data-lucide="sparkles"></i>
+
+                    </span>
+
+                    PromptVerse
+
+                </a>
+
+
+                <p>
+                    A database-powered AI prompt discovery platform.
+                </p>
+
+            </div>
+
+
+
+            <!-- EXPLORE -->
+
+            <div>
+
+                <b>Explore</b>
+
+                <a href="{{ url_for('index') }}#explore">
+                    Prompts
+                </a>
+
+                <a href="{{ url_for('index') }}#trending">
+                    Trending
+                </a>
+
+                <a href="{{ url_for('index') }}#categories">
+                    Categories
+                </a>
+
+            </div>
+
+
+
+            <!-- ACCOUNT -->
+
+            <div>
+
+                <b>Account</b>
+
+                <a href="{{ url_for('library') }}">
+                    My Library
+                </a>
+
+                <a href="{{ url_for('login') }}">
+                    Login
+                </a>
+
+                <a href="{{ url_for('signup') }}">
+                    Sign Up
+                </a>
+
+            </div>
+
+
+
+            <!-- ADMIN -->
+
+            <div>
+
+                <b>Admin</b>
+
+                <a href="{{ url_for('admin_login') }}">
+                    Admin Panel
+                </a>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- FOOTER BOTTOM -->
+
+        <div class="wrap footer-bottom">
+
+            © 2026 PromptVerse · Discover prompts. Create anything.
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         TOAST
+         ===================================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+    ></div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script
+        src="{{ url_for('static', filename='js/app.js') }}"
+    ></script>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+        });
+
+    </script>
+
+
+
+    {% block scripts %}
+
+    {% endblock %}
+
+
+
+    <!-- =====================================================
+         ADMIN CSS
+         ===================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/admin.css') }}"
+    >
+
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}PromptVerse — Discover AI Prompts{% endblock %}
+
+{% block content %}
+<section class="hero">
+<div class="hero-glow"></div>
+<div class="wrap hero-inner">
+<div class="eyebrow"><span></span> AI PROMPT DISCOVERY ENGINE</div>
+<h1>Better ideas start<br>with the <em>right prompt.</em></h1>
+<p>Explore curated prompts for AI images, videos, photography, design and more — with live trends powered by real activity.</p>
+<form id="searchForm" class="search-box">
+<i data-lucide="search"></i><input id="searchInput" type="search" placeholder="Search title, prompt, category, model or tags..."><button>Search</button>
+</form>
+<div class="popular"><span>Popular</span><button data-search="cinematic">Cinematic</button><button data-search="portrait">Portrait</button><button data-search="anime">Anime</button><button data-search="realistic">Realistic</button><button data-search="product">Product</button><button data-search="4k">4K</button></div>
+</div>
+</section>
+
+<section class="section" id="explore">
+<div class="wrap">
+<div class="section-head"><div><small>CURATED COLLECTION</small><h2>Explore Prompts</h2><p>Search and filter the live database.</p></div><a href="{{ url_for('library') }}" class="text-link">My Library <i data-lucide="arrow-right"></i></a></div>
+
+<div class="filter-panel">
+<div class="filter-row"><b>MODEL</b><button class="filter active" data-model="All">All</button>{% for m in models %}<button class="filter" data-model="{{m}}">{{m}}</button>{% endfor %}</div>
+<div class="filter-row"><b>TYPE</b><button class="filter active" data-type="All">All</button><button class="filter" data-type="image">Images</button><button class="filter" data-type="video">Videos</button></div>
+<div class="filter-row"><b>CATEGORY</b><button class="filter active" data-category="All">All</button>{% for c in categories %}<button class="filter" data-category="{{c['name']}}">{{c['emoji']}} {{c['name']}}</button>{% endfor %}</div>
+</div>
+
+<div class="sortbar"><span><strong id="resultCount">0</strong> prompts found</span><select id="sortSelect"><option value="newest">Newest First</option><option value="trending">Smart Trending</option><option value="likes">Most Liked</option></select></div>
+<div id="gallery" class="gallery"></div>
+</div>
+</section>
+
+<section class="trending-section" id="trending">
+<div class="wrap">
+<div class="trend-title"><div><div class="live"><span></span> LIVE TREND RADAR</div><h2>Trending <em>This Week.</em></h2><p>Smart ranking combines likes, saves, copies, views and freshness.</p></div><div class="trend-nav"><button id="trendPrev"><i data-lucide="chevron-left"></i></button><div><strong id="trendNumber">01</strong><small>/<span id="trendTotal">05</span></small></div><button id="trendNext"><i data-lucide="chevron-right"></i></button></div></div>
+<div id="trendHero" class="trend-hero"></div>
+<div id="trendRail" class="trend-rail"></div>
+</div>
+</section>
+
+<section class="section alt" id="categories">
+<div class="wrap"><div class="section-head"><div><small>VISUAL LANGUAGES</small><h2>Explore by Category</h2><p>Jump directly into a creative style.</p></div></div>
+<div class="category-grid">{% for c in categories %}<button class="category-tile" data-category="{{c['name']}}"><span>{{c['emoji']}}</span><b>{{c['name']}}</b><small>Explore prompts</small></button>{% endfor %}</div>
+</div>
+</section>
+
+<section class="section" id="tools">
+<div class="wrap">
+<div class="cta"><div><small>PROMPTVERSE</small><h2>Copy. Create. Repeat.</h2><p>Every prompt has its own shareable page, live analytics, tags and related inspiration.</p></div><a class="btn primary" href="{{ url_for('signup') }}">Create your library <i data-lucide="arrow-right"></i></a></div>
+</div>
+</section>
+
+<nav class="mobile-bottom">
+<a href="{{ url_for('index') }}#explore"><i data-lucide="compass"></i><span>Explore</span></a>
+<a href="{{ url_for('index') }}#trending"><i data-lucide="flame"></i><span>Trending</span></a>
+<a href="{{ url_for('library') }}"><i data-lucide="bookmark"></i><span>Saved</span></a>
+<a href="{{ url_for('login') if not current_user else url_for('library') }}"><i data-lucide="user"></i><span>Account</span></a>
+</nav>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static',filename='js/home.js') }}"></script>
+{% endblock %}
